@@ -1,0 +1,46 @@
+.user-info-wrapp {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.personal-tag {
+  background-color: #5357b6;
+  color: white;
+  width: auto;
+  padding-inline: 5px;
+  font-size: 10px;
+  border-radius: 5px;
+  margin: 10px;
+  margin-left: 0px;
+}
+
+.post-time {
+  color: grey;
+  font-size: 12px;
+  width: auto;
+  align-self: center;
+  justify-self: flex-end;
+}
+
+.avatar {
+  margin-right: 15px;
+  width: 30px;
+  height: auto;
+  border-radius: 50px;
+}
+
+.username {
+  font-weight: 500;
+  width: auto;
+}
