@@ -91,46 +91,33 @@ app.post("/comments/:id/replies", (req, res) => {
   saveCommentsData(commentsData, res, newReply);
 });
 
-const updateScore = (id, newScore) => {
+app.post("/comments/:id/like", (req, res) => {
+  const commentId = req.params.id;
+  const newScore = req.body.newScore;
   const commentsData = getCommentsData();
   let found = false;
 
   commentsData.otherUsers.forEach((comment) => {
-    if (comment.id === id) {
+    if (comment.id === commentId) {
       comment.score = newScore;
       found = true;
     }
 
     comment.replies.forEach((reply) => {
-      if (reply.id === id) {
+      if (reply.id === commentId) {
         reply.score = newScore;
         found = true;
       }
     });
   });
 
-  if (found) {
-    saveCommentsData(commentsData);
-    return commentsData;
+  if (!found) {
+    return res.status(404).json({ message: "Comment or reply not found" });
   }
 
-  return null;
-};
-
-app.post("/comments/:id/like", (req, res) => {
-  const commentId = req.params.id;
-  const newScore = req.body.newScore;
-
-  const updatedData = updateScore(commentId, newScore);
-
-  if (updatedData) {
-    res.json({
-      message: "Score updated successfully",
-      commentsData: updatedData,
-    });
-  } else {
-    res.status(404).json({ message: "Comment or reply not found" });
-  }
+  saveCommentsData(commentsData, res, {
+    message: "Score updated successfully",
+  });
 });
 
 app.put("/comment/edit/:id", (req, res) => {

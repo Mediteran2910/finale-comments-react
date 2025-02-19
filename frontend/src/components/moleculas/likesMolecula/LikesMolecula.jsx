@@ -15,7 +15,7 @@ export default function LikesMolecula({ user }) {
 
     const response = await sendData(UrlLikes, obj);
 
-    if (response && response.commentsData) {
+    if (response) {
       setScore(newScore);
     } else {
       console.error("Failed to update score on the backend");

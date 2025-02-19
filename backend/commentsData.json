@@ -1,7 +1,7 @@
 {
   "currentUser": {
     "image": {
-      "png": "/avatars/image-juliusomo.png"
+      "png": "/avatars/image-juliusomo.webp"
     },
     "username": "juliusomo"
   },
@@ -10,10 +10,10 @@
       "id": "c-1001",
       "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
       "createdAt": "1 month ago",
-      "score": 15,
+      "score": 14,
       "user": {
         "image": {
-          "png": "/avatars/image-amyrobson.png"
+          "png": "/avatars/image-amyrobson.webp"
         },
         "username": "amyrobson"
       },
@@ -26,7 +26,7 @@
       "score": 3,
       "user": {
         "image": {
-          "png": "/avatars/image-maxblagun.png"
+          "png": "/avatars/image-maxblagun.webp"
         },
         "username": "maxblagun"
       },
@@ -39,7 +39,7 @@
           "replyingTo": "maxblagun",
           "user": {
             "image": {
-              "png": "/avatars/image-ramsesmiron.png"
+              "png": "/avatars/image-ramsesmiron.webp"
             },
             "username": "ramsesmiron"
           }
@@ -53,7 +53,7 @@
       "score": 6,
       "user": {
         "image": {
-          "png": "/avatars/image-sarahsmith.png"
+          "png": "/avatars/image-sarahsmith.webp"
         },
         "username": "sarahsmith"
       },
@@ -66,7 +66,7 @@
       "score": 10,
       "user": {
         "image": {
-          "png": "/avatars/image-davidlee.png"
+          "png": "/avatars/image-davidlee.webp"
         },
         "username": "davidlee"
       },
@@ -79,7 +79,7 @@
           "replyingTo": "davidlee",
           "user": {
             "image": {
-              "png": "/avatars/image-janedoe.png"
+              "png": "/avatars/image-janedoe.webp"
             },
             "username": "janedoe"
           }
@@ -93,7 +93,7 @@
       "score": 6,
       "user": {
         "image": {
-          "png": "/avatars/image-markjohnson.png"
+          "png": "/avatars/image-markjohnson.webp"
         },
         "username": "markjohnson"
       },
@@ -106,7 +106,7 @@
       "score": 9,
       "user": {
         "image": {
-          "png": "/avatars/image-emilywilliams.png"
+          "png": "/avatars/image-emilywilliams.webp"
         },
         "username": "emilywilliams"
       },
