@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { CommentsContext } from "../context/CommentsContext";
+import { useComments } from "../hooks/useComments";
 
 export default function LoadingModal() {
-  const { loading } = useContext(CommentsContext);
+  const { loading } = useComments();
 
   return (
     <dialog open={loading} className="delete-modal">

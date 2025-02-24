@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./deleteModal.css";
 import { deleteData } from "../services/deleteData";
-import { CommentsContext } from "../context/CommentsContext";
+import { useComments } from "../hooks/useComments";
 
 export const DeleteModal = ({
   isModalVisible,
@@ -10,7 +10,7 @@ export const DeleteModal = ({
   setId,
   user,
 }) => {
-  const { setCommentsData } = useContext(CommentsContext);
+  const { setCommentsData } = useComments();
 
   const deleteComment = async () => {
     const urlDeleteComment = `http://localhost:8000/comment/delete/${user.id}`;

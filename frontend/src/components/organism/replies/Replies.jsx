@@ -11,6 +11,8 @@ export default function Replies({
   editInitialText,
   setEditInitialText,
   isEditing,
+  commentsData,
+  setCommentsData,
 }) {
   return (
     <>
@@ -30,6 +32,8 @@ export default function Replies({
               <ButtonsWrapper
                 user={reply}
                 handleEdit={() => handleEdit(reply.id, reply.content)}
+                commentsData={commentsData}
+                setCommentsData={setCommentsData}
               />
             </div>
           </div>

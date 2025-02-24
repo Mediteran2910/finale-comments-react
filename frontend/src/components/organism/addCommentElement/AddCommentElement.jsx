@@ -2,12 +2,12 @@ import Avatar from "../../atoms/avatar/Avatar";
 import TextArea from "../../atoms/textarea/TextArea";
 import SubmitButton from "../../atoms/submitButton/SubmitButton";
 import { useContext, useState } from "react";
-import { CommentsContext } from "../../../context/CommentsContext";
 import { ReplyingToContext } from "../../../context/ReplyingContext";
+import { useComments } from "../../../hooks/useComments";
 import "./addCommentElement.css";
 
 export default function AddCommentElement({ onClick, value, onChange }) {
-  const { commentsData } = useContext(CommentsContext);
+  const { commentsData } = useComments();
   const { replyingTo } = useContext(ReplyingToContext);
 
   if (!commentsData || !commentsData.currentUser) {

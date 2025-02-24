@@ -6,7 +6,7 @@ import { ReplyingToContext } from "../../../context/ReplyingContext";
 import "./commentCard.css";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
 import { sendData } from "../../../services/sendData";
-import { CommentsContext } from "../../../context/CommentsContext";
+import { useComments } from "../../../hooks/useComments";
 
 const CommentCard = React.memo(
   ({
@@ -18,9 +18,10 @@ const CommentCard = React.memo(
     editInitialText,
     setEditInitialText,
     editComment,
+    setCommentsData,
+    commentsData,
   }) => {
     const { replyingTo, setReplyingTo } = useContext(ReplyingToContext);
-    const { setCommentsData } = useContext(CommentsContext);
 
     const startReplying = useCallback(() => {
       setReplyingTo((prevReplying) =>
@@ -33,12 +34,12 @@ const CommentCard = React.memo(
       const newPersonalReply = {
         content: commentText,
         replyingTo: user.user.username,
-        isYou: true,
       };
       const urlAddReply = `http://localhost:8000/comments/${user.id}/replies`;
       if (commentText !== "") {
         const response = await sendData(urlAddReply, newPersonalReply);
         if (response) {
+          const { setCommentsData } = useComments();
           setCommentsData((prevData) => {
             const updatedCommentObj = prevData.otherUsers.map((comment) => {
               if (comment.id === user.id) {
@@ -84,6 +85,8 @@ const CommentCard = React.memo(
               isEditing={isEditing}
               editInitialText={editInitialText}
               setEditInitialText={user.id.content}
+              commentsData={commentsData}
+              setCommentsData={setCommentsData}
             />
           </div>
         )}

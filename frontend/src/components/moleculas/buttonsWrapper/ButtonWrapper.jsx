@@ -5,7 +5,13 @@ import "./buttonWrapper.css";
 import { useState } from "react";
 import { DeleteModal } from "../../../modal/deleteModal";
 
-export default function ButtonsWrapper({ user, startReplying, handleEdit }) {
+export default function ButtonsWrapper({
+  user,
+  startReplying,
+  handleEdit,
+  commentsData,
+  setCommentsData,
+}) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [id, setId] = useState(null);
 
@@ -27,7 +33,11 @@ export default function ButtonsWrapper({ user, startReplying, handleEdit }) {
         />
       )}
       <div className="buttons-wrapper">
-        <LikesMolecula user={user} />
+        <LikesMolecula
+          user={user}
+          commentsData={commentsData}
+          setCommentsData={setCommentsData}
+        />
         {!user.isYou ? (
           <ReplyButton
             src="./icons/icon-reply.svg"

@@ -1,17 +1,16 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useComments } from "../../../hooks/useComments";
 import React from "react";
 import CommentCard from "../../organism/commentCard/CommentCard";
 import Replies from "../../organism/replies/Replies";
 import AddCommentElement from "../../organism/addCommentElement/AddCommentElement";
 import "./commentsThread.css";
-import { CommentsContext } from "../../../context/CommentsContext";
 import { sendData } from "../../../services/sendData";
 import { updateData } from "../../../services/updateData";
 import LoadingModal from "../../../modal/LoadingModal";
 
 const CommentsThread = React.memo(() => {
-  const { commentsData, setCommentsData, loading } =
-    useContext(CommentsContext);
+  const { commentsData, setCommentsData, loading } = useComments();
   const [commentText, setCommentText] = useState("");
 
   const addComment = async (e) => {
@@ -62,11 +61,10 @@ const CommentsThread = React.memo(() => {
         setCommentsData((prevData) => ({
           ...prevData,
           otherUsers: prevData.otherUsers.map((comment) => {
-            // Check if this is the comment being updated
             if (comment.id === isEditing) {
               return { ...comment, content: response.content };
             }
-            // Check if this comment has the reply being updated
+
             if (comment.replies) {
               return {
                 ...comment,
@@ -107,6 +105,8 @@ const CommentsThread = React.memo(() => {
               editInitialText={editInitialText}
               setEditInitialText={setEditInitialText}
               editComment={editComment}
+              commentsData={commentsData}
+              setCommentsData={setCommentsData}
             />
 
             {user.replies?.length > 0 && (
@@ -119,6 +119,8 @@ const CommentsThread = React.memo(() => {
                 editInitialText={editInitialText}
                 setEditInitialText={setEditInitialText}
                 editComment={editComment}
+                commentsData={commentsData}
+                setCommentsData={setCommentsData}
               />
             )}
           </>
