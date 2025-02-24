@@ -83,7 +83,7 @@ app.post("/comments/:id/replies", (req, res) => {
     score: 0,
     replyingTo,
     user: commentsData.currentUser,
-    isYou: req.body.isYou,
+    isYou: true,
   };
 
   parentComment.replies.push(newReply);
@@ -91,7 +91,7 @@ app.post("/comments/:id/replies", (req, res) => {
   saveCommentsData(commentsData, res, newReply);
 });
 
-app.post("/comments/:id/like", (req, res) => {
+app.patch("/comments/:id/like", (req, res) => {
   const commentId = req.params.id;
   const newScore = req.body.newScore;
   const commentsData = getCommentsData();
