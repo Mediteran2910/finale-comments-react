@@ -32,6 +32,8 @@ export default function ButtonsWrapper({
           id={id}
           setId={setId}
           user={user}
+          commentsData={commentsData}
+          setCommentsData={setCommentsData}
         />
       )}
       <div className="buttons-wrapper">

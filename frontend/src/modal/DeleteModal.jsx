@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./deleteModal.css";
 import { deleteData } from "../services/deleteData";
 import { useComments } from "../hooks/useComments";
+import { requestObjects, requestUrls } from "../services/requestObjects";
+import { deleteComment } from "../utils/deleteData";
+import { useAPI } from "../hooks/useAPI";
 
 export const DeleteModal = ({
   isModalVisible,
@@ -9,37 +12,22 @@ export const DeleteModal = ({
   id,
   setId,
   user,
+  setCommentsData,
 }) => {
-  const { setCommentsData } = useComments();
+  const { isLoading, isError, makeApiRequest } = useAPI();
 
-  const deleteComment = async () => {
-    const urlDeleteComment = `http://localhost:8000/comment/delete/${user.id}`;
+  const handleDeleteComment = async () => {
+    const url = requestUrls(user).deleteUrl;
 
-    const response = await deleteData(urlDeleteComment);
+    const response = await makeApiRequest(url, requestObjects.deleteRequest);
     if (response) {
-      setCommentsData((prevData) => ({
-        ...prevData,
-        otherUsers: prevData.otherUsers
-          .map((comment) => {
-            if (comment.id === id) {
-              return null;
-            } else {
-              return {
-                ...comment,
-                replies: comment.replies.filter((reply) => reply.id !== id),
-              };
-            }
-          })
-          .filter(Boolean),
-      }));
-      setIsModalVisible(false);
-      setId(null);
+      deleteComment(setCommentsData, setIsModalVisible, setId, id);
     } else {
-      console.error("Failed to delete comment on the backend");
+      console.error("Failed to delete");
     }
   };
 
-  const keepComment = () => {
+  const handleKeepComment = () => {
     setIsModalVisible(false);
     setId(null);
     console.log(id);
@@ -53,10 +41,10 @@ export const DeleteModal = ({
           is no going back!
         </p>
         <div className="btns-wrapper">
-          <button onClick={keepComment} className="keep-comment-btn">
+          <button onClick={handleKeepComment} className="keep-comment-btn">
             Keep
           </button>
-          <button onClick={deleteComment} className="delete-comment-btn">
+          <button onClick={handleDeleteComment} className="delete-comment-btn">
             Delete
           </button>
         </div>

@@ -5,9 +5,9 @@ import CommentCard from "../../organism/commentCard/CommentCard";
 import Replies from "../../organism/replies/Replies";
 import AddCommentElement from "../../organism/addCommentElement/AddCommentElement";
 import "./commentsThread.css";
-import { updateData } from "../../../services/updateData";
 import LoadingModal from "../../../modal/LoadingModal";
 import { useAPI } from "../../../hooks/useAPI";
+import { edit } from "../../../utils/editComment";
 import {
   requestObjects,
   requestUrls,
@@ -52,40 +52,18 @@ const CommentsThread = React.memo(() => {
     console.log(id);
   };
 
-  const editComment = async () => {
-    if (!editInitialText.trim()) return;
-
+  const editComment = async (user) => {
     const updatedCommentObj = { content: editInitialText };
 
-    const urlUpdateComment = `http://localhost:8000/comment/edit/${isEditing}`;
-
-    console.log("Updating:", urlUpdateComment, updatedCommentObj.content);
-
+    const url = requestUrls(user).editUrl;
     try {
-      const response = await updateData(urlUpdateComment, updatedCommentObj);
+      const response = await makeApiRequest(
+        url,
+        requestObjects.patchRequest,
+        updatedCommentObj
+      );
       if (response) {
-        setCommentsData((prevData) => ({
-          ...prevData,
-          otherUsers: prevData.otherUsers.map((comment) => {
-            if (comment.id === isEditing) {
-              return { ...comment, content: response.content };
-            }
-
-            if (comment.replies) {
-              return {
-                ...comment,
-                replies: comment.replies.map((reply) =>
-                  reply.id === isEditing
-                    ? { ...reply, content: response.content }
-                    : reply
-                ),
-              };
-            }
-            return comment;
-          }),
-        }));
-
-        setIsEditing(null);
+        edit(setCommentsData, isEditing, setIsEditing, response);
       } else {
         console.error("Failed to update comment on backend");
       }

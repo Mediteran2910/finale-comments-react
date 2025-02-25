@@ -10,7 +10,7 @@
       "id": "c-1001",
       "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
       "createdAt": "1 month ago",
-      "score": 76,
+      "score": 80,
       "user": {
         "image": {
           "png": "/avatars/image-amyrobson.webp"
@@ -19,10 +19,10 @@
       },
       "replies": [
         {
-          "id": "e5c7b00f-99b5-4096-a574-46aa0eeef886",
-          "content": "fasfasfasf FASFASF",
+          "id": "dff5f344-bf20-4efc-9d9e-16bd912eb277",
+          "content": "fsdfsdfsdf",
           "createdAt": "Just now",
-          "score": 0,
+          "score": 1,
           "replyingTo": "amyrobson",
           "user": {
             "image": {
@@ -58,6 +58,20 @@
             },
             "username": "ramsesmiron"
           }
+        },
+        {
+          "id": "1e071ceb-d0a3-40dd-bd3e-890e92e65b8b",
+          "content": "gsdgsdgsd",
+          "createdAt": "Just now",
+          "score": 0,
+          "replyingTo": "maxblagun",
+          "user": {
+            "image": {
+              "png": "/avatars/image-juliusomo.webp"
+            },
+            "username": "juliusomo"
+          },
+          "isYou": true
         }
       ]
     },
@@ -128,8 +142,8 @@
       "replies": []
     },
     {
-      "id": "28bd661f-ad51-45e9-b683-9791357d110a",
-      "content": "gsdgsdg",
+      "id": "bef8e86b-a20c-425a-af4b-66d46e8a4f11",
+      "content": "fasfasf dgssdg dsgsdgsdg",
       "createdAt": "Just now",
       "score": 0,
       "user": {
@@ -142,22 +156,8 @@
       "replies": []
     },
     {
-      "id": "eb032e50-a57f-4099-a16a-89876086a0fe",
-      "content": "fasfasfasfaaD",
-      "createdAt": "Just now",
-      "score": 0,
-      "user": {
-        "image": {
-          "png": "/avatars/image-juliusomo.webp"
-        },
-        "username": "juliusomo"
-      },
-      "isYou": true,
-      "replies": []
-    },
-    {
-      "id": "204503fc-1815-454b-a471-08a6de614b07",
-      "content": "DFHDFHDHDFH",
+      "id": "751416fd-1c58-4c13-93ae-f6368c235d39",
+      "content": "gsdgsdgsdg",
       "createdAt": "Just now",
       "score": 0,
       "user": {

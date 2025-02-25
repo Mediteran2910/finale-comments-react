@@ -14,6 +14,7 @@ export default function AddCommentElement({
   setCommentsData,
   replyingTo,
   setReplyingTo,
+  isEditing,
 }) {
   return (
     <div className="add-comment-wrapper">
@@ -27,7 +28,9 @@ export default function AddCommentElement({
           onChange={onChange}
         />
         <SubmitButton
-          submitButtonText={replyingTo !== null ? "REPLY" : "SEND"}
+          submitButtonText={
+            isEditing ? "EDIT" : replyingTo !== null ? "REPLY" : "SEND"
+          }
           onClick={onClick}
         />
       </div>

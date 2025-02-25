@@ -4,7 +4,6 @@ import CommentText from "../../moleculas/commentText/CommentText";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
 import "./commentCard.css";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
-import { sendData } from "../../../services/sendData";
 import { addNewReply } from "../../../utils/addReply";
 import { requestObjects, requestUrls } from "../../../services/requestObjects";
 import { useAPI } from "../../../hooks/useAPI";
@@ -26,11 +25,11 @@ const CommentCard = React.memo(
   }) => {
     const { isLoading, isError, makeApiRequest } = useAPI();
 
-    const startReplying = useCallback(() => {
+    const startReplying = () => {
       setReplyingTo((prevReplying) =>
         prevReplying !== user.id ? user.id : null
       );
-    }, [setReplyingTo, user.id]);
+    };
 
     const addReply = async () => {
       const url = requestUrls(user).addReplyUrl;
@@ -61,17 +60,26 @@ const CommentCard = React.memo(
       return;
     };
 
+    if (isLoading) {
+      return <p>LOADING...</p>;
+    }
+
+    if (isError) {
+      return <p>Error...</p>;
+    }
+
     return (
       <>
         {isEditing === user.id ? (
           <AddCommentElement
             value={editInitialText}
             onChange={(e) => setEditInitialText(e.target.value)}
-            onClick={editComment}
+            onClick={() => editComment(user.id)}
             commentsData={commentsData}
             setCommentsData={setCommentsData}
             replyingTo={replyingTo}
             setReplyingTo={setReplyingTo}
+            isEditing={isEditing}
           />
         ) : (
           <div className="comment-card">
@@ -103,6 +111,7 @@ const CommentCard = React.memo(
             setReplyingTo={setReplyingTo}
             commentsData={commentsData}
             setCommentsData={setCommentsData}
+            isEditing={isEditing}
           />
         )}
       </>

@@ -120,7 +120,7 @@ app.patch("/comments/:id/like", (req, res) => {
   });
 });
 
-app.put("/comment/edit/:id", (req, res) => {
+app.patch("/comment/edit/:id", (req, res) => {
   const commentId = req.params.id;
   const { content } = req.body;
 
@@ -188,6 +188,7 @@ app.delete("/comment/delete/:id", (req, res) => {
   saveCommentsData(commentsData, res, {
     message: "Comment deleted successfully",
   });
+  return res.status(200).json({ message: "Comment deleted successfully" });
 });
 
 app.listen(PORT, () => {
