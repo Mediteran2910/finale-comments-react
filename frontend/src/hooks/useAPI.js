@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export function useAPI() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   const makeApiRequest = async (url, requestType, bodyObject = null) => {
     setIsLoading(true);
@@ -26,7 +26,7 @@ export function useAPI() {
       return data;
     } catch (error) {
       console.error("Error while sending request:", error.message);
-      setIsError(error.message);
+      setIsError(true);
       return null;
     } finally {
       setIsLoading(false);

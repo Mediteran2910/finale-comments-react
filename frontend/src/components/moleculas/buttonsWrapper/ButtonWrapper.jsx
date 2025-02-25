@@ -11,6 +11,8 @@ export default function ButtonsWrapper({
   handleEdit,
   commentsData,
   setCommentsData,
+  replyingTo,
+  setReplyingTo,
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [id, setId] = useState(null);

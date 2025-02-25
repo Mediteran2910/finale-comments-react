@@ -49,7 +49,7 @@ app.post("/comments", (req, res) => {
     createdAt: "Just now",
     score: 0,
     user: commentsData.currentUser,
-    isYou: req.body.isYou,
+    isYou: true,
     replies: [],
   };
 
@@ -78,7 +78,7 @@ app.post("/comments/:id/replies", (req, res) => {
 
   const newReply = {
     id: uuidv4(),
-    content,
+    content: req.body.content,
     createdAt: "Just now",
     score: 0,
     replyingTo,

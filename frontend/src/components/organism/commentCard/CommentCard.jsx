@@ -1,12 +1,13 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useState } from "react";
 import UserInfo from "../../moleculas/userInfo/UserInfo";
 import CommentText from "../../moleculas/commentText/CommentText";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
-import { ReplyingToContext } from "../../../context/ReplyingContext";
 import "./commentCard.css";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
 import { sendData } from "../../../services/sendData";
-import { useComments } from "../../../hooks/useComments";
+import { addNewReply } from "../../../utils/addReply";
+import { requestObjects, requestUrls } from "../../../services/requestObjects";
+import { useAPI } from "../../../hooks/useAPI";
 
 const CommentCard = React.memo(
   ({
@@ -20,8 +21,10 @@ const CommentCard = React.memo(
     editComment,
     setCommentsData,
     commentsData,
+    replyingTo,
+    setReplyingTo,
   }) => {
-    const { replyingTo, setReplyingTo } = useContext(ReplyingToContext);
+    const { isLoading, isError, makeApiRequest } = useAPI();
 
     const startReplying = useCallback(() => {
       setReplyingTo((prevReplying) =>
@@ -29,34 +32,28 @@ const CommentCard = React.memo(
       );
     }, [setReplyingTo, user.id]);
 
-    const addReply = async (e) => {
-      e.preventDefault();
+    const addReply = async () => {
+      const url = requestUrls(user).addReplyUrl;
       const newPersonalReply = {
         content: commentText,
         replyingTo: user.user.username,
       };
-      const urlAddReply = `http://localhost:8000/comments/${user.id}/replies`;
+
       if (commentText !== "") {
-        const response = await sendData(urlAddReply, newPersonalReply);
+        const response = await makeApiRequest(
+          url,
+          requestObjects.postRequest,
+          newPersonalReply
+        );
         if (response) {
-          const { setCommentsData } = useComments();
-          setCommentsData((prevData) => {
-            const updatedCommentObj = prevData.otherUsers.map((comment) => {
-              if (comment.id === user.id) {
-                return {
-                  ...comment,
-                  replies: [...comment.replies, response],
-                };
-              }
-              return comment;
-            });
-            return {
-              ...prevData,
-              otherUsers: updatedCommentObj,
-            };
-          });
-          setCommentText("");
-          setReplyingTo(null);
+          addNewReply(
+            setCommentsData,
+            setCommentText,
+            setReplyingTo,
+            user,
+            response
+          );
+          console.log(response);
         } else {
           console.error("Failed to add reply on the backend", error);
         }
@@ -71,6 +68,10 @@ const CommentCard = React.memo(
             value={editInitialText}
             onChange={(e) => setEditInitialText(e.target.value)}
             onClick={editComment}
+            commentsData={commentsData}
+            setCommentsData={setCommentsData}
+            replyingTo={replyingTo}
+            setReplyingTo={setReplyingTo}
           />
         ) : (
           <div className="comment-card">
@@ -87,6 +88,8 @@ const CommentCard = React.memo(
               setEditInitialText={user.id.content}
               commentsData={commentsData}
               setCommentsData={setCommentsData}
+              replyingTo={replyingTo}
+              setReplyingTo={setReplyingTo}
             />
           </div>
         )}
@@ -96,6 +99,10 @@ const CommentCard = React.memo(
             onClick={addReply}
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
+            replyingTo={replyingTo}
+            setReplyingTo={setReplyingTo}
+            commentsData={commentsData}
+            setCommentsData={setCommentsData}
           />
         )}
       </>

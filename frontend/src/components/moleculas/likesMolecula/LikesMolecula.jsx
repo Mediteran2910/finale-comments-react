@@ -20,6 +20,7 @@ export default function LikesMolecula({ commentsData, setCommentsData, user }) {
 
     if (response) {
       updateScore(setCommentsData, newScore, user.id);
+
       console.log("Response is ok, and likes are updated.");
     }
   };
@@ -34,6 +35,7 @@ export default function LikesMolecula({ commentsData, setCommentsData, user }) {
 
     if (response) {
       updateScore(setCommentsData, newScore, user.id);
+
       console.log("Response is ok, and likes are updated.");
     }
   };
@@ -49,7 +51,7 @@ export default function LikesMolecula({ commentsData, setCommentsData, user }) {
   if (isError) {
     return (
       <div className="likes-wrapper" style={{ border: "2px solid red" }}>
-        <p style={{ color: "red", fontSize: "10px" }}>Eror, try again later</p>
+        <p style={{ color: "red", fontSize: "12px" }}>Erorr, try again later</p>
       </div>
     );
   }

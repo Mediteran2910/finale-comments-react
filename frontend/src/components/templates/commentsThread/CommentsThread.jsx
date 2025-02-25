@@ -5,31 +5,37 @@ import CommentCard from "../../organism/commentCard/CommentCard";
 import Replies from "../../organism/replies/Replies";
 import AddCommentElement from "../../organism/addCommentElement/AddCommentElement";
 import "./commentsThread.css";
-import { sendData } from "../../../services/sendData";
 import { updateData } from "../../../services/updateData";
 import LoadingModal from "../../../modal/LoadingModal";
+import { useAPI } from "../../../hooks/useAPI";
+import {
+  requestObjects,
+  requestUrls,
+  staticUrls,
+} from "../../../services/requestObjects";
+import { addNewComment } from "../../../utils/addComment";
 
 const CommentsThread = React.memo(() => {
   const { commentsData, setCommentsData, loading } = useComments();
+  const { isLoading, isError, makeApiRequest } = useAPI();
   const [commentText, setCommentText] = useState("");
+  const [replyingTo, setReplyingTo] = useState(null);
 
-  const addComment = async (e) => {
-    e.preventDefault();
-    const urlAddComment = "http://localhost:8000/comments";
-
+  const addComment = async () => {
+    const url = staticUrls.addCommentUrl;
     const newPersonalComment = {
       content: commentText,
-      isYou: true,
     };
-
     if (commentText !== "") {
-      const response = await sendData(urlAddComment, newPersonalComment);
+      const response = await makeApiRequest(
+        url,
+        requestObjects.postRequest,
+        newPersonalComment
+      );
       if (response) {
-        setCommentsData((prevData) => ({
-          ...prevData,
-          otherUsers: [...prevData.otherUsers, response],
-        }));
-        setCommentText("");
+        addNewComment(setCommentsData, setCommentText, response);
+        console.log(response);
+        console.log("response is ok, new comment added");
       } else {
         console.error("Failed to add personal comment on the backend", error);
       }
@@ -88,18 +94,41 @@ const CommentsThread = React.memo(() => {
     }
   };
 
-  if (loading) {
+  if (loading === true) {
     return <LoadingModal />;
+  }
+
+  if (isLoading) {
+    return <p>LOADING...</p>;
+  }
+
+  if (isError) {
+    return <p>Error...</p>;
   }
   return (
     <>
       {commentsData.otherUsers.map((user) => (
         <div className="comment-reply-wrapp" key={user.id}>
-          <>
-            <CommentCard
+          <CommentCard
+            user={user}
+            commentText={commentText}
+            setCommentText={setCommentText}
+            handleEdit={handleEdit}
+            isEditing={isEditing}
+            editInitialText={editInitialText}
+            setEditInitialText={setEditInitialText}
+            editComment={editComment}
+            commentsData={commentsData}
+            setCommentsData={setCommentsData}
+            replyingTo={replyingTo}
+            setReplyingTo={setReplyingTo}
+          />
+
+          {user.replies?.length > 0 && (
+            <Replies
               user={user}
-              commentText={commentText}
               setCommentText={setCommentText}
+              commentText={commentText}
               handleEdit={handleEdit}
               isEditing={isEditing}
               editInitialText={editInitialText}
@@ -107,23 +136,10 @@ const CommentsThread = React.memo(() => {
               editComment={editComment}
               commentsData={commentsData}
               setCommentsData={setCommentsData}
+              replyingTo={replyingTo}
+              setReplyingTo={setReplyingTo}
             />
-
-            {user.replies?.length > 0 && (
-              <Replies
-                user={user}
-                setCommentText={setCommentText}
-                commentText={commentText}
-                handleEdit={handleEdit}
-                isEditing={isEditing}
-                editInitialText={editInitialText}
-                setEditInitialText={setEditInitialText}
-                editComment={editComment}
-                commentsData={commentsData}
-                setCommentsData={setCommentsData}
-              />
-            )}
-          </>
+          )}
         </div>
       ))}
       <AddCommentElement
@@ -131,6 +147,10 @@ const CommentsThread = React.memo(() => {
         setCommentText={setCommentText}
         value={commentText}
         onChange={(e) => setCommentText(e.target.value)}
+        commentsData={commentsData}
+        setCommentsData={setCommentsData}
+        replyingTo={replyingTo}
+        setReplyingTo={setReplyingTo}
       />
     </>
   );

@@ -13,6 +13,8 @@ export default function Replies({
   isEditing,
   commentsData,
   setCommentsData,
+  replyingTo,
+  setReplyingTo,
 }) {
   return (
     <>
@@ -23,6 +25,8 @@ export default function Replies({
             value={editInitialText}
             onChange={(e) => setEditInitialText(e.target.value)}
             onClick={editComment}
+            commentsData={commentsData}
+            setCommentsData={setCommentsData}
           />
         ) : (
           <div className="replies-wrapper" key={reply.id}>

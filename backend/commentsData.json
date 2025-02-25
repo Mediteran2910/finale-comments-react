@@ -10,20 +10,35 @@
       "id": "c-1001",
       "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
       "createdAt": "1 month ago",
-      "score": 39,
+      "score": 76,
       "user": {
         "image": {
           "png": "/avatars/image-amyrobson.webp"
         },
         "username": "amyrobson"
       },
-      "replies": []
+      "replies": [
+        {
+          "id": "e5c7b00f-99b5-4096-a574-46aa0eeef886",
+          "content": "fasfasfasf FASFASF",
+          "createdAt": "Just now",
+          "score": 0,
+          "replyingTo": "amyrobson",
+          "user": {
+            "image": {
+              "png": "/avatars/image-juliusomo.webp"
+            },
+            "username": "juliusomo"
+          },
+          "isYou": true
+        }
+      ]
     },
     {
       "id": "c-1002",
       "content": "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
       "createdAt": "2 weeks ago",
-      "score": 13,
+      "score": 18,
       "user": {
         "image": {
           "png": "/avatars/image-maxblagun.webp"
@@ -35,7 +50,7 @@
           "id": "r-2001",
           "content": "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
           "createdAt": "1 week ago",
-          "score": 16,
+          "score": 18,
           "replyingTo": "maxblagun",
           "user": {
             "image": {
@@ -110,6 +125,48 @@
         },
         "username": "emilywilliams"
       },
+      "replies": []
+    },
+    {
+      "id": "28bd661f-ad51-45e9-b683-9791357d110a",
+      "content": "gsdgsdg",
+      "createdAt": "Just now",
+      "score": 0,
+      "user": {
+        "image": {
+          "png": "/avatars/image-juliusomo.webp"
+        },
+        "username": "juliusomo"
+      },
+      "isYou": true,
+      "replies": []
+    },
+    {
+      "id": "eb032e50-a57f-4099-a16a-89876086a0fe",
+      "content": "fasfasfasfaaD",
+      "createdAt": "Just now",
+      "score": 0,
+      "user": {
+        "image": {
+          "png": "/avatars/image-juliusomo.webp"
+        },
+        "username": "juliusomo"
+      },
+      "isYou": true,
+      "replies": []
+    },
+    {
+      "id": "204503fc-1815-454b-a471-08a6de614b07",
+      "content": "DFHDFHDHDFH",
+      "createdAt": "Just now",
+      "score": 0,
+      "user": {
+        "image": {
+          "png": "/avatars/image-juliusomo.webp"
+        },
+        "username": "juliusomo"
+      },
+      "isYou": true,
       "replies": []
     }
   ]

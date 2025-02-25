@@ -2,18 +2,19 @@ import Avatar from "../../atoms/avatar/Avatar";
 import TextArea from "../../atoms/textarea/TextArea";
 import SubmitButton from "../../atoms/submitButton/SubmitButton";
 import { useContext, useState } from "react";
-import { ReplyingToContext } from "../../../context/ReplyingContext";
+
 import { useComments } from "../../../hooks/useComments";
 import "./addCommentElement.css";
 
-export default function AddCommentElement({ onClick, value, onChange }) {
-  const { commentsData } = useComments();
-  const { replyingTo } = useContext(ReplyingToContext);
-
-  if (!commentsData || !commentsData.currentUser) {
-    return <p>Loading...</p>;
-  }
-
+export default function AddCommentElement({
+  onClick,
+  value,
+  onChange,
+  commentsData,
+  setCommentsData,
+  replyingTo,
+  setReplyingTo,
+}) {
   return (
     <div className="add-comment-wrapper">
       <div className="add-comment-element">
@@ -25,7 +26,10 @@ export default function AddCommentElement({ onClick, value, onChange }) {
           value={value}
           onChange={onChange}
         />
-        <SubmitButton submitButtonText="SEND" onClick={onClick} />
+        <SubmitButton
+          submitButtonText={replyingTo !== null ? "REPLY" : "SEND"}
+          onClick={onClick}
+        />
       </div>
     </div>
   );

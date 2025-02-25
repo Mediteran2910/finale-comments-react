@@ -18,4 +18,9 @@ export const requestObjects = {
 
 export const requestUrls = (user) => ({
   likesUrl: `http://localhost:8000/comments/${user.id}/like`,
+  addReplyUrl: `http://localhost:8000/comments/${user.id}/replies`,
 });
+
+export const staticUrls = {
+  addCommentUrl: "http://localhost:8000/comments",
+};
