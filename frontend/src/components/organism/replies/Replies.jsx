@@ -11,8 +11,10 @@ export default function Replies({
   editInitialText,
   setEditInitialText,
   isEditing,
-  commentsData,
-  setCommentsData,
+  handleDeleteComment,
+  incrementScore,
+  decrementScore,
+  currentUser,
 }) {
   return (
     <>
@@ -22,10 +24,9 @@ export default function Replies({
             key={reply.id}
             value={editInitialText}
             onChange={(e) => setEditInitialText(e.target.value)}
-            onClick={() => editComment(user.id)}
-            commentsData={commentsData}
-            setCommentsData={setCommentsData}
+            onClick={() => editComment(reply)}
             isEditing={isEditing}
+            currentUser={currentUser}
           />
         ) : (
           <div className="replies-wrapper" key={reply.id}>
@@ -35,8 +36,9 @@ export default function Replies({
               <ButtonsWrapper
                 user={reply}
                 handleEdit={() => handleEdit(reply.id, reply.content)}
-                commentsData={commentsData}
-                setCommentsData={setCommentsData}
+                handleDeleteComment={handleDeleteComment}
+                incrementScore={incrementScore}
+                decrementScore={decrementScore}
               />
             </div>
           </div>

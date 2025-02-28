@@ -18,47 +18,15 @@ const CommentCard = React.memo(
     editInitialText,
     setEditInitialText,
     editComment,
-    setCommentsData,
-    commentsData,
     replyingTo,
-    setReplyingTo,
+    addReply,
+    incrementScore,
+    decrementScore,
+    currentUser,
+    handleDeleteComment,
+    startReplying,
   }) => {
     const { isLoading, isError, makeApiRequest } = useAPI();
-
-    const startReplying = () => {
-      setReplyingTo((prevReplying) =>
-        prevReplying !== user.id ? user.id : null
-      );
-    };
-
-    const addReply = async () => {
-      const url = requestUrls(user).addReplyUrl;
-      const newPersonalReply = {
-        content: commentText,
-        replyingTo: user.user.username,
-      };
-
-      if (commentText !== "") {
-        const response = await makeApiRequest(
-          url,
-          requestObjects.postRequest,
-          newPersonalReply
-        );
-        if (response) {
-          addNewReply(
-            setCommentsData,
-            setCommentText,
-            setReplyingTo,
-            user,
-            response
-          );
-          console.log(response);
-        } else {
-          console.error("Failed to add reply on the backend", error);
-        }
-      }
-      return;
-    };
 
     if (isLoading) {
       return <p>LOADING...</p>;
@@ -74,12 +42,9 @@ const CommentCard = React.memo(
           <AddCommentElement
             value={editInitialText}
             onChange={(e) => setEditInitialText(e.target.value)}
-            onClick={() => editComment(user.id)}
-            commentsData={commentsData}
-            setCommentsData={setCommentsData}
-            replyingTo={replyingTo}
-            setReplyingTo={setReplyingTo}
+            onClick={() => editComment(user)}
             isEditing={isEditing}
+            currentUser={currentUser}
           />
         ) : (
           <div className="comment-card">
@@ -87,31 +52,27 @@ const CommentCard = React.memo(
             <CommentText user={user} />
             <ButtonsWrapper
               user={user}
-              startReplying={startReplying}
               commentText={commentText}
               setCommentText={setCommentText}
               handleEdit={() => handleEdit(user.id, user.content)}
               isEditing={isEditing}
               editInitialText={editInitialText}
               setEditInitialText={user.id.content}
-              commentsData={commentsData}
-              setCommentsData={setCommentsData}
-              replyingTo={replyingTo}
-              setReplyingTo={setReplyingTo}
+              incrementScore={incrementScore}
+              decrementScore={decrementScore}
+              handleDeleteComment={handleDeleteComment}
+              startReplying={() => startReplying(user)}
             />
           </div>
         )}
 
         {replyingTo === user.id && (
           <AddCommentElement
-            onClick={addReply}
+            onClick={() => addReply(user)}
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
-            replyingTo={replyingTo}
-            setReplyingTo={setReplyingTo}
-            commentsData={commentsData}
-            setCommentsData={setCommentsData}
             isEditing={isEditing}
+            currentUser={currentUser}
           />
         )}
       </>

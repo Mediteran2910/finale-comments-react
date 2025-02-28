@@ -9,19 +9,11 @@ export default function ButtonsWrapper({
   user,
   startReplying,
   handleEdit,
-  commentsData,
-  setCommentsData,
-  replyingTo,
-  setReplyingTo,
+  incrementScore,
+  decrementScore,
+  handleDeleteComment,
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [id, setId] = useState(null);
-
-  const openDeleteModal = (id) => {
-    setIsModalVisible(true);
-    setId(id);
-    console.log(id);
-  };
 
   return (
     <>
@@ -29,18 +21,15 @@ export default function ButtonsWrapper({
         <DeleteModal
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
-          id={id}
-          setId={setId}
           user={user}
-          commentsData={commentsData}
-          setCommentsData={setCommentsData}
+          handleDeleteComment={() => handleDeleteComment(user, user.id)}
         />
       )}
       <div className="buttons-wrapper">
         <LikesMolecula
           user={user}
-          commentsData={commentsData}
-          setCommentsData={setCommentsData}
+          incrementScore={incrementScore}
+          decrementScore={decrementScore}
         />
         {!user.isYou ? (
           <ReplyButton
@@ -58,7 +47,7 @@ export default function ButtonsWrapper({
             <PersonalButton
               src="./icons/icon-delete.svg"
               alt="delete icon"
-              onClick={() => openDeleteModal(user.id)}
+              onClick={() => setIsModalVisible(true)}
             />
           </div>
         )}

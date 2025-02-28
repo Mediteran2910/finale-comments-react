@@ -2,43 +2,14 @@ import LikeButton from "../../atoms/likeButton/LikeButton";
 import LikeCounter from "../../atoms/likeCounter/likeCounter";
 import "./likesMolecula.css";
 import { useAPI } from "../../../hooks/useAPI";
-import { requestObjects, requestUrls } from "../../../services/requestObjects";
-import { updateScore } from "../../../utils/updateScore";
-import { useState, CSSProperties } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 
-export default function LikesMolecula({ commentsData, setCommentsData, user }) {
-  const { isLoading, isError, makeApiRequest } = useAPI();
-
-  const incrementScore = async () => {
-    const url = requestUrls(user).likesUrl;
-    let newScore = user.score + 1;
-
-    const response = await makeApiRequest(url, requestObjects.patchRequest, {
-      newScore,
-    });
-
-    if (response) {
-      updateScore(setCommentsData, newScore, user.id);
-
-      console.log("Response is ok, and likes are updated.");
-    }
-  };
-
-  const decrementScore = async () => {
-    const url = requestUrls(user).likesUrl;
-    let newScore = user.score - 1;
-
-    const response = await makeApiRequest(url, requestObjects.patchRequest, {
-      newScore,
-    });
-
-    if (response) {
-      updateScore(setCommentsData, newScore, user.id);
-
-      console.log("Response is ok, and likes are updated.");
-    }
-  };
+export default function LikesMolecula({
+  user,
+  incrementScore,
+  decrementScore,
+}) {
+  const { isLoading, isError } = useAPI();
 
   if (isLoading) {
     return (
@@ -59,29 +30,10 @@ export default function LikesMolecula({ commentsData, setCommentsData, user }) {
   return (
     <>
       <div key={user.id} className="likes-wrapper">
-        <LikeButton sign="-" onClick={decrementScore} />
+        <LikeButton sign="-" onClick={() => decrementScore(user)} />
         <LikeCounter numOfLikes={user.score} />
-        <LikeButton sign="+" onClick={incrementScore} />
+        <LikeButton sign="+" onClick={() => incrementScore(user)} />
       </div>
     </>
   );
 }
-
-// const incrementScore = async () => {
-//   const url = requestUrls(user).likesUrl;
-
-//   let newScore = user.score + 1;
-//   updateScore(setCommentsData, newScore, user.id);
-//   console.log("Like updated successfully.");
-
-//   const response = await makeApiRequest(url, requestObjects.putRequest, {
-//     newScore,
-//   });
-
-//   if (response) {
-//     console.log("response is here and everything is fine");
-//   } else {
-//     let newScore = user.score;
-//     updateScore(setCommentsData, newScore, user.id);
-//   }
-// };

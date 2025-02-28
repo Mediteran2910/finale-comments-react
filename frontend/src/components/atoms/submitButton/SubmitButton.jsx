@@ -1,3 +1,3 @@
-export default function SubmitButton({ onClick, submitButtonText }) {
-  return <button onClick={onClick}>{submitButtonText}</button>;
+export default function SubmitButton({ onClick, text }) {
+  return <button onClick={onClick}>{text}</button>;
 }
