@@ -7,59 +7,45 @@ import AddCommentElement from "../../organism/addCommentElement/AddCommentElemen
 import "./commentsThread.css";
 import LoadingModal from "../../../modal/LoadingModal";
 import { useAPI } from "../../../hooks/useAPI";
-import { edit } from "../../../utils/editComment";
 import {
   requestObjects,
   requestUrls,
   staticUrls,
 } from "../../../services/requestObjects";
-import { useReducer } from "react";
-import { commentsReducer } from "../../../hooks/commentsReducer";
-import { useEffect } from "react";
-import { addNewComment } from "../../../utils/addComment";
 import { useCallback } from "react";
 
 const CommentsThread = React.memo(() => {
-  const { commentsData, setCommentsData, loading } = useComments();
+  const { dispatch, error, loading, state, currentUser } = useComments();
+
   const { isLoading, isError, makeApiRequest } = useAPI();
-  const [commentText, setCommentText] = useState("");
   const [replyingTo, setReplyingTo] = useState(null);
-  const [isLiked, setIsLiked] = useState("neutral");
-
-  const [state, dispatch] = useReducer(commentsReducer, {
-    otherUsers: [],
-    currentUser: {},
-  });
-
-  useEffect(() => {
-    if (commentsData) {
-      dispatch({ type: "SET_COMMENTS_DATA", payload: commentsData });
-    }
-  }, [commentsData]);
 
   const [isEditing, setIsEditing] = useState(null);
   const [editInitialText, setEditInitialText] = useState("");
 
-  const addComment = useCallback(async () => {
-    const url = staticUrls.addCommentUrl;
-    const newPersonalComment = { content: commentText };
+  const addComment = useCallback(
+    async (commentText) => {
+      const url = staticUrls.addCommentUrl;
+      const newPersonalComment = { content: commentText };
 
-    if (commentText !== "") {
-      const response = await makeApiRequest(
-        url,
-        requestObjects.postRequest,
-        newPersonalComment
-      );
+      if (commentText !== "") {
+        const response = await makeApiRequest(
+          url,
+          requestObjects.postRequest,
+          newPersonalComment
+        );
 
-      if (response) {
-        dispatch({ type: "ADD_COMMENT", payload: response });
-        setCommentText("");
-        console.log("Response is ok, new comment added");
-      } else {
-        console.error("Failed to add personal comment on the backend");
+        if (response) {
+          dispatch({ type: "ADD_COMMENT", payload: response });
+
+          console.log("Response is ok, new comment added");
+        } else {
+          console.error("Failed to add personal comment on the backend");
+        }
       }
-    }
-  }, [commentText, dispatch, makeApiRequest]);
+    },
+    [dispatch, makeApiRequest]
+  );
 
   const startReplying = (user) => {
     setReplyingTo((prevReplying) =>
@@ -68,7 +54,7 @@ const CommentsThread = React.memo(() => {
   };
 
   const addReply = useCallback(
-    async (user) => {
+    async (user, commentText) => {
       if (commentText !== "") {
         const url = requestUrls(user).addReplyUrl;
         const newReply = { content: commentText };
@@ -82,19 +68,22 @@ const CommentsThread = React.memo(() => {
         if (response) {
           console.log("Response is ok, trying to update front");
           dispatch({ type: "ADD_REPLY", parentId: user.id, payload: response });
-          setCommentText("");
+
           setReplyingTo(null);
         }
       }
     },
-    [commentText, dispatch, makeApiRequest]
+    [dispatch, makeApiRequest, setReplyingTo]
   );
 
-  const handleEdit = useCallback((id, content) => {
-    setIsEditing(id);
-    setEditInitialText(content);
-    console.log(id);
-  }, []);
+  const handleEdit = useCallback(
+    (id, content) => {
+      setIsEditing(id);
+      setEditInitialText(content);
+      console.log(id);
+    },
+    [setIsEditing, setEditInitialText]
+  );
 
   const editComment = useCallback(
     async (user) => {
@@ -124,51 +113,30 @@ const CommentsThread = React.memo(() => {
       setEditInitialText("");
       setIsEditing(null);
     },
-    [editInitialText, dispatch, makeApiRequest]
+    [dispatch, makeApiRequest]
   );
 
-  const incrementScore = useCallback(
-    async (user) => {
+  const handleScoreChange = useCallback(
+    async (user, increment) => {
       const url = requestUrls(user).likesUrl;
-      let newScore = user.score + 1;
+      let isLiked = true;
+      let newScore = user.score + (increment ? 1 : -1);
 
-      if (isLiked === "neutral" || isLiked === "disliked") {
-        const response = await makeApiRequest(
-          url,
-          requestObjects.patchRequest,
-          { newScore }
-        );
+      const response = await makeApiRequest(url, requestObjects.patchRequest, {
+        newScore,
+      });
 
-        if (response) {
-          dispatch({ type: "UPDATE_SCORE", userId: user.id, newScore });
-          console.log("Response is ok, and likes are updated.");
-        }
+      if (response) {
+        dispatch({
+          type: "UPDATE_SCORE",
+          userId: user.id,
+          newScore,
+          isLiked: increment,
+        });
+        console.log("Response is ok, and likes are updated.");
       }
-      setIsLiked((prevLike) => (prevLike === "disliked" ? "neutral" : "liked"));
     },
-    [isLiked, dispatch, makeApiRequest]
-  );
-
-  const decrementScore = useCallback(
-    async (user) => {
-      const url = requestUrls(user).likesUrl;
-      let newScore = user.score - 1;
-
-      if (isLiked === "neutral" || isLiked === "liked") {
-        const response = await makeApiRequest(
-          url,
-          requestObjects.patchRequest,
-          { newScore }
-        );
-
-        if (response) {
-          dispatch({ type: "UPDATE_SCORE", userId: user.id, newScore });
-          console.log("Response is ok, and likes are updated.");
-        }
-      }
-      setIsLiked((prevLike) => (prevLike === "liked" ? "neutral" : "disliked"));
-    },
-    [isLiked, dispatch, makeApiRequest]
+    [dispatch, makeApiRequest]
   );
 
   const handleDeleteComment = useCallback(
@@ -189,16 +157,16 @@ const CommentsThread = React.memo(() => {
     return <LoadingModal />;
   }
 
-  if (isLoading) {
-    return <p>LOADING...</p>;
-  }
+  // if (isLoading) {
+  //   return <p>LOADING...</p>;
+  // }
 
-  if (isError) {
-    return <p>Error...</p>;
-  }
+  // if (isError) {
+  //   return <p>Error...</p>;
+  // }
   return (
     <>
-      {state.otherUsers.map((user) => (
+      {state.map((user) => (
         <div className="comment-reply-wrapp" key={user.id}>
           <CommentCard
             user={user}
@@ -206,12 +174,10 @@ const CommentsThread = React.memo(() => {
             isEditing={isEditing}
             editComment={editComment}
             replyingTo={replyingTo}
-            incrementScore={incrementScore}
-            decrementScore={decrementScore}
+            handleScoreChange={handleScoreChange}
             addReply={addReply}
-            currentUser={commentsData.currentUser}
+            currentUser={currentUser}
             handleDeleteComment={handleDeleteComment}
-            setCommentText={setCommentText}
             startReplying={startReplying}
           />
 
@@ -223,9 +189,8 @@ const CommentsThread = React.memo(() => {
               editInitialText={editInitialText}
               editComment={editComment}
               replyingTo={replyingTo}
-              incrementScore={incrementScore}
-              decrementScore={decrementScore}
-              currentUser={commentsData.currentUser}
+              handleScoreChange={handleScoreChange}
+              currentUser={currentUser}
               handleDeleteComment={handleDeleteComment}
             />
           )}
@@ -233,9 +198,7 @@ const CommentsThread = React.memo(() => {
       ))}
       <AddCommentElement
         onClick={addComment}
-        currentUser={commentsData.currentUser}
-        value={commentText}
-        onChange={(e) => setCommentText(e.target.value)}
+        currentUser={currentUser}
         replyingTo={replyingTo}
         setReplyingTo={setReplyingTo}
       />

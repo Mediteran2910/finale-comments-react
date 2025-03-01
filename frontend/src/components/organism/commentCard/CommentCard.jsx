@@ -4,15 +4,11 @@ import CommentText from "../../moleculas/commentText/CommentText";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
 import "./commentCard.css";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
-import { addNewReply } from "../../../utils/addReply";
-import { requestObjects, requestUrls } from "../../../services/requestObjects";
 import { useAPI } from "../../../hooks/useAPI";
 
 const CommentCard = React.memo(
   ({
     user,
-    commentText,
-    setCommentText,
     handleEdit,
     isEditing,
     editInitialText,
@@ -20,13 +16,12 @@ const CommentCard = React.memo(
     editComment,
     replyingTo,
     addReply,
-    incrementScore,
-    decrementScore,
+    handleScoreChange,
     currentUser,
     handleDeleteComment,
     startReplying,
   }) => {
-    const { isLoading, isError, makeApiRequest } = useAPI();
+    const { isLoading, isError } = useAPI();
 
     if (isLoading) {
       return <p>LOADING...</p>;
@@ -52,14 +47,11 @@ const CommentCard = React.memo(
             <CommentText user={user} />
             <ButtonsWrapper
               user={user}
-              commentText={commentText}
-              setCommentText={setCommentText}
               handleEdit={() => handleEdit(user.id, user.content)}
               isEditing={isEditing}
               editInitialText={editInitialText}
               setEditInitialText={user.id.content}
-              incrementScore={incrementScore}
-              decrementScore={decrementScore}
+              handleScoreChange={handleScoreChange}
               handleDeleteComment={handleDeleteComment}
               startReplying={() => startReplying(user)}
             />
@@ -68,9 +60,7 @@ const CommentCard = React.memo(
 
         {replyingTo === user.id && (
           <AddCommentElement
-            onClick={() => addReply(user)}
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
+            onClick={(commentText) => addReply(user, commentText)}
             isEditing={isEditing}
             currentUser={currentUser}
           />

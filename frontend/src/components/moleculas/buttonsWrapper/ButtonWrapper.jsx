@@ -9,9 +9,8 @@ export default function ButtonsWrapper({
   user,
   startReplying,
   handleEdit,
-  incrementScore,
-  decrementScore,
   handleDeleteComment,
+  handleScoreChange,
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -26,11 +25,7 @@ export default function ButtonsWrapper({
         />
       )}
       <div className="buttons-wrapper">
-        <LikesMolecula
-          user={user}
-          incrementScore={incrementScore}
-          decrementScore={decrementScore}
-        />
+        <LikesMolecula user={user} handleScoreChange={handleScoreChange} />
         {!user.isYou ? (
           <ReplyButton
             src="./icons/icon-reply.svg"

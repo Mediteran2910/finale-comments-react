@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./deleteModal.css";
 
 export const DeleteModal = ({ setIsModalVisible, handleDeleteComment }) => {

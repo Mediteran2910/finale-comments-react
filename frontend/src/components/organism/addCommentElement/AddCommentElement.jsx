@@ -2,15 +2,15 @@ import Avatar from "../../atoms/avatar/Avatar";
 import TextArea from "../../atoms/textarea/TextArea";
 import SubmitButton from "../../atoms/submitButton/SubmitButton";
 import "./addCommentElement.css";
+import { useState } from "react";
 
 export default function AddCommentElement({
   onClick,
-  value,
-  onChange,
   replyingTo,
   isEditing,
   currentUser,
 }) {
+  const [commentText, setCommentText] = useState("");
   return (
     <div className="add-comment-wrapper">
       <div className="add-comment-element">
@@ -19,11 +19,10 @@ export default function AddCommentElement({
           placeholder={
             replyingTo !== null ? "Add an reply..." : "Add a comment..."
           }
-          value={value}
-          onChange={onChange}
+          onChange={(e) => setCommentText(e.target.value)}
         />
         <SubmitButton
-          onClick={onClick}
+          onClick={() => onClick(commentText)}
           text={isEditing ? "EDIT" : replyingTo !== null ? "REPLY" : "SEND"}
         />
       </div>

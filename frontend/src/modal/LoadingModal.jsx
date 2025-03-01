@@ -1,9 +1,7 @@
 import { useContext } from "react";
-import { useComments } from "../hooks/useComments";
+const loading = false;
 
 export default function LoadingModal() {
-  const { loading } = useComments();
-
   return (
     <dialog open={loading} className="delete-modal">
       <div className="modal-content">
