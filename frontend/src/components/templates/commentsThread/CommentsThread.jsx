@@ -113,7 +113,7 @@ const CommentsThread = React.memo(() => {
         setIsEditing(null);
       }
     },
-    [dispatch, makeApiRequest]
+    [dispatch, makeApiRequest, setEditInitialText]
   );
 
   const handleScoreChange = useCallback(

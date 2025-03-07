@@ -24,8 +24,8 @@
       "id": "c-1002",
       "content": "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
       "createdAt": "2 weeks ago",
-      "score": 25,
-      "isLiked": true,
+      "score": 23,
+      "isLiked": false,
       "user": {
         "image": {
           "png": "/avatars/image-maxblagun.webp"
@@ -37,8 +37,8 @@
           "id": "r-2001",
           "content": "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
           "createdAt": "1 week ago",
-          "score": 15,
-          "isLiked": true,
+          "score": 14,
+          "isLiked": null,
           "replyingTo": "maxblagun",
           "user": {
             "image": {
@@ -80,8 +80,8 @@
           "id": "r-2002",
           "content": "Yes! Framer Motion is great for adding smooth animations. I used it in a recent project, and it made a big difference.",
           "createdAt": "2 days ago",
-          "score": 10,
-          "isLiked": false,
+          "score": 11,
+          "isLiked": null,
           "replyingTo": "davidlee",
           "user": {
             "image": {
@@ -110,8 +110,8 @@
       "id": "c-1006",
       "content": "Nice work! Have you considered adding accessibility features? That would make your project even better.",
       "createdAt": "4 days ago",
-      "score": 9,
-      "isLiked": false,
+      "score": 10,
+      "isLiked": null,
       "user": {
         "image": {
           "png": "/avatars/image-emilywilliams.webp"
@@ -119,21 +119,6 @@
         "username": "emilywilliams"
       },
       "replies": []
-    },
-    {
-      "id": "cad5c595-324e-4696-8a2c-045f938c053e",
-      "content": "gsgsdgsdg gdsgdsgsd",
-      "createdAt": "Just now",
-      "score": -1,
-      "user": {
-        "image": {
-          "png": "/avatars/image-juliusomo.webp"
-        },
-        "username": "juliusomo"
-      },
-      "isYou": true,
-      "replies": [],
-      "isLiked": false
     }
   ]
 }
