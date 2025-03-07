@@ -16,9 +16,9 @@ export const commentsReducer = (state, action) => {
     case "UPDATE_SCORE":
       return state.map((comment) => ({
         ...comment,
-        score:
-          comment.id === action.userId ? action.newScore + 1 : comment.score,
-        isLiked: action.isLiked,
+        score: comment.id === action.userId ? action.newScore : comment.score,
+        isLiked:
+          comment.id === action.userId ? action.isLiked : comment.isLiked,
         replies: comment.replies.map((reply) =>
           reply.id === action.userId
             ? { ...reply, score: action.newScore, isLiked: action.isLiked }

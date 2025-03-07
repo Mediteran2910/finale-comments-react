@@ -1,12 +1,12 @@
-import { useContext } from "react";
-const loading = false;
-
-export default function LoadingModal() {
+export default function LoadingModal({ className, message, children }) {
   return (
-    <dialog open={loading} className="delete-modal">
-      <div className="modal-content">
-        <p>Please wait, we are loading Data....</p>
-      </div>
-    </dialog>
+    <div className={className}>
+      <dialog open={true}>
+        <div>
+          <p>{message}</p>
+          {children}
+        </div>
+      </dialog>
+    </div>
   );
 }

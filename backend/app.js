@@ -99,13 +99,15 @@ app.patch("/comments/:id/like", (req, res) => {
 
   commentsData.otherUsers.forEach((comment) => {
     if (comment.id === commentId) {
-      comment.score = newScore;
+      comment.score = newScore.score;
+      comment.isLiked = newScore.isLiked;
       found = true;
     }
 
     comment.replies.forEach((reply) => {
       if (reply.id === commentId) {
-        reply.score = newScore;
+        reply.score = newScore.score;
+        reply.isLiked = newScore.isLiked;
         found = true;
       }
     });

@@ -27,12 +27,3 @@
   border: 1px solid rgb(147, 147, 147);
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
-
-.add-comment-element button {
-  border: none;
-  background-color: #5357b6;
-  color: white;
-  width: 25%;
-  height: 35px;
-  border-radius: 10px;
-}

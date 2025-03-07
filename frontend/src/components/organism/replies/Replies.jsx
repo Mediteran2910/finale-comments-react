@@ -4,6 +4,7 @@ import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
 import "./replies.css";
 import React from "react";
+import { useAPI } from "../../../hooks/useAPI";
 
 const Replies = React.memo(
   ({

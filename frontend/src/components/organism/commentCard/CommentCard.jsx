@@ -10,11 +10,11 @@ const CommentCard = React.memo(
   ({
     user,
     handleEdit,
-    isEditing,
     editInitialText,
     setEditInitialText,
     editComment,
     replyingTo,
+    isEditing,
     addReply,
     handleScoreChange,
     currentUser,
@@ -24,7 +24,7 @@ const CommentCard = React.memo(
     const { isLoading, isError } = useAPI();
 
     if (isLoading) {
-      return <p>LOADING...</p>;
+      return <p>LOADING NEW COMMENT...</p>;
     }
 
     if (isError) {
@@ -50,7 +50,6 @@ const CommentCard = React.memo(
               handleEdit={() => handleEdit(user.id, user.content)}
               isEditing={isEditing}
               editInitialText={editInitialText}
-              setEditInitialText={user.id.content}
               handleScoreChange={handleScoreChange}
               handleDeleteComment={handleDeleteComment}
               startReplying={() => startReplying(user)}

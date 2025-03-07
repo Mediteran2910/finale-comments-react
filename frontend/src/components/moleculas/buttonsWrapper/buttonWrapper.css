@@ -8,41 +8,9 @@
   margin-top: 10px;
 }
 
-.reply-button {
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 40px;
-  border-radius: 10px;
-  width: 100px;
-  font-size: 14px;
-  background-color: rgb(247, 247, 247);
-  border: 1px solid #5357b6;
-}
-
-.reply-button img {
-  height: 50%;
-  width: auto;
-}
-
-.personal-buttons-wrap {
+.edit-delete-btns-wrapp {
   display: flex;
   flex-wrap: row;
   align-items: center;
   justify-content: center;
-}
-
-.personal-buttons-wrap button {
-  align-items: center;
-  justify-items: center;
-  margin-inline: 5px;
-  border: none;
-  background-color: transparent;
-}
-
-.personal-buttons-wrap img {
-  height: 30px;
-  width: auto;
-  border-radius: 0px;
 }

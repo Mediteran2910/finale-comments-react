@@ -1,9 +1,9 @@
 import LikesMolecula from "../likesMolecula/LikesMolecula";
-import ReplyButton from "../../atoms/replyButton/ReplyButton";
-import PersonalButton from "../../atoms/personalButton/PersonalButton";
 import "./buttonWrapper.css";
 import { useState } from "react";
-import { DeleteModal } from "../../../modal/deleteModal";
+
+import Button from "../../atoms/button/Button";
+import { Modal } from "../../../modal/Modal";
 
 export default function ButtonsWrapper({
   user,
@@ -17,32 +17,43 @@ export default function ButtonsWrapper({
   return (
     <>
       {isModalVisible && (
-        <DeleteModal
+        <Modal
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
           user={user}
           handleDeleteComment={() => handleDeleteComment(user, user.id)}
+          handleKeepComment={() => setIsModalVisible(false)}
+          isDeleteModal={true}
+          modalText=" Are you sure you want to delete your comment, once you do that,
+            there is no going back!"
         />
       )}
       <div className="buttons-wrapper">
         <LikesMolecula user={user} handleScoreChange={handleScoreChange} />
         {!user.isYou ? (
-          <ReplyButton
-            src="./icons/icon-reply.svg"
-            btnText="Reply"
+          <Button
+            imgSrc="./icons/icon-reply.svg"
+            imgAlt="left arrow icon representing reply icon"
+            text="Reply"
             onClick={startReplying}
+            isActionBtn={true}
+            className="reply-button"
           />
         ) : (
-          <div className="personal-buttons-wrap">
-            <PersonalButton
-              src="./icons/icon-edit.svg"
-              alt="edit icon"
+          <div className="edit-delete-btns-wrap">
+            <Button
+              imgSrc="./icons/icon-edit.svg"
+              imgAlt="edit icon"
+              isActionBtn={true}
               onClick={handleEdit}
+              className="edit-delete-btn"
             />
-            <PersonalButton
-              src="./icons/icon-delete.svg"
-              alt="delete icon"
+            <Button
+              imgSrc="./icons/icon-delete.svg"
+              imgAlt="delete icon"
+              isActionBtn={true}
               onClick={() => setIsModalVisible(true)}
+              className="edit-delete-btn"
             />
           </div>
         )}

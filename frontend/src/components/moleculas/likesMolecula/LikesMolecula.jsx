@@ -1,14 +1,13 @@
-import LikeButton from "../../atoms/likeButton/LikeButton";
 import LikeCounter from "../../atoms/likeCounter/likeCounter";
 import "./likesMolecula.css";
-import { useAPI } from "../../../hooks/useAPI";
 import BeatLoader from "react-spinners/BeatLoader";
 import { useState } from "react";
+import Button from "../../atoms/button/Button";
 
 export default function LikesMolecula({ user, handleScoreChange }) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handle = async (increment) => {
+  const handleScore = async (increment) => {
     setIsLoading(true);
     await handleScoreChange(user, increment);
     setIsLoading(false);
@@ -25,16 +24,20 @@ export default function LikesMolecula({ user, handleScoreChange }) {
   return (
     <>
       <div key={user.id} className="likes-wrapper">
-        <LikeButton
+        <Button
+          isLikeBtn={true}
           sign="-"
-          onClick={() => handle(false)}
+          onClick={() => handleScore(false)}
           disabled={user.isLiked === false}
+          className="like-button"
         />
         <LikeCounter numOfLikes={user.score} />
-        <LikeButton
+        <Button
+          isLikeBtn={true}
           sign="+"
-          onClick={() => handle(true)}
+          onClick={() => handleScore(true)}
           disabled={user.isLiked === true}
+          className="like-button"
         />
       </div>
     </>

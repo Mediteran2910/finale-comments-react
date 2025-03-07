@@ -5,7 +5,6 @@ import CommentCard from "../../organism/commentCard/CommentCard";
 import Replies from "../../organism/replies/Replies";
 import AddCommentElement from "../../organism/addCommentElement/AddCommentElement";
 import "./commentsThread.css";
-import LoadingModal from "../../../modal/LoadingModal";
 import { useAPI } from "../../../hooks/useAPI";
 import {
   requestObjects,
@@ -13,18 +12,19 @@ import {
   staticUrls,
 } from "../../../services/requestObjects";
 import { useCallback } from "react";
+import { Modal } from "../../../modal/Modal";
+import "../../../modal/loadingModal.css";
 
 const CommentsThread = React.memo(() => {
   const { dispatch, error, loading, state, currentUser } = useComments();
 
   const { isLoading, isError, makeApiRequest } = useAPI();
   const [replyingTo, setReplyingTo] = useState(null);
-
-  const [isEditing, setIsEditing] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [editInitialText, setEditInitialText] = useState("");
 
   const addComment = useCallback(
-    async (commentText) => {
+    async (commentText, setCommentText) => {
       const url = staticUrls.addCommentUrl;
       const newPersonalComment = { content: commentText };
 
@@ -43,6 +43,8 @@ const CommentsThread = React.memo(() => {
           console.error("Failed to add personal comment on the backend");
         }
       }
+
+      setCommentText("");
     },
     [dispatch, makeApiRequest]
   );
@@ -76,17 +78,16 @@ const CommentsThread = React.memo(() => {
     [dispatch, makeApiRequest, setReplyingTo]
   );
 
-  const handleEdit = useCallback(
-    (id, content) => {
-      setIsEditing(id);
-      setEditInitialText(content);
-      console.log(id);
-    },
-    [setIsEditing, setEditInitialText]
-  );
+  const handleEdit = useCallback((id, content) => {
+    setIsEditing(id);
+    setEditInitialText(content);
+    console.log(id);
+    console.log(content);
+  }, []);
 
   const editComment = useCallback(
     async (user) => {
+      console.log(editInitialText);
       const updatedCommentObj = { content: editInitialText };
       const url = requestUrls(user).editUrl;
 
@@ -109,9 +110,9 @@ const CommentsThread = React.memo(() => {
         } catch (error) {
           console.error("Edit failed:", error);
         }
+        setEditInitialText("");
+        setIsEditing(null);
       }
-      setEditInitialText("");
-      setIsEditing(null);
     },
     [dispatch, makeApiRequest]
   );
@@ -119,8 +120,24 @@ const CommentsThread = React.memo(() => {
   const handleScoreChange = useCallback(
     async (user, increment) => {
       const url = requestUrls(user).likesUrl;
-      let isLiked = true;
-      let newScore = user.score + (increment ? 1 : -1);
+      let newScore = {
+        score: user.score + (increment ? 1 : -1),
+        isLiked: increment,
+      };
+
+      if (user.isLiked === true && !increment) {
+        newScore = {
+          score: user.score - 1,
+          isLiked: null,
+        };
+      }
+
+      if (user.isLiked === false && increment) {
+        newScore = {
+          score: user.score + 1,
+          isLiked: null,
+        };
+      }
 
       const response = await makeApiRequest(url, requestObjects.patchRequest, {
         newScore,
@@ -130,8 +147,8 @@ const CommentsThread = React.memo(() => {
         dispatch({
           type: "UPDATE_SCORE",
           userId: user.id,
-          newScore,
-          isLiked: increment,
+          newScore: newScore.score,
+          isLiked: newScore.isLiked,
         });
         console.log("Response is ok, and likes are updated.");
       }
@@ -154,16 +171,11 @@ const CommentsThread = React.memo(() => {
   );
 
   if (loading === true) {
-    return <LoadingModal />;
+    return (
+      <Modal isLoadingModal={true} modalText="Loading Data, please wait..." />
+    );
   }
 
-  // if (isLoading) {
-  //   return <p>LOADING...</p>;
-  // }
-
-  // if (isError) {
-  //   return <p>Error...</p>;
-  // }
   return (
     <>
       {state.map((user) => (
@@ -171,8 +183,10 @@ const CommentsThread = React.memo(() => {
           <CommentCard
             user={user}
             handleEdit={handleEdit}
-            isEditing={isEditing}
             editComment={editComment}
+            editInitialText={editInitialText}
+            setEditInitialText={setEditInitialText}
+            isEditing={isEditing}
             replyingTo={replyingTo}
             handleScoreChange={handleScoreChange}
             addReply={addReply}
@@ -185,8 +199,9 @@ const CommentsThread = React.memo(() => {
             <Replies
               user={user}
               handleEdit={handleEdit}
-              isEditing={isEditing}
               editInitialText={editInitialText}
+              setEditInitialText={setEditInitialText}
+              isEditing={isEditing}
               editComment={editComment}
               replyingTo={replyingTo}
               handleScoreChange={handleScoreChange}
@@ -196,6 +211,7 @@ const CommentsThread = React.memo(() => {
           )}
         </div>
       ))}
+
       <AddCommentElement
         onClick={addComment}
         currentUser={currentUser}
@@ -207,3 +223,7 @@ const CommentsThread = React.memo(() => {
 });
 
 export default CommentsThread;
+
+///LOKALNO STATE TI MOZE, U SLUCAJU DA NIJE GENERALNI STATE(DATA)
+///PAZI NA ISLOADING AKO NIJE INICJALNI RENDER, SCOUPAJ IS LOADING NA LOKALNOJ RAZINI, TJ DI SE POZIVA FUNKCIJA(AKO IMA SMISLA)
+///CUSTOM HOOK PRIHVACA SVE I SVASTA, ZATO SE I ZOVE CUSTOM
