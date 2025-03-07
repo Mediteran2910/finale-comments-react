@@ -5,7 +5,7 @@ import CommentCard from "../../organism/commentCard/CommentCard";
 import Replies from "../../organism/replies/Replies";
 import AddCommentElement from "../../organism/addCommentElement/AddCommentElement";
 import "./commentsThread.css";
-import { useAPI } from "../../../hooks/useAPI";
+import { makeApiRequest } from "../../../utils/makeApiRequest";
 import {
   requestObjects,
   requestUrls,
@@ -18,7 +18,6 @@ import "../../../modal/loadingModal.css";
 const CommentsThread = React.memo(() => {
   const { dispatch, error, loading, state, currentUser } = useComments();
 
-  const { isLoading, isError, makeApiRequest } = useAPI();
   const [replyingTo, setReplyingTo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editInitialText, setEditInitialText] = useState("");
@@ -124,6 +123,7 @@ const CommentsThread = React.memo(() => {
         score: user.score + (increment ? 1 : -1),
         isLiked: increment,
       };
+      //carefull here
 
       if (user.isLiked === true && !increment) {
         newScore = {
@@ -132,12 +132,15 @@ const CommentsThread = React.memo(() => {
         };
       }
 
+      //carefull here
+
       if (user.isLiked === false && increment) {
         newScore = {
           score: user.score + 1,
           isLiked: null,
         };
       }
+      //carefull here
 
       const response = await makeApiRequest(url, requestObjects.patchRequest, {
         newScore,
