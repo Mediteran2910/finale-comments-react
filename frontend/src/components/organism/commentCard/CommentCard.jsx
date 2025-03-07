@@ -4,7 +4,6 @@ import CommentText from "../../moleculas/commentText/CommentText";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
 import "./commentCard.css";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
-import { useAPI } from "../../../hooks/useAPI";
 
 const CommentCard = React.memo(
   ({
@@ -21,16 +20,6 @@ const CommentCard = React.memo(
     handleDeleteComment,
     startReplying,
   }) => {
-    const { isLoading, isError } = useAPI();
-
-    if (isLoading) {
-      return <p>LOADING NEW COMMENT...</p>;
-    }
-
-    if (isError) {
-      return <p>Error...</p>;
-    }
-
     return (
       <>
         {isEditing === user.id ? (

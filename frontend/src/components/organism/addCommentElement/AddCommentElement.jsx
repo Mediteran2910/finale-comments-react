@@ -29,7 +29,7 @@ export default function AddCommentElement({
       <div className="add-comment-element">
         <Avatar imgSrc={currentUser.image.png} className="avatar" />
         <TextArea
-          value={isEditing ? value : commentText} //moran imat value radi editinga, da mi pokaze stari tekst komentara, alternativa je mozda useEffect
+          value={isEditing ? value : commentText} //moran imat value zbog editinga, da mi pokaze stari tekst komentara, alternativa je mozda useEffect
           placeholder={
             replyingTo !== null ? "Add an reply..." : "Add a comment..."
           }
