@@ -9,10 +9,3 @@
   align-self: flex-start;
   border-radius: 5px;
 }
-
-.likes-wrapper p {
-  color: #5357b6;
-  font-size: 16px;
-  width: auto;
-  margin-inline: 8px;
-}

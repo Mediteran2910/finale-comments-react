@@ -110,6 +110,14 @@ app.patch("/comments/:id/like", (req, res) => {
         reply.isLiked = newScore.isLiked;
         found = true;
       }
+
+      reply.replies.forEach((nestedReply) => {
+        if (nestedReply.id === commentId) {
+          nestedReply.score = newScore.score;
+          nestedReply.isLiked = newScore.isLiked;
+          found = true;
+        }
+      });
     });
   });
 

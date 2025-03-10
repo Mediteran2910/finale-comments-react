@@ -1,11 +1,14 @@
 import "./authorDetails.css";
+import Typography from "../typgoraphy/typography";
 
 export default function AuthorDetails({ username, isCurrentUser, postTime }) {
   return (
     <div className="author-details-wrapp">
-      {isCurrentUser && <p className="personal-tag">you</p>}
-      <p className="username">{username}</p>
-      <p className="post-time">{postTime}</p>
+      {isCurrentUser && (
+        <Typography variant="overline" color="background-blue" text="you" />
+      )}
+      <Typography variant="body" text={username} bold={true} />
+      <Typography variant="caption" text={postTime} />
     </div>
   );
 }

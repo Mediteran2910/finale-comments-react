@@ -5,4 +5,5 @@
   justify-content: center;
   width: 100%;
   overflow-x: hidden;
+  max-width: 900px;
 }

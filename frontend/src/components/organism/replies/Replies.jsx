@@ -1,9 +1,9 @@
 import UserInfo from "../../moleculas/userInfo/UserInfo";
-import CommentText from "../../moleculas/commentText/CommentText";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
 import "./replies.css";
 import React from "react";
+import Typography from "../../atoms/typgoraphy/typography";
 
 const Replies = React.memo(
   ({
@@ -33,7 +33,12 @@ const Replies = React.memo(
             <div className="replies-wrapper" key={reply.id}>
               <div className="replies">
                 <UserInfo user={reply} />
-                <CommentText user={reply} />
+                <Typography
+                  replayed={reply.replyingTo}
+                  text={reply.content}
+                  variant="body"
+                  spanColor="purple"
+                />
                 <ButtonsWrapper
                   user={reply}
                   handleEdit={() => handleEdit(reply.id, reply.content)}

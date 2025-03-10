@@ -21,6 +21,7 @@ export default function AddCommentElement({
   const handleLoadingComment = async () => {
     setIsLoadingNewComm(true);
     await onClick(commentText, setCommentText);
+
     setIsLoadingNewComm(false);
   };
 
@@ -30,31 +31,27 @@ export default function AddCommentElement({
         <Avatar imgSrc={currentUser.image.png} className="avatar" />
         <TextArea
           value={isEditing ? value : commentText} //moran imat value radi editinga, da mi pokaze stari tekst komentara, alternativa je mozda useEffect
-          placeholder={
-            replyingTo !== null ? "Add an reply..." : "Add a comment..."
-          }
+          placeholder={replyingTo ? "Add an reply..." : "Add a comment..."}
           onChange={
             isEditing ? onChange : (e) => setCommentText(e.target.value)
           }
         />
         <Button
           onClick={() => handleLoadingComment()}
-          text={
-            isLoadingNewComm
-              ? ""
-              : isEditing && !isLoadingNewComm
-              ? "EDIT"
-              : replyingTo !== null
-              ? "REPLY"
-              : "SEND"
+          disabled={
+            isLoadingNewComm || (commentText.trim() === "" && !isEditing)
           }
-          isClickable={commentText !== "" || isEditing ? true : false}
-          isActionBtn={true}
-          className="post-button"
-          disabled={isLoadingNewComm && true}
+          colored="blue"
+          loading={isLoadingNewComm}
         >
-          {isLoadingNewComm && (
+          {isLoadingNewComm ? (
             <BeatLoader loading={true} size={8} color="white" />
+          ) : isEditing ? (
+            "EDIT"
+          ) : replyingTo ? (
+            "REPLY"
+          ) : (
+            "SEND"
           )}
         </Button>
       </div>

@@ -22,7 +22,18 @@ export const commentsReducer = (state, action) => {
         replies: comment.replies.map((reply) =>
           reply.id === action.userId
             ? { ...reply, score: action.newScore, isLiked: action.isLiked }
-            : reply
+            : {
+                ...reply,
+                replies: reply.replies.map((nestedReply) =>
+                  nestedReply.id === action.userId
+                    ? {
+                        ...nestedReply,
+                        score: action.newScore,
+                        isLiked: action.isLiked,
+                      }
+                    : nestedReply
+                ),
+              }
         ),
       }));
 

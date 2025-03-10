@@ -9,7 +9,12 @@
   justify-content: center;
   --primary-blue: #5357b6;
   --disabled-blue: #7e81d4;
-  --elemets-background-color: rgb(255, 255, 255);
+  --elements-background-color: rgb(255, 255, 255);
+  --warning-red-color: #980923;
+  --body-color-black: #030303;
+  --caption-color-grey: #2e2e2e;
+
+  font-size: 12px;
 }
 
 body {

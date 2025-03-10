@@ -1,0 +1,39 @@
+.nested-replies-helper-wrapp {
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nested-replies-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+  background-color: gray;
+  border-left: 1.5px solid grey;
+  background-color: transparent;
+  margin-block: 10px;
+}
+
+.nested-replies {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  background-color: white;
+  margin-block: 10px;
+  border-radius: 10px;
+}
+
+.nested-replies .likes-wrapper {
+  margin-left: 5%;
+  margin-bottom: 10px;
+}
+
+.nested-replies .txt-body:nth-child(2) {
+  width: 90%;
+}
+
+.nested-replies .likes-wrapper .txt-body {
+  width: auto;
+}

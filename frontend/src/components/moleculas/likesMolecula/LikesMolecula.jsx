@@ -3,6 +3,7 @@ import "./likesMolecula.css";
 import BeatLoader from "react-spinners/BeatLoader";
 import { useState } from "react";
 import Button from "../../atoms/button/Button";
+import Typography from "../../atoms/typgoraphy/typography";
 
 export default function LikesMolecula({ user, handleScoreChange }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,20 +26,22 @@ export default function LikesMolecula({ user, handleScoreChange }) {
     <>
       <div key={user.id} className="likes-wrapper">
         <Button
-          isLikeBtn={true}
-          sign="-"
           onClick={() => handleScore(false)}
           disabled={user.isLiked === false}
-          className="like-button"
-        />
-        <LikeCounter numOfLikes={user.score} />
+          outline={true}
+        >
+          {" "}
+          -
+        </Button>
+
+        <Typography text={user.score} variant="body" color="primary-blue" />
         <Button
-          isLikeBtn={true}
-          sign="+"
           onClick={() => handleScore(true)}
           disabled={user.isLiked === true}
-          className="like-button"
-        />
+          outline={true}
+        >
+          +
+        </Button>
       </div>
     </>
   );

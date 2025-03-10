@@ -14,11 +14,12 @@ import {
 import { useCallback } from "react";
 import { Modal } from "../../../modal/Modal";
 import "../../../modal/loadingModal.css";
+import NestedReplies from "../../organism/nestedReplies/nestedReplies";
 
 const CommentsThread = React.memo(() => {
   const { dispatch, error, loading, state, currentUser } = useComments();
 
-  const [replyingTo, setReplyingTo] = useState(null);
+  const [replyingTo, setReplyingTo] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editInitialText, setEditInitialText] = useState("");
 
@@ -123,7 +124,6 @@ const CommentsThread = React.memo(() => {
         score: user.score + (increment ? 1 : -1),
         isLiked: increment,
       };
-      //carefull here
 
       if (user.isLiked === true && !increment) {
         newScore = {
@@ -132,15 +132,12 @@ const CommentsThread = React.memo(() => {
         };
       }
 
-      //carefull here
-
       if (user.isLiked === false && increment) {
         newScore = {
           score: user.score + 1,
           isLiked: null,
         };
       }
-      //carefull here
 
       const response = await makeApiRequest(url, requestObjects.patchRequest, {
         newScore,
@@ -174,9 +171,7 @@ const CommentsThread = React.memo(() => {
   );
 
   if (loading === true) {
-    return (
-      <Modal isLoadingModal={true} modalText="Loading Data, please wait..." />
-    );
+    return <Modal loadingModal={true} />;
   }
 
   return (
@@ -212,6 +207,24 @@ const CommentsThread = React.memo(() => {
               handleDeleteComment={handleDeleteComment}
             />
           )}
+
+          {user.replies
+            ?.filter((reply) => reply.replies?.length > 0)
+            .map((replyNest) => (
+              <NestedReplies
+                key={replyNest.id}
+                user={replyNest}
+                handleEdit={handleEdit}
+                editInitialText={editInitialText}
+                setEditInitialText={setEditInitialText}
+                isEditing={isEditing}
+                editComment={editComment}
+                replyingTo={replyingTo}
+                handleScoreChange={handleScoreChange}
+                currentUser={currentUser}
+                handleDeleteComment={handleDeleteComment}
+              />
+            ))}
         </div>
       ))}
 

@@ -1,0 +1,39 @@
+.txt {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--paragraph-color-black);
+}
+
+.txt-body {
+  font-size: 1.2rem;
+}
+
+.txt-caption {
+  color: var(--caption-color-grey);
+}
+
+.txt-overline {
+  border-radius: 10px;
+  padding-inline: 5px;
+  font-size: 10px;
+  width: auto;
+  height: auto;
+}
+
+.txt-color-primary-blue {
+  color: var(--primary-blue);
+}
+
+.txt-color-background-blue {
+  background-color: var(--primary-blue);
+  color: var(--elements-background-color);
+}
+
+.txt-bold {
+  font-weight: 600;
+}
+
+.txt-body-primary-blue {
+  font-size: 1.2rem;
+  color: var(--primary-blue);
+}

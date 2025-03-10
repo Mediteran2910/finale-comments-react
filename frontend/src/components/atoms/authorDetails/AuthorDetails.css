@@ -5,27 +5,12 @@
   width: 100%;
 }
 
-.personal-tag {
-  background-color: #5357b6;
-  color: white;
-  width: auto;
-  padding-inline: 5px;
-  font-size: 10px;
-  border-radius: 5px;
-  margin: 10px;
-  margin-left: 0px;
+.txt-overline {
+  margin-right: 10px;
 }
 
-.post-time {
-  color: grey;
-  font-size: 12px;
+.txt-caption {
   width: auto;
   align-self: center;
-
   margin-left: auto;
-}
-
-.username {
-  font-weight: 500;
-  width: auto;
 }

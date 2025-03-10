@@ -18,3 +18,11 @@
   margin-block: 10px;
   border-radius: 10px;
 }
+
+.replies .txt-body:nth-child(2) {
+  width: 90%;
+}
+
+.replies .buttons-wrapper .likes-wrapper .txt-body {
+  width: auto;
+}

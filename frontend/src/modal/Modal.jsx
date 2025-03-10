@@ -1,33 +1,58 @@
 import "./modal.css";
 import Button from "../components/atoms/button/Button";
 import BeatLoader from "react-spinners/BeatLoader";
+import Typography from "../components/atoms/typgoraphy/typography";
+import { useState } from "react";
 
 export const Modal = ({
-  handleDeleteComment,
   handleKeepComment,
-  isDeleteModal,
-  isLoadingModal,
-  modalText,
+  handleDeleteComment,
+  loadingModal,
+  deleteModal,
 }) => {
-  if (isDeleteModal) {
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+
+  const classes = [];
+
+  if (loadingModal) classes.push("loading");
+  if (deleteModal) classes.push("delete");
+
+  const classNames = classes.map((c) => `modal-${c}`);
+
+  const handleLoadingAndDelete = async () => {
+    setIsLoadingDelete(true);
+    await handleDeleteComment();
+    setIsLoadingDelete(false);
+  };
+
+  if (deleteModal) {
     return (
-      <dialog className="delete-modal">
-        <div className="modal-content">
-          <p style={{ width: "90%" }}> {modalText}</p>
+      <dialog className="modal-element">
+        <div className={classNames}>
+          <Typography
+            variant="body"
+            text="Are you sure you want to delete your comment, once you do that,
+            there is no going back!"
+          />
           <div className="delet-modal-btns-wrapper">
             <Button
-              className="keep-comment-btn"
-              onClick={handleKeepComment}
-              text="Keep"
-              deleteModalBtn={true}
-            ></Button>
-            <Button
-              className="delete-comment-btn"
-              onClick={handleDeleteComment}
-              text={handleDeleteComment ? "" : "Delete"}
-              deleteModalBtn={true}
+              colored="blue"
+              onClick={() => {
+                handleKeepComment();
+              }}
             >
-              <BeatLoader color="white" size={8} />
+              Keep
+            </Button>
+            <Button
+              colored="red"
+              onClick={handleLoadingAndDelete}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              {isLoadingDelete ? (
+                <BeatLoader color="white" size={8} />
+              ) : (
+                "Delete"
+              )}
             </Button>
           </div>
         </div>
@@ -35,14 +60,16 @@ export const Modal = ({
     );
   }
 
-  if (isLoadingModal) {
+  if (loadingModal) {
     return (
-      <dialog className="delete-modal">
-        <div className="modal-content">
-          <p style={{ textAlign: "center" }}>{modalText}</p>
+      <dialog className="modal-element">
+        <div className={classNames}>
+          <Typography variant="body" text="Loading data, please wait..." />
           <BeatLoader />
         </div>
       </dialog>
     );
   }
+
+  return null;
 };

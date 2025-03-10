@@ -7,6 +7,7 @@
   border-radius: 10px;
   margin-bottom: 25px;
   margin-top: 15px;
+  max-width: 810px;
 }
 
 .add-comment-element {
@@ -26,4 +27,9 @@
   border-radius: 10px;
   border: 1px solid rgb(147, 147, 147);
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.add-comment-element .btn {
+  width: 20%;
+  max-width: 130px;
 }
