@@ -61,19 +61,18 @@ export const commentsReducer = (state, action) => {
 
     case "DELETE_COMMENT":
       return state
-        .map((comment) => {
-          if (comment.id === action.commentId) {
-            return null;
-          } else {
-            return {
-              ...comment,
-              replies: comment.replies.filter(
-                (reply) => reply.id !== action.commentId
-              ),
-            };
-          }
-        })
-        .filter(Boolean);
+        .filter((comment) => comment.id !== action.commentId) // Remove top-level comments
+        .map((comment) => ({
+          ...comment,
+          replies: comment.replies
+            .filter((reply) => reply.id !== action.commentId) // Remove direct replies
+            .map((reply) => ({
+              ...reply,
+              replies: reply.replies.filter(
+                (nestedReply) => nestedReply.id !== action.commentId
+              ), // Remove nested replies
+            })),
+        }));
 
     default:
       return state;

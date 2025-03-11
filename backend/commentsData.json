@@ -37,8 +37,8 @@
           "id": "r-2001",
           "content": "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
           "createdAt": "1 week ago",
-          "score": 13,
-          "isLiked": false,
+          "score": 14,
+          "isLiked": null,
           "replyingTo": "maxblagun",
           "user": {
             "image": {
@@ -51,8 +51,8 @@
               "id": "r-3004",
               "content": "That makes sense! But at what point do you think it's okay to start learning React?",
               "createdAt": "3 days ago",
-              "score": 4,
-              "isLiked": false,
+              "score": 5,
+              "isLiked": null,
               "replyingTo": "ramsesmiron",
               "user": {
                 "image": {
@@ -69,8 +69,8 @@
       "id": "c-1004",
       "content": "Great project! I think adding animations would make it even more engaging. Have you considered using Framer Motion?",
       "createdAt": "5 days ago",
-      "score": 9,
-      "isLiked": false,
+      "score": 10,
+      "isLiked": null,
       "user": {
         "image": {
           "png": "/avatars/image-davidlee.webp"
@@ -82,8 +82,8 @@
           "id": "r-2002",
           "content": "Yes! Framer Motion is great for adding smooth animations. I used it in a recent project, and it made a big difference.",
           "createdAt": "2 days ago",
-          "score": 12,
-          "isLiked": true,
+          "score": 11,
+          "isLiked": null,
           "replyingTo": "davidlee",
           "user": {
             "image": {
@@ -96,8 +96,8 @@
               "id": "r-3003",
               "content": "I second that! I added Framer Motion to a portfolio site, and it made the user experience way smoother.",
               "createdAt": "1 day ago",
-              "score": 6,
-              "isLiked": false,
+              "score": 7,
+              "isLiked": null,
               "replyingTo": "janedoe",
               "user": {
                 "image": {
@@ -105,52 +105,6 @@
                 },
                 "username": "ramsesmiron"
               }
-            },
-            {
-              "id": "09561c2d-bcc0-422f-bfa7-8946b76d7e8e",
-              "content": "kfjabsfkjasbf",
-              "createdAt": "Just now",
-              "score": 1,
-              "user": {
-                "image": {
-                  "png": "/avatars/image-juliusomo.webp"
-                },
-                "username": "juliusomo"
-              },
-              "replyingTo": "janedoe",
-              "isYou": true,
-              "replies": [],
-              "isLiked": true
-            },
-            {
-              "id": "e4ebfaaf-3691-4993-bae9-deca6017a8bd",
-              "content": "jnkjnkj",
-              "createdAt": "Just now",
-              "score": 0,
-              "user": {
-                "image": {
-                  "png": "/avatars/image-juliusomo.webp"
-                },
-                "username": "juliusomo"
-              },
-              "replyingTo": "janedoe",
-              "isYou": true,
-              "replies": []
-            },
-            {
-              "id": "8aeeba08-a64e-4087-a8fd-793acf3a5ac1",
-              "content": "flsdjflsdkj",
-              "createdAt": "Just now",
-              "score": 0,
-              "user": {
-                "image": {
-                  "png": "/avatars/image-juliusomo.webp"
-                },
-                "username": "juliusomo"
-              },
-              "replyingTo": "janedoe",
-              "isYou": true,
-              "replies": []
             }
           ]
         }

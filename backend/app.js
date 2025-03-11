@@ -15,7 +15,7 @@ const saveCommentsData = (data, res, successMessage) => {
       console.error("Error writing to file:", err);
       return res.status(500).json({ message: "Failed to save data" });
     }
-    res.status(201).json(successMessage);
+    if (res) return res.status(201).json(successMessage);
   });
 };
 
@@ -71,12 +71,12 @@ app.post("/comments/:id/replies", (req, res) => {
     user: commentsData.currentUser,
     replyingTo: req.body.replyingTo,
     isYou: true,
-    replies: [], // Ensure replies array exists
+    replies: [],
   };
 
   function addReplyToComment(comment) {
     if (comment.id === parentCommentId) {
-      if (!comment.replies) comment.replies = []; // Ensure replies array exists
+      if (!comment.replies) comment.replies = [];
       comment.replies.push(newReply);
       found = true;
       return;
@@ -84,7 +84,7 @@ app.post("/comments/:id/replies", (req, res) => {
 
     comment.replies?.forEach((reply) => {
       if (reply.id === parentCommentId) {
-        if (!reply.replies) reply.replies = []; // Ensure replies array exists
+        if (!reply.replies) reply.replies = [];
         reply.replies.push(newReply);
         found = true;
         return;
@@ -92,7 +92,7 @@ app.post("/comments/:id/replies", (req, res) => {
 
       reply.replies?.forEach((nestedReply) => {
         if (nestedReply.id === parentCommentId) {
-          if (!nestedReply.replies) nestedReply.replies = []; // Ensure replies array exists
+          if (!nestedReply.replies) nestedReply.replies = [];
           nestedReply.replies.push(newReply);
           found = true;
           return;
@@ -123,14 +123,14 @@ app.patch("/comments/:id/like", (req, res) => {
       found = true;
     }
 
-    comment.replies.forEach((reply) => {
+    comment.replies?.forEach((reply) => {
       if (reply.id === commentId) {
         reply.score = newScore.score;
         reply.isLiked = newScore.isLiked;
         found = true;
       }
 
-      reply.replies.forEach((nestedReply) => {
+      reply.replies?.forEach((nestedReply) => {
         if (nestedReply.id === commentId) {
           nestedReply.score = newScore.score;
           nestedReply.isLiked = newScore.isLiked;
@@ -198,15 +198,21 @@ app.delete("/comment/delete/:id", (req, res) => {
   } else {
     let foundReply = false;
 
-    commentsData.otherUsers.forEach((comment) => {
-      const replyIndex = comment.replies.findIndex(
-        (reply) => reply.id === commentId
-      );
+    const deleteNestedReply = (replies, commentId) => {
+      return replies.filter((reply) => {
+        if (reply.id === commentId) {
+          foundReply = true;
+          return false;
+        }
+        if (reply.replies) {
+          reply.replies = deleteNestedReply(reply.replies, commentId);
+        }
+        return true;
+      });
+    };
 
-      if (replyIndex !== -1) {
-        comment.replies.splice(replyIndex, 1);
-        foundReply = true;
-      }
+    commentsData.otherUsers.forEach((comment) => {
+      comment.replies = deleteNestedReply(comment.replies || [], commentId);
     });
 
     if (!foundReply) {
@@ -214,9 +220,8 @@ app.delete("/comment/delete/:id", (req, res) => {
     }
   }
 
-  saveCommentsData(commentsData, res, {
-    message: "Comment deleted successfully",
-  });
+  saveCommentsData(commentsData);
+
   return res.status(200).json({ message: "Comment deleted successfully" });
 });
 
