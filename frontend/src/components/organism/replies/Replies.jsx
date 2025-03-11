@@ -4,22 +4,32 @@ import AddCommentElement from "../addCommentElement/AddCommentElement";
 import "./replies.css";
 import React from "react";
 import Typography from "../../atoms/typgoraphy/typography";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const Replies = React.memo(
   ({
     user,
-    handleEdit,
     editComment,
-    editInitialText,
-    setEditInitialText,
-    isEditing,
     handleDeleteComment,
     currentUser,
     handleScoreChange,
     addReply,
   }) => {
     const [replyingToReply, setReplyingToReply] = useState(false);
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editInitialText, setEditInitialText] = useState("");
+    console.log(isEditing);
+
+    const handleEdit = useCallback(
+      (id, content) => {
+        setIsEditing(id);
+        setEditInitialText(content);
+        console.log(id);
+        console.log(content);
+      },
+      [setIsEditing, setEditInitialText]
+    );
 
     const startNestedReply = (reply) => {
       setReplyingToReply((prevReplying) =>
@@ -35,7 +45,14 @@ const Replies = React.memo(
               key={reply.id}
               value={editInitialText}
               onChange={(e) => setEditInitialText(e.target.value)}
-              onClick={() => editComment(reply)}
+              onClick={() =>
+                editComment(
+                  reply,
+                  editInitialText,
+                  setEditInitialText,
+                  setIsEditing
+                )
+              }
               isEditing={isEditing}
               currentUser={currentUser}
             />

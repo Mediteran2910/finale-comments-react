@@ -10,22 +10,39 @@
       "id": "c-1001",
       "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
       "createdAt": "1 month ago",
-      "score": 63,
-      "isLiked": null,
+      "score": 59,
+      "isLiked": false,
       "user": {
         "image": {
           "png": "/avatars/image-amyrobson.webp"
         },
         "username": "amyrobson"
       },
-      "replies": []
+      "replies": [
+        {
+          "id": "82112a5f-d841-4b4a-b4fa-470245dae775",
+          "content": "fasfasfasf dgsdgsdg",
+          "createdAt": "Just now",
+          "score": 1,
+          "isLiked": true,
+          "user": {
+            "image": {
+              "png": "/avatars/image-juliusomo.webp"
+            },
+            "username": "juliusomo"
+          },
+          "replyingTo": "amyrobson",
+          "isYou": true,
+          "replies": []
+        }
+      ]
     },
     {
       "id": "c-1002",
       "content": "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
       "createdAt": "2 weeks ago",
-      "score": 24,
-      "isLiked": null,
+      "score": 23,
+      "isLiked": false,
       "user": {
         "image": {
           "png": "/avatars/image-maxblagun.webp"
@@ -51,8 +68,8 @@
               "id": "r-3004",
               "content": "That makes sense! But at what point do you think it's okay to start learning React?",
               "createdAt": "3 days ago",
-              "score": 5,
-              "isLiked": null,
+              "score": 4,
+              "isLiked": false,
               "replyingTo": "ramsesmiron",
               "user": {
                 "image": {
@@ -105,10 +122,41 @@
                 },
                 "username": "ramsesmiron"
               }
+            },
+            {
+              "id": "716a672b-fc0f-4577-9036-ebff8b608cdc",
+              "createdAt": "Just now",
+              "score": 0,
+              "isLiked": null,
+              "user": {
+                "image": {
+                  "png": "/avatars/image-juliusomo.webp"
+                },
+                "username": "juliusomo"
+              },
+              "replyingTo": "janedoe",
+              "isYou": true,
+              "replies": [],
+              "content": "radiii jel i dalje radi"
             }
           ]
         }
       ]
+    },
+    {
+      "id": "a87c6947-ddd0-4cb3-96ad-f49c63f6428b",
+      "content": "gsdgdsgds fhdfh",
+      "createdAt": "Just now",
+      "score": 0,
+      "isLiked": null,
+      "user": {
+        "image": {
+          "png": "/avatars/image-juliusomo.webp"
+        },
+        "username": "juliusomo"
+      },
+      "isYou": true,
+      "replies": []
     }
   ]
 }

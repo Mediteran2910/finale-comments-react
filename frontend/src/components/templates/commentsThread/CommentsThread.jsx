@@ -19,9 +19,6 @@ import NestedReplies from "../../organism/nestedReplies/nestedReplies";
 const CommentsThread = React.memo(() => {
   const { dispatch, error, loading, state, currentUser } = useComments();
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editInitialText, setEditInitialText] = useState("");
-
   const addComment = useCallback(
     async (commentText, setCommentText) => {
       const url = staticUrls.addCommentUrl;
@@ -74,16 +71,8 @@ const CommentsThread = React.memo(() => {
     [dispatch, makeApiRequest]
   );
 
-  const handleEdit = useCallback((id, content) => {
-    setIsEditing(id);
-    setEditInitialText(content);
-    console.log(id);
-    console.log(content);
-  }, []);
-
   const editComment = useCallback(
-    async (user) => {
-      console.log(editInitialText);
+    async (user, editInitialText, setEditInitialText, setIsEditing) => {
       const updatedCommentObj = { content: editInitialText };
       const url = requestUrls(user).editUrl;
 
@@ -110,7 +99,7 @@ const CommentsThread = React.memo(() => {
         setIsEditing(null);
       }
     },
-    [dispatch, makeApiRequest, setEditInitialText]
+    [dispatch, makeApiRequest]
   );
 
   const handleScoreChange = useCallback(
@@ -176,29 +165,21 @@ const CommentsThread = React.memo(() => {
         <div className="comment-reply-wrapp" key={user.id}>
           <CommentCard
             user={user}
-            handleEdit={handleEdit}
-            editComment={editComment}
-            editInitialText={editInitialText}
-            setEditInitialText={setEditInitialText}
-            isEditing={isEditing}
             handleScoreChange={handleScoreChange}
             addReply={addReply}
             currentUser={currentUser}
             handleDeleteComment={handleDeleteComment}
+            editComment={editComment}
           />
 
           {user.replies?.length > 0 && (
             <Replies
               user={user}
-              handleEdit={handleEdit}
               addReply={addReply}
-              editInitialText={editInitialText}
-              setEditInitialText={setEditInitialText}
-              isEditing={isEditing}
-              editComment={editComment}
               handleScoreChange={handleScoreChange}
               currentUser={currentUser}
               handleDeleteComment={handleDeleteComment}
+              editComment={editComment}
             />
           )}
 
@@ -206,16 +187,11 @@ const CommentsThread = React.memo(() => {
             ?.filter((reply) => reply.replies?.length > 0)
             .map((replyNest) => (
               <NestedReplies
-                key={replyNest.id}
                 user={replyNest}
-                handleEdit={handleEdit}
-                editInitialText={editInitialText}
-                setEditInitialText={setEditInitialText}
-                isEditing={isEditing}
-                editComment={editComment}
                 handleScoreChange={handleScoreChange}
                 currentUser={currentUser}
                 handleDeleteComment={handleDeleteComment}
+                editComment={editComment}
               />
             ))}
         </div>

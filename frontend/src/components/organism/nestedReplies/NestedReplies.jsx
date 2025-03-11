@@ -2,19 +2,29 @@ import UserInfo from "../../moleculas/userInfo/UserInfo";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
 import Typography from "../../atoms/typgoraphy/typography";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
+import { useState, useCallback } from "react";
 import "./nestedReplies.css";
 export default function NestedReplies({
   user,
-  handleEdit,
-  editInitialText,
-  setEditInitkialText,
-  isEditing,
   editComment,
-  replyingTo,
   handleScoreChange,
   currentUser,
   handleDeleteComment,
 }) {
+  const [editInitialText, setEditInitialText] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEdit = useCallback(
+    (id, content) => {
+      setIsEditing(id);
+      setEditInitialText(content);
+      console.log(id);
+      console.log(content);
+    },
+    [setIsEditing, setEditInitialText]
+  );
+
+  console.log(isEditing);
   return (
     <>
       {user.replies?.map((reply) =>
@@ -23,7 +33,14 @@ export default function NestedReplies({
             key={reply.id}
             value={editInitialText}
             onChange={(e) => setEditInitialText(e.target.value)}
-            onClick={() => editComment(reply)}
+            onClick={() =>
+              editComment(
+                reply,
+                editInitialText,
+                setEditInitialText,
+                setIsEditing
+              )
+            }
             isEditing={isEditing}
             currentUser={currentUser}
           />

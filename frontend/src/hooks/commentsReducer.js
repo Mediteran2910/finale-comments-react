@@ -45,32 +45,47 @@ export const commentsReducer = (state, action) => {
       }));
 
     case "EDIT_COMMENT_OR_REPLY":
+      const updateReplies = (replies, commentId, updatedContent) => {
+        return replies.map((reply) => {
+          if (reply.id === commentId) {
+            return { ...reply, content: updatedContent };
+          }
+          if (reply.replies?.length) {
+            return {
+              ...reply,
+              replies: updateReplies(reply.replies, commentId, updatedContent),
+            };
+          }
+          return reply;
+        });
+      };
+
       return state.map((comment) => {
         if (comment.id === action.commentId) {
           return { ...comment, content: action.updatedContent };
         }
         return {
           ...comment,
-          replies: comment.replies.map((reply) =>
-            reply.id === action.commentId
-              ? { ...reply, content: action.updatedContent }
-              : reply
+          replies: updateReplies(
+            comment.replies,
+            action.commentId,
+            action.updatedContent
           ),
         };
       });
 
     case "DELETE_COMMENT":
       return state
-        .filter((comment) => comment.id !== action.commentId) // Remove top-level comments
+        .filter((comment) => comment.id !== action.commentId)
         .map((comment) => ({
           ...comment,
           replies: comment.replies
-            .filter((reply) => reply.id !== action.commentId) // Remove direct replies
+            .filter((reply) => reply.id !== action.commentId)
             .map((reply) => ({
               ...reply,
               replies: reply.replies.filter(
                 (nestedReply) => nestedReply.id !== action.commentId
-              ), // Remove nested replies
+              ),
             })),
         }));
 

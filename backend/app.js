@@ -157,6 +157,20 @@ app.patch("/comment/edit/:id", (req, res) => {
   let updated = false;
   let updatedContent = null;
 
+  const updateReplies = (replies) => {
+    return replies.map((reply) => {
+      if (reply.id === commentId) {
+        updated = true;
+        updatedContent = content;
+        return { ...reply, content };
+      }
+      if (reply.replies) {
+        reply.replies = updateReplies(reply.replies);
+      }
+      return reply;
+    });
+  };
+
   commentsData.otherUsers = commentsData.otherUsers.map((comment) => {
     if (comment.id === commentId) {
       updated = true;
@@ -165,14 +179,7 @@ app.patch("/comment/edit/:id", (req, res) => {
     }
 
     if (comment.replies) {
-      comment.replies = comment.replies.map((reply) => {
-        if (reply.id === commentId) {
-          updated = true;
-          updatedContent = content;
-          return { ...reply, content };
-        }
-        return reply;
-      });
+      comment.replies = updateReplies(comment.replies);
     }
 
     return comment;
