@@ -96,8 +96,8 @@
               "id": "r-3003",
               "content": "I second that! I added Framer Motion to a portfolio site, and it made the user experience way smoother.",
               "createdAt": "1 day ago",
-              "score": 8,
-              "isLiked": true,
+              "score": 6,
+              "isLiked": false,
               "replyingTo": "janedoe",
               "user": {
                 "image": {
@@ -105,25 +105,56 @@
                 },
                 "username": "ramsesmiron"
               }
+            },
+            {
+              "id": "09561c2d-bcc0-422f-bfa7-8946b76d7e8e",
+              "content": "kfjabsfkjasbf",
+              "createdAt": "Just now",
+              "score": 1,
+              "user": {
+                "image": {
+                  "png": "/avatars/image-juliusomo.webp"
+                },
+                "username": "juliusomo"
+              },
+              "replyingTo": "janedoe",
+              "isYou": true,
+              "replies": [],
+              "isLiked": true
+            },
+            {
+              "id": "e4ebfaaf-3691-4993-bae9-deca6017a8bd",
+              "content": "jnkjnkj",
+              "createdAt": "Just now",
+              "score": 0,
+              "user": {
+                "image": {
+                  "png": "/avatars/image-juliusomo.webp"
+                },
+                "username": "juliusomo"
+              },
+              "replyingTo": "janedoe",
+              "isYou": true,
+              "replies": []
+            },
+            {
+              "id": "8aeeba08-a64e-4087-a8fd-793acf3a5ac1",
+              "content": "flsdjflsdkj",
+              "createdAt": "Just now",
+              "score": 0,
+              "user": {
+                "image": {
+                  "png": "/avatars/image-juliusomo.webp"
+                },
+                "username": "juliusomo"
+              },
+              "replyingTo": "janedoe",
+              "isYou": true,
+              "replies": []
             }
           ]
         }
       ]
-    },
-    {
-      "id": "da4914c7-9aef-4323-aa11-dd6d3e706960",
-      "content": "cascasvasv",
-      "createdAt": "Just now",
-      "score": 1,
-      "isLiked": true,
-      "isYou": true,
-      "user": {
-        "image": {
-          "png": "/avatars/image-juliusomo.webp"
-        },
-        "username": "juliusomo"
-      },
-      "replies": []
     }
   ]
 }

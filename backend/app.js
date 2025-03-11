@@ -59,34 +59,53 @@ app.post("/comments", (req, res) => {
 });
 
 app.post("/comments/:id/replies", (req, res) => {
-  const { content, replyingTo } = req.body;
-  const commentId = req.params.id;
-
   const commentsData = getCommentsData();
-
-  const parentComment = commentsData.otherUsers.find(
-    (comment) => comment.id === commentId
-  );
-
-  if (!parentComment) {
-    return res.status(404).json({ message: "Comment not found" });
-  }
-
-  if (!parentComment.replies) {
-    parentComment.replies = [];
-  }
+  const parentCommentId = req.params.id;
+  let found = false;
 
   const newReply = {
     id: uuidv4(),
     content: req.body.content,
     createdAt: "Just now",
     score: 0,
-    replyingTo,
     user: commentsData.currentUser,
+    replyingTo: req.body.replyingTo,
     isYou: true,
+    replies: [], // Ensure replies array exists
   };
 
-  parentComment.replies.push(newReply);
+  function addReplyToComment(comment) {
+    if (comment.id === parentCommentId) {
+      if (!comment.replies) comment.replies = []; // Ensure replies array exists
+      comment.replies.push(newReply);
+      found = true;
+      return;
+    }
+
+    comment.replies?.forEach((reply) => {
+      if (reply.id === parentCommentId) {
+        if (!reply.replies) reply.replies = []; // Ensure replies array exists
+        reply.replies.push(newReply);
+        found = true;
+        return;
+      }
+
+      reply.replies?.forEach((nestedReply) => {
+        if (nestedReply.id === parentCommentId) {
+          if (!nestedReply.replies) nestedReply.replies = []; // Ensure replies array exists
+          nestedReply.replies.push(newReply);
+          found = true;
+          return;
+        }
+      });
+    });
+  }
+
+  commentsData.otherUsers.forEach(addReplyToComment);
+
+  if (!found) {
+    return res.status(404).json({ message: "Comment not found" });
+  }
 
   saveCommentsData(commentsData, res, newReply);
 });

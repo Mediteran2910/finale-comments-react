@@ -4,6 +4,7 @@ import AddCommentElement from "../addCommentElement/AddCommentElement";
 import "./replies.css";
 import React from "react";
 import Typography from "../../atoms/typgoraphy/typography";
+import { useState } from "react";
 
 const Replies = React.memo(
   ({
@@ -16,7 +17,16 @@ const Replies = React.memo(
     handleDeleteComment,
     currentUser,
     handleScoreChange,
+    addReply,
   }) => {
+    const [replyingToReply, setReplyingToReply] = useState(false);
+
+    const startNestedReply = (reply) => {
+      setReplyingToReply((prevReplying) =>
+        prevReplying !== reply.id ? reply.id : false
+      );
+    };
+
     return (
       <>
         {user.replies?.map((reply) =>
@@ -44,10 +54,23 @@ const Replies = React.memo(
                   handleEdit={() => handleEdit(reply.id, reply.content)}
                   handleDeleteComment={handleDeleteComment}
                   handleScoreChange={handleScoreChange}
+                  startReplying={() => startNestedReply(reply)}
                 />
               </div>
             </div>
           )
+        )}
+        {user.replies.map((reply) =>
+          reply.id === replyingToReply ? (
+            <AddCommentElement
+              key={reply.id}
+              onClick={(commentText) =>
+                addReply(reply, commentText, () => setReplyingToReply(false))
+              }
+              isEditing={isEditing}
+              currentUser={currentUser}
+            />
+          ) : null
         )}
       </>
     );

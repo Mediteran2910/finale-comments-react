@@ -19,7 +19,6 @@ import NestedReplies from "../../organism/nestedReplies/nestedReplies";
 const CommentsThread = React.memo(() => {
   const { dispatch, error, loading, state, currentUser } = useComments();
 
-  const [replyingTo, setReplyingTo] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editInitialText, setEditInitialText] = useState("");
 
@@ -49,17 +48,14 @@ const CommentsThread = React.memo(() => {
     [dispatch, makeApiRequest]
   );
 
-  const startReplying = (user) => {
-    setReplyingTo((prevReplying) =>
-      prevReplying !== user.id ? user.id : null
-    );
-  };
-
   const addReply = useCallback(
-    async (user, commentText) => {
+    async (user, commentText, fn) => {
       if (commentText !== "") {
         const url = requestUrls(user).addReplyUrl;
-        const newReply = { content: commentText };
+        const newReply = {
+          content: commentText,
+          replyingTo: user.user.username,
+        };
 
         const response = await makeApiRequest(
           url,
@@ -71,11 +67,11 @@ const CommentsThread = React.memo(() => {
           console.log("Response is ok, trying to update front");
           dispatch({ type: "ADD_REPLY", parentId: user.id, payload: response });
 
-          setReplyingTo(null);
+          fn();
         }
       }
     },
-    [dispatch, makeApiRequest, setReplyingTo]
+    [dispatch, makeApiRequest]
   );
 
   const handleEdit = useCallback((id, content) => {
@@ -185,23 +181,21 @@ const CommentsThread = React.memo(() => {
             editInitialText={editInitialText}
             setEditInitialText={setEditInitialText}
             isEditing={isEditing}
-            replyingTo={replyingTo}
             handleScoreChange={handleScoreChange}
             addReply={addReply}
             currentUser={currentUser}
             handleDeleteComment={handleDeleteComment}
-            startReplying={startReplying}
           />
 
           {user.replies?.length > 0 && (
             <Replies
               user={user}
               handleEdit={handleEdit}
+              addReply={addReply}
               editInitialText={editInitialText}
               setEditInitialText={setEditInitialText}
               isEditing={isEditing}
               editComment={editComment}
-              replyingTo={replyingTo}
               handleScoreChange={handleScoreChange}
               currentUser={currentUser}
               handleDeleteComment={handleDeleteComment}
@@ -219,7 +213,6 @@ const CommentsThread = React.memo(() => {
                 setEditInitialText={setEditInitialText}
                 isEditing={isEditing}
                 editComment={editComment}
-                replyingTo={replyingTo}
                 handleScoreChange={handleScoreChange}
                 currentUser={currentUser}
                 handleDeleteComment={handleDeleteComment}
@@ -228,12 +221,7 @@ const CommentsThread = React.memo(() => {
         </div>
       ))}
 
-      <AddCommentElement
-        onClick={addComment}
-        currentUser={currentUser}
-        replyingTo={replyingTo}
-        setReplyingTo={setReplyingTo}
-      />
+      <AddCommentElement onClick={addComment} currentUser={currentUser} />
     </>
   );
 });

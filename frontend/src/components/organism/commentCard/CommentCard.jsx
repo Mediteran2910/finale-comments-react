@@ -4,6 +4,7 @@ import CommentText from "../../moleculas/commentText/CommentText";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
 import "./commentCard.css";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
+import { useState } from "react";
 
 const CommentCard = React.memo(
   ({
@@ -12,14 +13,21 @@ const CommentCard = React.memo(
     editInitialText,
     setEditInitialText,
     editComment,
-    replyingTo,
     isEditing,
     addReply,
     handleScoreChange,
     currentUser,
     handleDeleteComment,
-    startReplying,
   }) => {
+    const [replyingToComment, setReplyingToComment] = useState(false);
+    console.log(replyingToComment);
+
+    const startCommentReply = (user) => {
+      setReplyingToComment((prevReplying) =>
+        prevReplying !== user.id ? user.id : null
+      );
+    };
+
     return (
       <>
         {isEditing === user.id ? (
@@ -41,14 +49,16 @@ const CommentCard = React.memo(
               editInitialText={editInitialText}
               handleScoreChange={handleScoreChange}
               handleDeleteComment={handleDeleteComment}
-              startReplying={() => startReplying(user)}
+              startReplying={() => startCommentReply(user)}
             />
           </div>
         )}
 
-        {replyingTo === user.id && (
+        {replyingToComment === user.id && (
           <AddCommentElement
-            onClick={(commentText) => addReply(user, commentText)}
+            onClick={(commentText) =>
+              addReply(user, commentText, () => setReplyingToComment(false))
+            }
             isEditing={isEditing}
             currentUser={currentUser}
           />

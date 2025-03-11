@@ -1,7 +1,7 @@
 import UserInfo from "../../moleculas/userInfo/UserInfo";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
 import Typography from "../../atoms/typgoraphy/typography";
-import LikesMolecula from "../../moleculas/likesMolecula/LikesMolecula";
+import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
 import "./nestedReplies.css";
 export default function NestedReplies({
   user,
@@ -38,9 +38,13 @@ export default function NestedReplies({
                   variant="body"
                   spanColor="purple"
                 />
-                <LikesMolecula
+                <ButtonsWrapper
                   user={reply}
+                  handleEdit={() => handleEdit(reply.id, reply.content)}
+                  handleDeleteComment={handleDeleteComment}
                   handleScoreChange={handleScoreChange}
+                  startReplying={() => startNestedReply(reply)}
+                  nestedReply={true}
                 />
               </div>
             </div>

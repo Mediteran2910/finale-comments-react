@@ -10,7 +10,14 @@ export const commentsReducer = (state, action) => {
       return state.map((comment) =>
         comment.id === action.parentId
           ? { ...comment, replies: [...comment.replies, action.payload] }
-          : comment
+          : {
+              ...comment,
+              replies: comment.replies.map((reply) =>
+                reply.id === action.parentId
+                  ? { ...reply, replies: [...reply.replies, action.payload] }
+                  : reply
+              ),
+            }
       );
 
     case "UPDATE_SCORE":

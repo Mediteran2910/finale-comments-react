@@ -24,7 +24,7 @@
 }
 
 .btn-outline {
-  background-color: transparent;
+  background-color: var(--elements-background-color);
   color: var(--primary-blue);
   border-radius: 10px;
   width: 35%;
