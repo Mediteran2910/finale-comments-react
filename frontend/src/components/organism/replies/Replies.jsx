@@ -85,6 +85,7 @@ const Replies = React.memo(
                 addReply(reply, commentText, () => setReplyingToReply(false))
               }
               isEditing={isEditing}
+              replyingToReply={replyingToReply}
               currentUser={currentUser}
             />
           ) : null

@@ -77,6 +77,7 @@ const CommentCard = React.memo(
             }
             isEditing={isEditing}
             currentUser={currentUser}
+            replyingToComment={replyingToComment}
           />
         )}
       </>

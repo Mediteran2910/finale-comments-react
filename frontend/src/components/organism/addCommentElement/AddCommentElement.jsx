@@ -14,6 +14,8 @@ export default function AddCommentElement({
   currentUser,
   value,
   onChange,
+  replyingToComment,
+  replyingToReply,
 }) {
   const [commentText, setCommentText] = useState("");
   const [isLoadingNewComm, setIsLoadingNewComm] = useState(false);
@@ -31,7 +33,11 @@ export default function AddCommentElement({
         <Avatar imgSrc={currentUser.image.png} className="avatar" />
         <TextArea
           value={isEditing ? value : commentText} //moran imat value radi editinga, da mi pokaze stari tekst komentara, alternativa je mozda useEffect
-          placeholder={replyingTo ? "Add an reply..." : "Add a comment..."}
+          placeholder={
+            replyingToComment || replyingToReply
+              ? "Add an reply..."
+              : "Add a comment..."
+          }
           onChange={
             isEditing ? onChange : (e) => setCommentText(e.target.value)
           }
@@ -48,7 +54,7 @@ export default function AddCommentElement({
             <BeatLoader loading={true} size={8} color="white" />
           ) : isEditing ? (
             "EDIT"
-          ) : replyingTo ? (
+          ) : replyingToComment || replyingToReply ? (
             "REPLY"
           ) : (
             "SEND"

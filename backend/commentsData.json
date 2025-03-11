@@ -20,11 +20,11 @@
       },
       "replies": [
         {
-          "id": "82112a5f-d841-4b4a-b4fa-470245dae775",
-          "content": "fasfasfasf dgsdgsdg",
+          "id": "823acbb5-fceb-45ba-9497-538e8fb652f7",
+          "content": "sfasfasfa",
           "createdAt": "Just now",
-          "score": 1,
-          "isLiked": true,
+          "score": 0,
+          "isLiked": null,
           "user": {
             "image": {
               "png": "/avatars/image-juliusomo.webp"
@@ -77,6 +77,22 @@
                 },
                 "username": "janedoe"
               }
+            },
+            {
+              "id": "5e817a4c-ca54-40d9-95ae-996e6593619d",
+              "content": "dgsgsdgsdg",
+              "createdAt": "Just now",
+              "score": 0,
+              "isLiked": null,
+              "user": {
+                "image": {
+                  "png": "/avatars/image-juliusomo.webp"
+                },
+                "username": "juliusomo"
+              },
+              "replyingTo": "ramsesmiron",
+              "isYou": true,
+              "replies": []
             }
           ]
         }
