@@ -1,4 +1,4 @@
-import Avatar from "../../atoms/avatar/Avatar";
+import Image from "../../atoms/image/Image";
 import TextArea from "../../atoms/textarea/TextArea";
 
 import "./addCommentElement.css";
@@ -30,7 +30,7 @@ export default function AddCommentElement({
   return (
     <div className="add-comment-wrapper">
       <div className="add-comment-element">
-        <Avatar imgSrc={currentUser.image.png} avatar={true} />
+        <Image imgSrc={currentUser.image.png} avatar={true} />
         <TextArea
           value={isEditing ? value : commentText} //moran imat value radi editinga, da mi pokaze stari tekst komentara, alternativa je mozda useEffect
           placeholder={

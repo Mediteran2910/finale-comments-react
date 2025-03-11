@@ -1,4 +1,4 @@
-import Avatar from "../../atoms/avatar/Avatar";
+import Image from "../../atoms/image/Image";
 import "./userInfo.css";
 import AuthorDetails from "../../atoms/authorDetails/AuthorDetails";
 
@@ -6,7 +6,7 @@ export default function UserInfo({ user }) {
   return (
     <div className="user-info-wrapp">
       <div key={Math.random()} className="user-info">
-        <Avatar
+        <Image
           imgSrc={user.user?.image.png}
           imgAlt={`${user.user?.username} profile image`}
           avatar={true}

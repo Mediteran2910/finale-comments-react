@@ -1,6 +1,6 @@
-import "./avatar.css";
+import "./image.css";
 
-export default function Avatar({ imgSrc, imgAlt, avatar }) {
+export default function Image({ imgSrc, imgAlt, avatar }) {
   const classes = [];
 
   if (avatar) classes.push("avatar");
