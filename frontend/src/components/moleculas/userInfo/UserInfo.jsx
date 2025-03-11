@@ -9,7 +9,7 @@ export default function UserInfo({ user }) {
         <Avatar
           imgSrc={user.user?.image.png}
           imgAlt={`${user.user?.username} profile image`}
-          className="avatar"
+          avatar={true}
         />
 
         <AuthorDetails
