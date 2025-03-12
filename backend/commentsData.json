@@ -10,8 +10,8 @@
       "id": "c-1001",
       "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
       "createdAt": "1 month ago",
-      "score": 59,
-      "isLiked": false,
+      "score": 60,
+      "isLiked": null,
       "user": {
         "image": {
           "png": "/avatars/image-amyrobson.webp"
@@ -20,8 +20,8 @@
       },
       "replies": [
         {
-          "id": "823acbb5-fceb-45ba-9497-538e8fb652f7",
-          "content": "sfasfasfa",
+          "id": "2d6672ea-6932-4a51-8770-6456a544d8b3",
+          "content": "jghjghj",
           "createdAt": "Just now",
           "score": 0,
           "isLiked": null,
@@ -41,8 +41,8 @@
       "id": "c-1002",
       "content": "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
       "createdAt": "2 weeks ago",
-      "score": 23,
-      "isLiked": false,
+      "score": 24,
+      "isLiked": null,
       "user": {
         "image": {
           "png": "/avatars/image-maxblagun.webp"
@@ -63,38 +63,23 @@
             },
             "username": "ramsesmiron"
           },
-          "replies": [
-            {
-              "id": "r-3004",
-              "content": "That makes sense! But at what point do you think it's okay to start learning React?",
-              "createdAt": "3 days ago",
-              "score": 4,
-              "isLiked": false,
-              "replyingTo": "ramsesmiron",
-              "user": {
-                "image": {
-                  "png": "/avatars/image-janedoe.webp"
-                },
-                "username": "janedoe"
-              }
+          "replies": []
+        },
+        {
+          "id": "6533bb1e-7364-421b-9f4f-0c3ad5b74820",
+          "content": "hdfhdfh",
+          "createdAt": "Just now",
+          "score": 0,
+          "isLiked": null,
+          "user": {
+            "image": {
+              "png": "/avatars/image-juliusomo.webp"
             },
-            {
-              "id": "5e817a4c-ca54-40d9-95ae-996e6593619d",
-              "content": "dgsgsdgsdg",
-              "createdAt": "Just now",
-              "score": 0,
-              "isLiked": null,
-              "user": {
-                "image": {
-                  "png": "/avatars/image-juliusomo.webp"
-                },
-                "username": "juliusomo"
-              },
-              "replyingTo": "ramsesmiron",
-              "isYou": true,
-              "replies": []
-            }
-          ]
+            "username": "juliusomo"
+          },
+          "replyingTo": "maxblagun",
+          "isYou": true,
+          "replies": []
         }
       ]
     },
@@ -137,31 +122,32 @@
                   "png": "/avatars/image-ramsesmiron.webp"
                 },
                 "username": "ramsesmiron"
-              }
-            },
-            {
-              "id": "716a672b-fc0f-4577-9036-ebff8b608cdc",
-              "createdAt": "Just now",
-              "score": 0,
-              "isLiked": null,
-              "user": {
-                "image": {
-                  "png": "/avatars/image-juliusomo.webp"
-                },
-                "username": "juliusomo"
               },
-              "replyingTo": "janedoe",
-              "isYou": true,
-              "replies": [],
-              "content": "radiii jel i dalje radi"
+              "replies": []
             }
           ]
+        },
+        {
+          "id": "4e9cb13c-3b13-4c1c-85b1-c6524bb12323",
+          "content": "hdhdfh",
+          "createdAt": "Just now",
+          "score": 0,
+          "isLiked": null,
+          "user": {
+            "image": {
+              "png": "/avatars/image-juliusomo.webp"
+            },
+            "username": "juliusomo"
+          },
+          "replyingTo": "davidlee",
+          "isYou": true,
+          "replies": []
         }
       ]
     },
     {
-      "id": "a87c6947-ddd0-4cb3-96ad-f49c63f6428b",
-      "content": "gsdgdsgds fhdfh",
+      "id": "0317a09b-eb79-45cc-945f-5cccaff7e6f3",
+      "content": "dfhfh",
       "createdAt": "Just now",
       "score": 0,
       "isLiked": null,

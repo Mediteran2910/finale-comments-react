@@ -46,7 +46,7 @@ const CommentsThread = React.memo(() => {
   );
 
   const addReply = useCallback(
-    async (user, commentText, fn) => {
+    async (user, commentText) => {
       if (commentText !== "") {
         const url = requestUrls(user).addReplyUrl;
         const newReply = {
@@ -63,44 +63,37 @@ const CommentsThread = React.memo(() => {
         if (response) {
           console.log("Response is ok, trying to update front");
           dispatch({ type: "ADD_REPLY", parentId: user.id, payload: response });
-
-          fn();
         }
       }
     },
     [dispatch, makeApiRequest]
   );
 
-  const editComment = useCallback(
-    async (user, editInitialText, setEditInitialText, setIsEditing) => {
-      const updatedCommentObj = { content: editInitialText };
-      const url = requestUrls(user).editUrl;
-
-      if (editInitialText !== user.content) {
-        try {
-          const response = await makeApiRequest(
-            url,
-            requestObjects.patchRequest,
-            updatedCommentObj
-          );
-          if (response) {
-            dispatch({
-              type: "EDIT_COMMENT_OR_REPLY",
-              commentId: user.id,
-              updatedContent: editInitialText,
-            });
-          } else {
-            console.error("Failed to update comment or reply on backend");
-          }
-        } catch (error) {
-          console.error("Edit failed:", error);
+  const editComment = async (user, commentText) => {
+    const updatedCommentObj = { content: commentText };
+    const url = requestUrls(user).editUrl;
+    console.log("edit-main-FUNC", user);
+    if (commentText !== user.content) {
+      try {
+        const response = await makeApiRequest(
+          url,
+          requestObjects.patchRequest,
+          updatedCommentObj
+        );
+        if (response) {
+          dispatch({
+            type: "EDIT_COMMENT_OR_REPLY",
+            commentId: user.id,
+            updatedContent: commentText,
+          });
+        } else {
+          console.error("Failed to update comment or reply on backend");
         }
-        setEditInitialText("");
-        setIsEditing(null);
+      } catch (error) {
+        console.error("Edit failed:", error);
       }
-    },
-    [dispatch, makeApiRequest]
-  );
+    }
+  };
 
   const handleScoreChange = useCallback(
     async (user, increment) => {
@@ -170,30 +163,33 @@ const CommentsThread = React.memo(() => {
             currentUser={currentUser}
             handleDeleteComment={handleDeleteComment}
             editComment={editComment}
+            NestedReply={false}
           />
 
-          {user.replies?.length > 0 && (
-            <Replies
-              user={user}
-              addReply={addReply}
-              handleScoreChange={handleScoreChange}
-              currentUser={currentUser}
-              handleDeleteComment={handleDeleteComment}
-              editComment={editComment}
-            />
-          )}
-
-          {user.replies
-            ?.filter((reply) => reply.replies?.length > 0)
-            .map((replyNest) => (
-              <NestedReplies
-                user={replyNest}
+          {/* {user.replies?.length > 0 && (
+            <>
+              <CommentCard
+                user={user}
+                addReply={addReply}
                 handleScoreChange={handleScoreChange}
                 currentUser={currentUser}
                 handleDeleteComment={handleDeleteComment}
                 editComment={editComment}
               />
-            ))}
+              {user.replies
+                ?.filter((reply) => reply.replies?.length > 0)
+                .map((replyNest) => (
+                  <NestedReplies
+                    key={replyNest.id}
+                    user={replyNest}
+                    handleScoreChange={handleScoreChange}
+                    currentUser={currentUser}
+                    handleDeleteComment={handleDeleteComment}
+                    editComment={editComment}
+                  />
+                ))}
+            </>
+          )} */}
         </div>
       ))}
 
@@ -207,3 +203,7 @@ export default CommentsThread;
 ///LOKALNO STATE TI MOZE, U SLUCAJU DA NIJE GENERALNI STATE(DATA)
 ///PAZI NA ISLOADING AKO NIJE INICJALNI RENDER, SCOUPAJ IS LOADING NA LOKALNOJ RAZINI, TJ DI SE POZIVA FUNKCIJA(AKO IMA SMISLA)
 ///CUSTOM HOOK PRIHVACA SVE I SVASTA, ZATO SE I ZOVE CUSTOM
+
+//RECURSION
+
+//badge elements

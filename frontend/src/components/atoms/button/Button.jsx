@@ -32,13 +32,13 @@ export default function Button({
   if (prefixIcon) classes.push("prefixIcon");
   if (icon) classes.push("icon");
 
-  let className = classes.map((c) => `btn btn-${c}`).join(" ");
+  let className = classes.map((c) => `btn-${c}`).join(" ");
 
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={className}
+      className={`btn ${className}`}
       style={style}
     >
       {prefixIcon && (

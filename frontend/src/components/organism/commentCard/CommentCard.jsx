@@ -14,43 +14,53 @@ const CommentCard = React.memo(
     handleScoreChange,
     currentUser,
     handleDeleteComment,
+    nestedReply,
   }) => {
-    const [replyingToComment, setReplyingToComment] = useState(false);
+    const [replyingTo, setReplyingTo] = useState(false);
+    console.log("replying to:", replyingTo, "userID:", user.id);
 
     const [isEditing, setIsEditing] = useState(false);
-    const [editInitialText, setEditInitialText] = useState("");
 
-    const handleEdit = useCallback(
-      (id, content) => {
-        setIsEditing(id);
-        setEditInitialText(content);
-        console.log(id);
-        console.log(content);
+    const handleSubmitEdit = async (user, commentText) => {
+      console.log(user);
+      try {
+        await editComment(user, commentText);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsEditing(false);
+    };
+
+    const handleSubmitReply = useCallback(
+      async (user, commentText) => {
+        try {
+          await addReply(user, commentText);
+        } catch (error) {
+          console.log(error);
+        }
+        setReplyingTo(false);
       },
-      [setIsEditing, setEditInitialText]
+      [user, setReplyingTo]
     );
-    console.log(isEditing);
 
-    const startCommentReply = (user) => {
-      setReplyingToComment((prevReplying) =>
-        prevReplying !== user.id ? user.id : null
+    const handleEdit = useCallback(() => {
+      setIsEditing(true);
+    }, [setIsEditing]);
+
+    const showReplyBox = (user) => {
+      setReplyingTo((prevReplying) =>
+        prevReplying !== user.id ? user.id : false
       );
     };
 
+    const repliesChecker = user.replies && user.replies.length > 0;
+
     return (
       <>
-        {isEditing === user.id ? (
+        {isEditing ? (
           <AddCommentElement
-            value={editInitialText}
-            onChange={(e) => setEditInitialText(e.target.value)}
-            onClick={() =>
-              editComment(
-                user,
-                editInitialText,
-                setEditInitialText,
-                setIsEditing
-              )
-            }
+            value={user.content}
+            onClick={(commentText) => handleSubmitEdit(user, commentText)}
             isEditing={isEditing}
             currentUser={currentUser}
           />
@@ -60,24 +70,40 @@ const CommentCard = React.memo(
             <CommentText user={user} />
             <ButtonsWrapper
               user={user}
-              handleEdit={() => handleEdit(user.id, user.content)}
+              handleEdit={handleEdit}
               isEditing={isEditing}
-              editInitialText={editInitialText}
               handleScoreChange={handleScoreChange}
               handleDeleteComment={handleDeleteComment}
-              startReplying={() => startCommentReply(user)}
+              startReplying={() => showReplyBox(user)}
+              nestedReply={nestedReply}
             />
+
+            {repliesChecker && (
+              <div
+                className="comment-card"
+                style={{ borderLeft: "1px solid black" }}
+              >
+                {user.replies.map((reply) => (
+                  <CommentCard
+                    key={reply.id}
+                    user={reply}
+                    handleScoreChange={handleScoreChange}
+                    addReply={addReply}
+                    currentUser={currentUser}
+                    handleDeleteComment={handleDeleteComment}
+                    editComment={editComment}
+                    nestedReply={reply.replies.replies ? true : false}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         )}
-
-        {replyingToComment === user.id && (
+        {replyingTo === user.id && (
           <AddCommentElement
-            onClick={(commentText) =>
-              addReply(user, commentText, () => setReplyingToComment(false))
-            }
-            isEditing={isEditing}
+            onClick={(commentText) => handleSubmitReply(user, commentText)}
             currentUser={currentUser}
-            replyingToComment={replyingToComment}
+            replyingTo={replyingTo}
           />
         )}
       </>
