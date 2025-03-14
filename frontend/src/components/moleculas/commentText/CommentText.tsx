@@ -3,7 +3,7 @@ import Typography from "../../atoms/typgoraphy/typography";
 import "./commentText.css";
 
 type Props = {
-  user: { replyingTo: string; content: string };
+  user: { replyingTo?: string; content: string };
 };
 
 export default function CommentText({ user }: Props) {

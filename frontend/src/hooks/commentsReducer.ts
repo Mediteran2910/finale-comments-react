@@ -1,31 +1,4 @@
-type User = {
-  image: {
-    png: string;
-  };
-  username: string;
-};
-
-type Comment = {
-  id: string;
-  content: string;
-  createdAt: string;
-  score: number;
-  isLiked: boolean | null;
-  user: User;
-  replies: Reply[];
-};
-
-type Reply = {
-  id: string;
-  content: string;
-  createdAt: string;
-  score: number;
-  isLiked: boolean;
-  user: User;
-  replyingTo: string;
-  isYou: boolean;
-  replies: Reply[];
-};
+import { Comment, Reply } from "../types";
 
 const updateReplies = (
   replies: Array<Reply>,

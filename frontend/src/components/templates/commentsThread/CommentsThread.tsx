@@ -37,12 +37,9 @@ const CommentsThread = React.memo(function CommentsThread() {
   );
 
   const addReply = useCallback(
-    async (user: { id: string; username: string }, commentText: string) => {
-      const url = requestUrls(user).addReplyUrl;
-      const newReply = {
-        content: commentText,
-        replyingTo: user.username,
-      };
+    async (parentId: string, commentText: string, username: string) => {
+      const url = requestUrls({ id: parentId }).addReplyUrl;
+      const newReply = { content: commentText, replyingTo: username };
 
       const response = await makeApiRequest(
         url,
@@ -51,7 +48,7 @@ const CommentsThread = React.memo(function CommentsThread() {
       );
 
       if (response) {
-        dispatch({ type: "ADD_REPLY", parentId: user.id, payload: response });
+        dispatch({ type: "ADD_REPLY", parentId, payload: response });
       }
     },
     [dispatch, makeApiRequest],
@@ -129,8 +126,8 @@ const CommentsThread = React.memo(function CommentsThread() {
   );
 
   const handleDeleteComment = useCallback(
-    async (user: { id: string }, id: string) => {
-      const url = requestUrls(user).deleteUrl;
+    async (id: string) => {
+      const url = requestUrls({ id }).deleteUrl;
 
       const response = await makeApiRequest(url, requestObjects.deleteRequest);
       if (response) {
@@ -148,25 +145,25 @@ const CommentsThread = React.memo(function CommentsThread() {
 
   return (
     <>
-      {state.map((user) => (
-        <div className="comment-reply-wrapp" key={user.id}>
+      {state.map((comment) => (
+        <div className="comment-reply-wrapp" key={comment.id}>
           <CommentCard
-            user={user}
-            handleScoreChange={(v: boolean) => handleScoreChange(user, v)}
-            addReply={addReply}
-            currentUser={currentUser}
+            comment={comment}
+            handleScoreChange={(v: boolean) => handleScoreChange(comment, v)}
+            submitComment={addReply}
             handleDeleteComment={handleDeleteComment}
             editComment={editComment}
           />
 
-          {user.replies.map((subComment) => {
+          {comment.replies.map((subComment) => {
             return (
               <div key={subComment.id} style={{ paddingLeft: "10rem" }}>
                 <CommentCard
-                  user={subComment}
-                  addReply={addReply}
-                  handleScoreChange={(v: boolean) => handleScoreChange(user, v)}
-                  currentUser={currentUser}
+                  comment={subComment}
+                  submitComment={addReply}
+                  handleScoreChange={(v: boolean) =>
+                    handleScoreChange(subComment, v)
+                  }
                   handleDeleteComment={handleDeleteComment}
                   editComment={editComment}
                 />
@@ -174,13 +171,12 @@ const CommentsThread = React.memo(function CommentsThread() {
                 <div style={{ paddingLeft: "10rem" }}>
                   {subComment.replies.map((replyNest: any) => (
                     <CommentCard
-                      addReply={""}
+                      submitComment={addReply}
                       key={replyNest.id}
-                      user={replyNest}
+                      comment={replyNest}
                       handleScoreChange={(v: boolean) =>
                         handleScoreChange(replyNest, v)
                       }
-                      currentUser={currentUser}
                       handleDeleteComment={handleDeleteComment}
                       editComment={editComment}
                     />

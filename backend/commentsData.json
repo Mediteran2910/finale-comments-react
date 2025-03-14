@@ -201,6 +201,21 @@
       },
       "isYou": true,
       "replies": []
+    },
+    {
+      "id": "5236f7fd-3952-4b45-990a-897233bc8ed1",
+      "content": "asdadas",
+      "createdAt": "Just now",
+      "score": 0,
+      "isLiked": null,
+      "user": {
+        "image": {
+          "png": "/avatars/image-juliusomo.webp"
+        },
+        "username": "juliusomo"
+      },
+      "isYou": true,
+      "replies": []
     }
   ]
 }

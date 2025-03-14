@@ -3,7 +3,7 @@ import "./image.css";
 
 const base = "img";
 
-type Props = { avatar: boolean } & React.JSX.IntrinsicElements["img"];
+type Props = { avatar?: boolean } & React.JSX.IntrinsicElements["img"];
 
 export default function Image({
   avatar,
@@ -13,9 +13,12 @@ export default function Image({
   const classes: Array<string> = [];
 
   if (avatar) classes.push("avatar");
-  if (_className) classes.push(_className);
 
-  const classNames = [base, ...classes.map((c) => `${base}-${c}`)].join(" ");
+  const classNames = [
+    base,
+    ...classes.map((c) => `${base}-${c}`),
+    _className,
+  ].join(" ");
 
   return <img className={classNames} {...rest} />;
 }

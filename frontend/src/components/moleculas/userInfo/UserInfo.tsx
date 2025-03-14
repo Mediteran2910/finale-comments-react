@@ -4,25 +4,22 @@ import "./userInfo.css";
 import Typography from "../../atoms/typgoraphy/typography";
 
 type Props = {
-  user: {
-    user?: {
-      image: { png: string };
-      username: string;
-      postTime: string;
-    };
-  };
+  image: string;
+  username: string;
+  postTime: string;
   isCurrentUser: boolean;
 };
 
-export default function UserInfo({ user, isCurrentUser }: Props) {
+export default function UserInfo({
+  image,
+  username,
+  postTime,
+  isCurrentUser,
+}: Props) {
   return (
     <div className="user-info-wrapp">
       <div className="user-info">
-        <Image
-          src={user.user?.image.png}
-          alt={`${user.user?.username} profile image`}
-          avatar
-        />
+        <Image src={image} alt={`${username} profile image`} avatar />
 
         {isCurrentUser && (
           <Typography variant="overline" color="blue" badge>
@@ -30,9 +27,9 @@ export default function UserInfo({ user, isCurrentUser }: Props) {
           </Typography>
         )}
         <Typography variant="body" bold>
-          {user.user?.username}
+          {username}
         </Typography>
-        <Typography variant="caption">{user.user?.postTime}</Typography>
+        <Typography variant="caption">{postTime}</Typography>
       </div>
     </div>
   );

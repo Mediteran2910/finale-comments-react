@@ -4,15 +4,14 @@ import "./modal.css";
 import Button from "../components/atoms/button/Button";
 import BeatLoader from "react-spinners/BeatLoader";
 import Typography from "../components/atoms/typgoraphy/typography";
-import { useState } from "react";
 import classNames from "../utils/classNames";
 
 type Props = {
   handleKeepComment?: () => void | Promise<void>;
-  /** @deprecated @todo add loading as prop **/
-  handleDeleteComment?: () => void | Promise<void>;
+  handleDeleteComment?: () => void;
   loadingModal?: boolean;
   deleteModal?: boolean;
+  loading?: boolean;
 };
 
 export const Modal = ({
@@ -20,18 +19,15 @@ export const Modal = ({
   handleDeleteComment,
   loadingModal,
   deleteModal,
+  loading,
 }: Props) => {
-  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
-
   const className = classNames("modal", {
     loading: loadingModal,
     delete: deleteModal,
   });
 
-  const handleLoadingAndDelete = async () => {
-    setIsLoadingDelete(true);
-    await handleDeleteComment?.();
-    setIsLoadingDelete(false);
+  const handleLoadingAndDelete = () => {
+    handleDeleteComment?.();
   };
 
   if (deleteModal) {
@@ -49,7 +45,7 @@ export const Modal = ({
             <Button
               color="red"
               onClick={handleLoadingAndDelete}
-              loading={isLoadingDelete}
+              loading={loading}
             >
               Delete
             </Button>

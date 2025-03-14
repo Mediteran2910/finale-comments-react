@@ -4,80 +4,63 @@ import CommentText from "../../moleculas/commentText/CommentText";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
 import "./commentCard.css";
 import AddCommentElement from "../addCommentElement/AddCommentElement";
-import { useState, useCallback } from "react";
+import { useState } from "react";
+import { Comment } from "../../../types";
 
 type Props = {
-  user: unknown;
-  editComment: unknown;
-  addReply: unknown;
+  comment: Comment;
+  editComment: (
+    user: { id: string; content: string },
+    editInitialText: string,
+  ) => Promise<void>;
   handleScoreChange: unknown;
-  currentUser: unknown;
   handleDeleteComment: unknown;
+  submitComment: (
+    parentId: string,
+    commentText: string,
+    username: string,
+  ) => Promise<void>;
 };
 
 const CommentCard = React.memo(function CommentCard({
-  user,
+  comment,
   editComment,
-  addReply,
   handleScoreChange,
-  currentUser,
   handleDeleteComment,
+  submitComment,
 }: Props) {
   const [replyingToComment, setReplyingToComment] = useState(false);
-
   const [isEditing, setIsEditing] = useState(false);
-  const [editInitialText, setEditInitialText] = useState("");
-
-  const handleEdit = useCallback(
-    (id, content) => {
-      setIsEditing(id);
-      setEditInitialText(content);
-    },
-    [setIsEditing, setEditInitialText],
-  );
-
-  const startCommentReply = (user) => {
-    setReplyingToComment((prevReplying) =>
-      prevReplying !== user.id ? user.id : null,
-    );
-  };
 
   return (
     <>
-      {isEditing === user.id ? (
-        <AddCommentElement
-          value={editInitialText}
-          onChange={(e) => setEditInitialText(e.target.value)}
-          onClick={() =>
-            editComment(user, editInitialText, setEditInitialText, setIsEditing)
-          }
-          isEditing={isEditing}
-          currentUser={currentUser}
-        />
+      {isEditing ? (
+        <AddCommentElement onSubmit={(text) => editComment(comment, text)} />
       ) : (
         <div className="comment-card">
-          <UserInfo user={user} />
-          <CommentText user={user} />
+          <UserInfo
+            isCurrentUser={comment.isYou}
+            postTime={comment.createdAt}
+            image={comment.user.image.png}
+            username={comment.user.username}
+          />
+          <CommentText user={comment} />
           <ButtonsWrapper
-            user={user}
-            handleEdit={() => handleEdit(user.id, user.content)}
-            isEditing={isEditing}
-            editInitialText={editInitialText}
+            nestedReply={{}}
+            user={comment}
+            handleEdit={() => setIsEditing(true)}
             handleScoreChange={handleScoreChange}
             handleDeleteComment={handleDeleteComment}
-            startReplying={() => startCommentReply(user)}
+            startReplying={() => setReplyingToComment(true)}
           />
         </div>
       )}
 
-      {replyingToComment === user.id && (
+      {replyingToComment && (
         <AddCommentElement
-          onClick={(commentText) =>
-            addReply(user, commentText, () => setReplyingToComment(false))
+          onSubmit={(text) =>
+            submitComment(comment.id, comment.user.username, text)
           }
-          isEditing={isEditing}
-          currentUser={currentUser}
-          replyingToComment={replyingToComment}
         />
       )}
     </>

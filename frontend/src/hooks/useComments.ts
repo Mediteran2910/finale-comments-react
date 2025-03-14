@@ -1,19 +1,21 @@
 import { useState, useEffect, useReducer } from "react";
 import { fetchComments } from "../services/dataFetch";
 import { commentsReducer } from "./commentsReducer";
+import { User } from "../types";
 
 export function useComments() {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [state, dispatch] = useReducer(commentsReducer, []);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState<User>();
+
   useEffect(() => {
     async function loadComments() {
       try {
         setLoading(true);
         const data = await fetchComments();
-        setCurrentUser(data.currentUser);
-        dispatch({ type: "SET_COMMENTS_DATA", payload: data.otherUsers });
+        setCurrentUser(data?.currentUser);
+        dispatch({ type: "SET_COMMENTS_DATA", payload: data?.otherUsers });
       } catch {
         setError(true);
       } finally {
@@ -22,11 +24,6 @@ export function useComments() {
     }
     loadComments();
   }, []);
-  return {
-    state,
-    dispatch,
-    loading,
-    error,
-    currentUser,
-  };
+
+  return { state, dispatch, loading, error, currentUser };
 }

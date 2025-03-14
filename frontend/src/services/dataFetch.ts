@@ -1,4 +1,11 @@
-export async function fetchComments() {
+import { Comment, User } from "../types";
+
+type CommentResponse = {
+  currentUser: User;
+  otherUsers: Array<Comment>;
+};
+
+export async function fetchComments(): Promise<CommentResponse | null> {
   try {
     const response = await fetch("http://localhost:8000/comments");
     return response.json();
