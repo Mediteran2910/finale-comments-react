@@ -11,11 +11,10 @@ export function useComments() {
     async function loadComments() {
       try {
         setLoading(true);
-        console.log("im fetching useCommentss");
         const data = await fetchComments();
         setCurrentUser(data.currentUser);
         dispatch({ type: "SET_COMMENTS_DATA", payload: data.otherUsers });
-      } catch (error) {
+      } catch {
         setError(true);
       } finally {
         setLoading(false);

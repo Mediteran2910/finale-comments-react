@@ -1,12 +1,12 @@
 import React from "react";
 import "./typography.css";
-
-const base = "txt";
+import classNames from "../../../utils/classNames";
 
 type Props = {
   bold?: boolean;
-  children: string;
-  color?: string;
+  badge?: boolean;
+  children?: string | Array<string>;
+  color?: "blue";
   variant: "body" | "caption" | "overline";
 } & React.JSX.IntrinsicElements["span"];
 
@@ -16,16 +16,19 @@ export default function Typography({
   color,
   children,
   className: _className,
+  badge,
   ...rest
 }: Props) {
-  const classes: Array<string> = [];
-
-  if (_className) classes.push(_className);
-  if (color) classes.push(`color-${color}`);
-  if (variant) classes.push(variant);
-  if (bold) classes.push("bold");
-
-  const className = [base, ...classes.map((c) => `${base}-${c}`)].join(" ");
+  const className = classNames(
+    "txt",
+    {
+      [`color-${color}`]: color,
+      badge,
+      variant,
+      bold,
+    },
+    _className,
+  );
 
   return (
     <span {...rest} className={className}>

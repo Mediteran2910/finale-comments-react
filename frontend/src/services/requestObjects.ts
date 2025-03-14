@@ -1,4 +1,4 @@
-export const requestObjects = {
+export const requestObjects: Record<string, RequestInit> = {
   postRequest: {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -15,9 +15,9 @@ export const requestObjects = {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
   },
-};
+} as const;
 
-export const requestUrls = (user) => ({
+export const requestUrls = (user: { id: string }) => ({
   likesUrl: `http://localhost:8000/comments/${user.id}/like`,
   addReplyUrl: `http://localhost:8000/comments/${user.id}/replies`,
   deleteUrl: `http://localhost:8000/comment/delete/${user.id}`,

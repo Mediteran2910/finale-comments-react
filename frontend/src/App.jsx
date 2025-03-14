@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import CommentsThread from "./components/templates/commentsThread/CommentsThread";
 

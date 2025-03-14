@@ -1,3 +1,4 @@
+import React from "react";
 import LikesMolecula from "../likesMolecula/LikesMolecula";
 import "./buttonWrapper.css";
 import Button from "../../atoms/button/Button";
@@ -13,6 +14,13 @@ export default function ButtonsWrapper({
   startReplying,
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLiked = async (value: boolean) => {
+    setIsLoading(true);
+    await handleScoreChange(value);
+    setIsLoading(false);
+  };
 
   const handleKeepComment = () => {
     setIsModalVisible(false);
@@ -21,24 +29,33 @@ export default function ButtonsWrapper({
   if (isModalVisible) {
     return (
       <Modal
-        user={user}
         handleDeleteComment={() => handleDeleteComment(user, user.id)}
         handleKeepComment={handleKeepComment}
         deleteModal={true}
-        modalText=" Are you sure you want to delete your comment, once you do that,
-        there is no going back!"
       />
     );
   }
 
   if (nestedReply && !user.isYou) {
-    return <LikesMolecula user={user} handleScoreChange={handleScoreChange} />;
+    return (
+      <LikesMolecula
+        liked={user.isLiked}
+        likes={user.score}
+        loading={isLoading}
+        onChange={handleLiked}
+      />
+    );
   }
 
   if (user.isYou) {
     return (
       <div className="buttons-wrapper">
-        <LikesMolecula user={user} handleScoreChange={handleScoreChange} />
+        <LikesMolecula
+          liked={user.isLiked}
+          likes={user.score}
+          loading={isLoading}
+          onChange={handleLiked}
+        />
         <div className="edit-delete-btns-wrap">
           <Button icon="edit" onClick={handleEdit} />
           <Button icon="delete" onClick={() => setIsModalVisible(true)} />
@@ -47,14 +64,17 @@ export default function ButtonsWrapper({
     );
   }
 
-  if (!user.isYou) {
-    return (
-      <div className="buttons-wrapper">
-        <LikesMolecula user={user} handleScoreChange={handleScoreChange} />
-        <Button onClick={startReplying} prefixIcon="reply">
-          Reply
-        </Button>
-      </div>
-    );
-  }
+  return (
+    <div className="buttons-wrapper">
+      <LikesMolecula
+        liked={user.isLiked}
+        likes={user.score}
+        loading={isLoading}
+        onChange={handleLiked}
+      />
+      <Button onClick={startReplying} prefixIcon="reply">
+        Reply
+      </Button>
+    </div>
+  );
 }

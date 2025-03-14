@@ -1,6 +1,7 @@
 import React from "react";
 import "./button.css";
 import { BeatLoader } from "react-spinners";
+import classNames from "../../../utils/classNames";
 
 const icons = {
   delete: {
@@ -18,35 +19,38 @@ const icons = {
 };
 
 type Props = {
-  colored: string;
-  icon: keyof typeof icons;
-  outline: boolean;
-  prefixIcon: keyof typeof icons;
+  color?: string;
+  icon?: keyof typeof icons;
+  outline?: boolean;
+  prefixIcon?: keyof typeof icons;
   loading?: boolean;
 } & React.JSX.IntrinsicElements["button"];
 
 export default function Button({
   children,
   className: _className,
-  colored,
+  color,
   icon,
   outline,
   prefixIcon,
   loading,
   ...rest
 }: Props) {
-  const classes: Array<string> = [];
+  const className = classNames(
+    "btn",
+    {
+      outline: outline,
+      [`colored-${color}`]: color,
+      prefixIcon,
+      icon,
+    },
+    _className,
+  );
 
-  if (outline) classes.push("outline");
-  if (colored) classes.push(`colored-${colored}`);
-  if (prefixIcon) classes.push("prefixIcon");
-  if (icon) classes.push("icon");
-  if (_className) classes.push(_className);
-
-  const className = ["btn", ...classes.map((c) => `btn-${c}`)].join(" ");
   const ico = icon && icons[icon];
   const prefixIco = prefixIcon && icons[prefixIcon];
 
+  /** @todo move to css **/
   return (
     <button {...rest} className={className} style={{ position: "relative" }}>
       <div
@@ -64,7 +68,6 @@ export default function Button({
       >
         <BeatLoader loading={loading ?? false} size={5} color="white" />
       </div>
-
       <div style={{ visibility: loading ? "hidden" : undefined }}>
         {prefixIco && <img src={prefixIco.src} alt={prefixIco.alt}></img>}
         {ico && <img src={ico.src} alt={ico.alt}></img>}

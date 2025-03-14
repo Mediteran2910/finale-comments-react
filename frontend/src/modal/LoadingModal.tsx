@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function LoadingModal({ className, message, children }) {
   return (
     <div className={className}>

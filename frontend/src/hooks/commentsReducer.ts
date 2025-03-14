@@ -1,4 +1,52 @@
-export const commentsReducer = (state, action) => {
+type User = {
+  image: {
+    png: string;
+  };
+  username: string;
+};
+
+type Comment = {
+  id: string;
+  content: string;
+  createdAt: string;
+  score: number;
+  isLiked: boolean | null;
+  user: User;
+  replies: Reply[];
+};
+
+type Reply = {
+  id: string;
+  content: string;
+  createdAt: string;
+  score: number;
+  isLiked: boolean;
+  user: User;
+  replyingTo: string;
+  isYou: boolean;
+  replies: Reply[];
+};
+
+const updateReplies = (
+  replies: Array<Reply>,
+  commentId: string,
+  updatedContent: string,
+) => {
+  return replies.map((reply) => {
+    if (reply.id === commentId) {
+      return { ...reply, content: updatedContent };
+    }
+    if (reply.replies?.length) {
+      return {
+        ...reply,
+        replies: updateReplies(reply.replies, commentId, updatedContent),
+      };
+    }
+    return reply;
+  });
+};
+
+export const commentsReducer = (state: Array<Comment>, action) => {
   switch (action.type) {
     case "SET_COMMENTS_DATA":
       return action.payload;
@@ -15,9 +63,9 @@ export const commentsReducer = (state, action) => {
               replies: comment.replies.map((reply) =>
                 reply.id === action.parentId
                   ? { ...reply, replies: [...reply.replies, action.payload] }
-                  : reply
+                  : reply,
               ),
-            }
+            },
       );
 
     case "UPDATE_SCORE":
@@ -38,28 +86,13 @@ export const commentsReducer = (state, action) => {
                         score: action.newScore,
                         isLiked: action.isLiked,
                       }
-                    : nestedReply
+                    : nestedReply,
                 ),
-              }
+              },
         ),
       }));
 
     case "EDIT_COMMENT_OR_REPLY":
-      const updateReplies = (replies, commentId, updatedContent) => {
-        return replies.map((reply) => {
-          if (reply.id === commentId) {
-            return { ...reply, content: updatedContent };
-          }
-          if (reply.replies?.length) {
-            return {
-              ...reply,
-              replies: updateReplies(reply.replies, commentId, updatedContent),
-            };
-          }
-          return reply;
-        });
-      };
-
       return state.map((comment) => {
         if (comment.id === action.commentId) {
           return { ...comment, content: action.updatedContent };
@@ -69,7 +102,7 @@ export const commentsReducer = (state, action) => {
           replies: updateReplies(
             comment.replies,
             action.commentId,
-            action.updatedContent
+            action.updatedContent,
           ),
         };
       });
@@ -84,7 +117,7 @@ export const commentsReducer = (state, action) => {
             .map((reply) => ({
               ...reply,
               replies: reply.replies.filter(
-                (nestedReply) => nestedReply.id !== action.commentId
+                (nestedReply) => nestedReply.id !== action.commentId,
               ),
             })),
         }));
