@@ -9,7 +9,6 @@ import Button from "../../atoms/button/Button";
 
 export default function AddCommentElement({
   onClick,
-  replyingTo,
   isEditing,
   currentUser,
   value,
@@ -23,7 +22,6 @@ export default function AddCommentElement({
   const handleLoadingComment = async () => {
     setIsLoadingNewComm(true);
     await onClick(commentText, setCommentText);
-
     setIsLoadingNewComm(false);
   };
 

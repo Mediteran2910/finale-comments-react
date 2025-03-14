@@ -40,8 +40,8 @@ export default function ButtonsWrapper({
       <div className="buttons-wrapper">
         <LikesMolecula user={user} handleScoreChange={handleScoreChange} />
         <div className="edit-delete-btns-wrap">
-          <Button icon="editIcon" onClick={handleEdit} />
-          <Button icon="deleteIcon" onClick={() => setIsModalVisible(true)} />
+          <Button icon="edit" onClick={handleEdit} />
+          <Button icon="delete" onClick={() => setIsModalVisible(true)} />
         </div>
       </div>
     );
@@ -51,7 +51,7 @@ export default function ButtonsWrapper({
     return (
       <div className="buttons-wrapper">
         <LikesMolecula user={user} handleScoreChange={handleScoreChange} />
-        <Button onClick={startReplying} prefixIcon="replyIcon">
+        <Button onClick={startReplying} prefixIcon="reply">
           Reply
         </Button>
       </div>

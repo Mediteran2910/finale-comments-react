@@ -1,10 +1,10 @@
 .btn {
-  height: 40px;
-  border-radius: 10px;
-  width: 100px;
-  font-size: 1.2rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
   border: 1px solid transparent;
+  box-sizing: border-box;
 }
 
 .btn-colored-blue {
@@ -26,11 +26,7 @@
 .btn-outline {
   background-color: var(--elements-background-color);
   color: var(--primary-blue);
-  border-radius: 10px;
-  width: 35%;
-  height: 80%;
-  margin-inline: 5px;
-  border: 1px solid var(--primary-blue);
+  border-color: var(--primary-blue);
 }
 
 .btn-outline:disabled {
@@ -54,11 +50,6 @@
   background-color: transparent;
   cursor: pointer;
   transition: transform 0.25s ease;
-}
-
-.reply-button img {
-  height: 50%;
-  width: auto;
 }
 
 .btn-icon:hover {
