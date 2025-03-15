@@ -10,10 +10,11 @@ export default function CommentText({ user }: Props) {
   return (
     <div className="comment-text-wrapp">
       {user.replyingTo && (
-        <Typography variant="overline" color="blue">
+        <Typography variant="body" color="blue">
           @{user.replyingTo}
         </Typography>
       )}
+      {' '}
       <Typography variant="body">{user.content}</Typography>
     </div>
   );

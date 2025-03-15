@@ -24,8 +24,8 @@ export default function Typography({
     {
       [`color-${color}`]: color,
       badge,
-      variant,
       bold,
+      [`variant-${variant}`]: variant,
     },
     _className,
   );

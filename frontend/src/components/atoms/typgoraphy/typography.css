@@ -4,36 +4,32 @@
   color: var(--paragraph-color-black);
 }
 
-.txt-body {
-  font-size: 1.2rem;
+.txt-variant-body {
+  font-size: 1.25rem;
 }
 
-.txt-caption {
+.txt-variant-caption {
   color: var(--caption-color-grey);
 }
 
-.txt-overline {
-  border-radius: 10px;
-  padding-inline: 5px;
-  font-size: 10px;
-  width: auto;
-  height: auto;
+.txt-variant-overline {
 }
 
-.txt-color-primary-blue {
+.txt-color-blue {
   color: var(--primary-blue);
 }
 
-.txt-color-background-blue {
+.txt-badge {
+  border-radius: 1rem;
+  padding: 0 0.5rem;
+  margin: 0 0.5rem;
+}
+
+.txt-color-blue.txt-badge {
   background-color: var(--primary-blue);
   color: var(--elements-background-color);
 }
 
 .txt-bold {
   font-weight: 600;
-}
-
-.txt-body-primary-blue {
-  font-size: 1.2rem;
-  color: var(--primary-blue);
 }
