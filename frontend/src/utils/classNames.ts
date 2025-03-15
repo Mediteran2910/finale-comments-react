@@ -4,8 +4,8 @@ export default function classNames(
   raws?: string,
 ): string {
   const has = Object.entries(cls)
-    .filter(([, is]) => is)
-    .map((cls) => `${base}-${cls}`);
+    .filter(([, is]) => !!is)
+    .map(([cls]) => `${base}-${cls}`);
 
   has.push(base);
   if (raws) has.push(raws);

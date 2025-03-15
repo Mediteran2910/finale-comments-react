@@ -41,7 +41,7 @@ export default function Button({
     {
       outline: outline,
       [`colored-${color}`]: color,
-      prefixIcon: prefixIcon,
+      ['prefix-icon']: prefixIcon,
       icon: icon,
     },
     _className,

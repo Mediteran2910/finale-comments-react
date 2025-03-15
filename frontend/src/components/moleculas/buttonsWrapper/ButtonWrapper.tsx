@@ -11,7 +11,7 @@ type Props = {
   handleDeleteComment: (id: string) => Promise<void>;
   handleScoreChange: (c: Comment, i: boolean | null) => Promise<void>;
   onTriggerEdit: () => void;
-  startReplying: () => void;
+  onTriggerReply: () => void;
 };
 
 export default function ButtonsWrapper({
@@ -19,7 +19,7 @@ export default function ButtonsWrapper({
   handleDeleteComment,
   handleScoreChange,
   onTriggerEdit,
-  startReplying,
+  onTriggerReply,
 }: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +41,7 @@ export default function ButtonsWrapper({
     setIsModalVisible(false);
   };
 
+  /** @todo move to the context or portal **/
   if (isModalVisible) {
     return (
       <Modal
@@ -52,23 +53,6 @@ export default function ButtonsWrapper({
     );
   }
 
-  if (comment.isYou) {
-    return (
-      <div className="buttons-wrapper">
-        <LikesMolecula
-          liked={comment.isLiked}
-          likes={comment.score}
-          loading={isLoading}
-          onChange={handleLiked}
-        />
-        <div className="edit-delete-btns-wrap">
-          <Button icon="edit" onClick={onTriggerEdit} />
-          <Button icon="delete" onClick={() => setIsModalVisible(true)} />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="buttons-wrapper">
       <LikesMolecula
@@ -77,9 +61,20 @@ export default function ButtonsWrapper({
         loading={isLoading}
         onChange={handleLiked}
       />
-      <Button onClick={startReplying} prefixIcon="reply">
-        Reply
-      </Button>
+      {comment.isYou ? (
+        <div className="edit-delete-btns-wrap">
+          <Button icon="edit" onClick={onTriggerEdit} />
+          <Button icon="delete" onClick={() => setIsModalVisible(true)} />
+        </div>
+      ) : (
+        <Button
+          loading={isLoading}
+          onClick={onTriggerReply}
+          prefixIcon="reply"
+        >
+          Reply
+        </Button>
+      )}
     </div>
   );
 }

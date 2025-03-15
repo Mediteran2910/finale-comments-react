@@ -27,19 +27,19 @@ export default function LikesMolecula({
   }
 
   return (
-    <>
-      <div className="likes-wrapper">
+    <div className="likes-wrapper">
+      <div style={{ visibility: loading ? "hidden" : undefined }}>
         <Button onClick={() => onChange(false)} disabled={!liked} outline>
           -
         </Button>
 
         <Typography variant="body" color="blue">
-          {likes.toString()}
+          {likes?.toString()}
         </Typography>
         <Button onClick={() => onChange(true)} disabled={!!liked} outline>
           +
         </Button>
       </div>
-    </>
+    </div>
   );
 }

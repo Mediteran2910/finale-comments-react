@@ -13,8 +13,8 @@ type Props = {
     user: { id: string; content: string },
     editInitialText: string,
   ) => Promise<void>;
-  handleScoreChange: unknown;
-  handleDeleteComment: unknown;
+  handleScoreChange: (c: Comment, v: boolean | null) => Promise<void>;
+  handleDeleteComment: (id: string) => Promise<void>;
   submitComment: (
     parentId: string,
     commentText: string,
@@ -46,12 +46,11 @@ const CommentCard = React.memo(function CommentCard({
           />
           <CommentText user={comment} />
           <ButtonsWrapper
-            nestedReply={{}}
-            user={comment}
-            handleEdit={() => setIsEditing(true)}
+            comment={comment}
+            onTriggerEdit={() => setIsEditing(true)}
             handleScoreChange={handleScoreChange}
             handleDeleteComment={handleDeleteComment}
-            startReplying={() => setReplyingToComment(true)}
+            onTriggerReply={() => setReplyingToComment(true)}
           />
         </div>
       )}

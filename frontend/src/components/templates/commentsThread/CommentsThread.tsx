@@ -87,7 +87,6 @@ const CommentsThread = React.memo(function CommentsThread() {
       user: { id: string; score: number; isLiked: boolean | null },
       increment: boolean | null,
     ) => {
-      console.log(user);
       const url = requestUrls(user).likesUrl;
       let newScore = {
         score: user.score + (increment ? 1 : -1),
