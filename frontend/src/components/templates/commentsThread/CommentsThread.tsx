@@ -1,7 +1,7 @@
 import { useComments } from "@hooks/useComments";
 import React from "react";
-import CommentCard from "@organizms/commentCard/CommentCard";
-import AddCommentElement from "@organizms/addCommentElement/AddCommentElement";
+import CommentCard from "@organisms/commentCard/CommentCard";
+import AddCommentElement from "@organisms/addCommentElement/AddCommentElement";
 import "./commentsThread.css";
 import { makeApiRequest } from "@utils/makeApiRequest";
 import {

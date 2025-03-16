@@ -54,7 +54,7 @@ export default [
         {
           zones: [
             {
-              // `atoms` should not import `atoms`, `molecules`, or `organizms`
+              // `atoms` should not import `atoms`, `molecules`, or `organisms`
               target: "./src/components/atoms/**/*.tsx", // Deny imports from `atoms`
               from: "./src/components/atoms/**/*.tsx", // Restrict imports within the `atoms` folder
               message: "Do not import from atoms within the atoms folder.",
@@ -65,28 +65,28 @@ export default [
               message: "Do not import from molecules in the atoms folder.",
             },
             {
-              target: "./src/components/atoms/**/*.tsx", // Deny imports from `organizms` in `atoms`
-              from: "./src/components/organizms/**/*.tsx",
+              target: "./src/components/atoms/**/*.tsx", // Deny imports from `organisms` in `atoms`
+              from: "./src/components/organisms/**/*.tsx",
               message: "Do not import from organisms in the atoms folder.",
             },
 
             {
-              // `molecules` should not import `molecules` or `organizms`
+              // `molecules` should not import `molecules` or `organisms`
               target: "./src/components/molecules/**/*.tsx", // Deny imports from `molecules`
               from: "./src/components/molecules/**/*.tsx",
               message:
                 "Do not import from molecules within the molecules folder.",
             },
             {
-              target: "./src/components/molecules/**/*.tsx", // Deny imports from `organizms` in `molecules`
-              from: "./src/components/organizms/**/*.tsx",
+              target: "./src/components/molecules/**/*.tsx", // Deny imports from `organisms` in `molecules`
+              from: "./src/components/organisms/**/*.tsx",
               message: "Do not import from organisms in the molecules folder.",
             },
 
             {
-              // `organizms` should not import `organizms`
-              target: "./src/components/organizms/**/*.tsx", // Deny imports from `organizms`
-              from: "./src/components/organizms/**/*.tsx",
+              // `organisms` should not import `organisms`
+              target: "./src/components/organisms/**/*.tsx", // Deny imports from `organisms`
+              from: "./src/components/organisms/**/*.tsx",
               message:
                 "Do not import from organisms within the organisms folder.",
             },

@@ -3,7 +3,7 @@ import UserInfo from "@molecules/userInfo/UserInfo";
 import CommentText from "@molecules/commentText/CommentText";
 import ButtonsWrapper from "@molecules/buttonsWrapper/ButtonWrapper";
 import "./commentCard.css";
-import AddCommentElement from "@organizms/addCommentElement/AddCommentElement";
+import AddCommentElement from "@organisms/addCommentElement/AddCommentElement";
 import { Comment } from "@types";
 
 type Props = {
