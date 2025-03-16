@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import UserInfo from "../../moleculas/userInfo/UserInfo";
 import CommentText from "../../moleculas/commentText/CommentText";
 import ButtonsWrapper from "../../moleculas/buttonsWrapper/ButtonWrapper";
@@ -17,8 +17,10 @@ type Props = {
   handleDeleteComment: (id: string) => Promise<void>;
   handleCreateComment: (
     parentId: string,
-    commentText: string,
-    username: string,
+    data: {
+      content: string;
+      replyingTo: string;
+    },
   ) => Promise<void>;
 };
 
@@ -32,10 +34,35 @@ const CommentCard = React.memo(function CommentCard({
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  const handleNewComment = useCallback(
+    async (content: string) => {
+      await handleCreateComment(comment.id, {
+        replyingTo: comment.user.username,
+        content,
+      });
+      setIsReplying(false);
+    },
+    [handleCreateComment, comment],
+  );
+
+  const handleEdit = useCallback(
+    async (content: string) => {
+      await handleUpdateComment(comment, content);
+      setIsEditing(false);
+    },
+    [handleUpdateComment, comment],
+  );
+
   return (
     <>
       {isEditing ? (
-        <AddCommentElement onSubmit={(text) => handleUpdateComment(comment, text)} />
+        <AddCommentElement
+          avatar={comment.user.image.png}
+          buttonText="Edit"
+          intialValue={comment.content}
+          onSubmit={handleEdit}
+          placeholder=""
+        />
       ) : (
         <div className="comment-card">
           <UserInfo
@@ -47,9 +74,9 @@ const CommentCard = React.memo(function CommentCard({
           <CommentText user={comment} />
           <ButtonsWrapper
             comment={comment}
-            onTriggerEdit={() => setIsEditing(true)}
             handleScoreChange={(v) => handleScoreChange(comment, v)}
             handleDeleteComment={handleDeleteComment}
+            onTriggerEdit={() => setIsEditing(true)}
             onTriggerReply={() => setIsReplying(true)}
           />
         </div>
@@ -57,9 +84,10 @@ const CommentCard = React.memo(function CommentCard({
 
       {isReplying && (
         <AddCommentElement
-          onSubmit={(text) =>
-            handleCreateComment(comment.id, comment.user.username, text)
-          }
+          avatar={comment.user.image.png}
+          buttonText="reply"
+          onSubmit={handleNewComment}
+          placeholder="Add an reply..."
         />
       )}
 

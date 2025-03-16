@@ -6,19 +6,21 @@ import { useState } from "react";
 import Button from "../../atoms/button/Button";
 
 type Props = {
-  avatar?: string;
+  avatar: string;
   onSubmit: (text: string) => Promise<void>;
-  isReply?: boolean;
-  comment?: string;
+  intialValue?: string;
+  buttonText: string;
+  placeholder: string;
 };
 
 export default function AddCommentElement({
-  onSubmit,
   avatar,
-  comment = "",
-  isReply,
+  buttonText,
+  intialValue = "",
+  onSubmit,
+  placeholder,
 }: Props) {
-  const [text, setText] = useState(comment);
+  const [text, setText] = useState(intialValue);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
 
@@ -29,21 +31,7 @@ export default function AddCommentElement({
       .finally(() => setLoading(false));
   };
 
-  const buttonText = editing ? "EDIT" : isReply ? "REPLY" : "SEND";
   const disabled = loading || (editing && text.trim() === "");
-
-  //if (!editing) {
-  //return (
-  //  <div className="add-comment-wrapper">
-  //    <div className="add-comment-element">
-  //      <Image src={avatar} avatar />
-  //      <Button onClick={() => setEditing(true)} color="blue">
-  //        EDIT
-  //      </Button>
-  //    </div>
-  //  </div>
-  //);
-  //}
 
   return (
     <div className="add-comment-wrapper">
@@ -51,7 +39,7 @@ export default function AddCommentElement({
         <Image src={avatar} avatar />
         <TextArea
           value={text}
-          placeholder={isReply ? "Add an reply..." : "Add a comment..."}
+          placeholder={placeholder}
           onChange={({ target }) => setText(target.value)}
         />
         <Button

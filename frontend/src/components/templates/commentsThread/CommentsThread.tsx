@@ -14,7 +14,7 @@ import { Modal } from "../../../modal/Modal";
 import "../../../modal/loadingModal.css";
 
 const CommentsThread = React.memo(function CommentsThread() {
-  const { dispatch, loading, state } = useComments();
+  const { dispatch, loading, state, currentUser } = useComments();
 
   const addComment = useCallback(
     async (commentText: string) => {
@@ -37,15 +37,13 @@ const CommentsThread = React.memo(function CommentsThread() {
   );
 
   const handleCreateComment = useCallback(
-    async (parentId: string, commentText: string, username: string) => {
+    async (
+      parentId: string,
+      data: { content: string; replyingTo?: string },
+    ) => {
       const url = requestUrls({ id: parentId }).addReplyUrl;
-      const newReply = { content: commentText, replyingTo: username };
 
-      const response = await makeApiRequest(
-        url,
-        requestObjects.post,
-        newReply,
-      );
+      const response = await makeApiRequest(url, requestObjects.post, data);
 
       if (response) {
         dispatch({ type: "ADD_COMMENT", parentId, payload: response });
@@ -139,10 +137,16 @@ const CommentsThread = React.memo(function CommentsThread() {
         </div>
       ))}
 
-      <AddCommentElement onSubmit={addComment} />
+      {currentUser && (
+        <AddCommentElement
+          avatar={currentUser?.image.png}
+          buttonText="Send"
+          placeholder="Add a comment..."
+          onSubmit={addComment}
+        />
+      )}
     </>
   );
 });
 
 export default CommentsThread;
-
