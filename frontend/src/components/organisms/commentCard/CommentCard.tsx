@@ -6,10 +6,11 @@ import AddCommentElement from "@molecules/addCommentElement/AddCommentElement";
 import ButtonsWrapper from "@molecules/buttonsWrapper/ButtonWrapper";
 import CommentText from "@molecules/commentText/CommentText";
 import UserInfo from "@molecules/userInfo/UserInfo";
-import { Comment } from "@types";
+import { Comment, User } from "@types";
 
 type Props = {
   comment: Comment;
+  currentUser: User;
   handleUpdateComment: (
     comment: { id: string; content: string },
     editInitialText: string,
@@ -27,6 +28,7 @@ type Props = {
 
 const CommentCard = React.memo(function CommentCard({
   comment,
+  currentUser,
   handleUpdateComment,
   handleScoreChange,
   handleDeleteComment,
@@ -85,7 +87,7 @@ const CommentCard = React.memo(function CommentCard({
 
       {isReplying && (
         <AddCommentElement
-          avatar={comment.user.image.png}
+          avatar={currentUser.image.png}
           buttonText="reply"
           onSubmit={handleNewComment}
           placeholder="Add an reply..."
@@ -97,6 +99,7 @@ const CommentCard = React.memo(function CommentCard({
           <div key={subComment.id} style={{ paddingLeft: "5rem" }}>
             <CommentCard
               comment={subComment}
+              currentUser={currentUser}
               handleCreateComment={handleCreateComment}
               handleScoreChange={handleScoreChange}
               handleDeleteComment={handleDeleteComment}

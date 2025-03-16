@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import Button from "@atoms/button/Button";
 import LikesMolecula from "@molecules/likesMolecula/LikesMolecula";
-import { Modal } from "@organisms/modal/Modal";
+import { Modal } from "@molecules/modal/Modal";
 import { Comment } from "@types";
 
 type Props = {

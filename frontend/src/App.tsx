@@ -1,8 +1,8 @@
 import "./App.css";
-import CommentsThread from "./components/templates/commentsThread/CommentsThread";
+import Comments from "@templates/comments";
 
 function App() {
-  return <CommentsThread />;
+  return <Comments />;
 }
 
 export default App;
