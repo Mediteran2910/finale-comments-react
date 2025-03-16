@@ -1,8 +1,10 @@
-import LikesMolecula from "@molecules/likesMolecula/LikesMolecula";
 import "./buttonWrapper.css";
-import Button from "@atoms/button/Button";
-import { Modal } from "@molecules/modal/Modal";
+
 import { useState } from "react";
+
+import Button from "@atoms/button/Button";
+import LikesMolecula from "@molecules/likesMolecula/LikesMolecula";
+import { Modal } from "@molecules/modal/Modal";
 import { Comment } from "@types";
 
 type Props = {

@@ -1,6 +1,7 @@
 import "./modal.css";
-import Button from "@atoms/button/Button";
 import BeatLoader from "react-spinners/BeatLoader";
+
+import Button from "@atoms/button/Button";
 import Typography from "@atoms/typgoraphy/typography";
 import classNames from "@utils/classNames";
 

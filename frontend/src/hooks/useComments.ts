@@ -1,7 +1,9 @@
 import { useState, useEffect, useReducer } from "react";
+
 import { fetchComments } from "@services/dataFetch";
-import { commentsReducer } from "./commentsReducer";
 import { User } from "@types";
+
+import { commentsReducer } from "./commentsReducer";
 
 export function useComments() {
   const [loading, setLoading] = useState(true);

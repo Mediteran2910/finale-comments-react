@@ -1,5 +1,6 @@
-import React from "react";
 import "./typography.css";
+import React from "react";
+
 import classNames from "@utils/classNames";
 
 type Props = {

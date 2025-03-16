@@ -1,8 +1,8 @@
-import globals from "globals";
 import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
 import pluginImport from "eslint-plugin-import";
+import pluginReact from "eslint-plugin-react";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -45,6 +45,23 @@ export default [
           patterns: [
             "../**", // Prevent relative parent imports
           ],
+        },
+      ],
+
+      "import/order": [
+        "error",
+        {
+          groups: [
+            ["builtin", "external"], // First group: built-in modules, then external packages
+            ["internal"], // Internal modules, e.g., your own source code
+            ["sibling", "parent"], // Sibling imports (same directory or parent directory)
+            ["index"], // Last group: index files (if applicable)
+          ],
+          alphabetize: {
+            order: "asc", // Alphabetical order
+            caseInsensitive: true,
+          },
+          "newlines-between": "always", // Require newlines between different groups of imports
         },
       ],
 

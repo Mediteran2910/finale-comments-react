@@ -1,6 +1,7 @@
-import React from "react";
 import "./button.css";
+import React from "react";
 import { BeatLoader } from "react-spinners";
+
 import classNames from "@utils/classNames";
 
 const icons = {
@@ -41,7 +42,7 @@ export default function Button({
     {
       outline: outline,
       [`colored-${color}`]: color,
-      ['prefix-icon']: prefixIcon,
+      ["prefix-icon"]: prefixIcon,
       icon: icon,
     },
     _className,

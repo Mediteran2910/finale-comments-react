@@ -1,5 +1,6 @@
-import Image from "@atoms/image/Image";
 import "./userInfo.css";
+
+import Image from "@atoms/image/Image";
 import Typography from "@atoms/typgoraphy/typography";
 
 type Props = {

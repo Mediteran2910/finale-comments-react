@@ -1,8 +1,10 @@
-import React, { useCallback, useState } from "react";
-import UserInfo from "@molecules/userInfo/UserInfo";
-import CommentText from "@molecules/commentText/CommentText";
-import ButtonsWrapper from "@molecules/buttonsWrapper/ButtonWrapper";
 import "./commentCard.css";
+
+import React, { useCallback, useState } from "react";
+
+import ButtonsWrapper from "@molecules/buttonsWrapper/ButtonWrapper";
+import CommentText from "@molecules/commentText/CommentText";
+import UserInfo from "@molecules/userInfo/UserInfo";
 import AddCommentElement from "@organisms/addCommentElement/AddCommentElement";
 import { Comment } from "@types";
 

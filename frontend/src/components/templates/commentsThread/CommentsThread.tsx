@@ -1,16 +1,17 @@
-import { useComments } from "@hooks/useComments";
-import React from "react";
-import CommentCard from "@organisms/commentCard/CommentCard";
-import AddCommentElement from "@organisms/addCommentElement/AddCommentElement";
 import "./commentsThread.css";
-import { makeApiRequest } from "@utils/makeApiRequest";
+import React from "react";
+import { useCallback } from "react";
+
+import { useComments } from "@hooks/useComments";
+import { Modal } from "@molecules/modal/Modal";
+import AddCommentElement from "@organisms/addCommentElement/AddCommentElement";
+import CommentCard from "@organisms/commentCard/CommentCard";
 import {
   requestObjects,
   requestUrls,
   staticUrls,
 } from "@services/requestObjects";
-import { useCallback } from "react";
-import { Modal } from "@molecules/modal/Modal";
+import { makeApiRequest } from "@utils/makeApiRequest";
 
 const CommentsThread = React.memo(function CommentsThread() {
   const { dispatch, loading, state, currentUser } = useComments();

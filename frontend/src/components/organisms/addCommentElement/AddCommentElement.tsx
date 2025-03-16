@@ -1,9 +1,10 @@
+import { useState } from "react";
+
+import Button from "@atoms/button/Button";
 import Image from "@atoms/image/Image";
 import TextArea from "@atoms/textarea/TextArea";
 
 import "./addCommentElement.css";
-import { useState } from "react";
-import Button from "@atoms/button/Button";
 
 type Props = {
   avatar: string;
