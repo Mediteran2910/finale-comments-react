@@ -2,10 +2,10 @@ import "./commentCard.css";
 
 import React, { useCallback, useState } from "react";
 
+import AddCommentElement from "@molecules/addCommentElement/AddCommentElement";
 import ButtonsWrapper from "@molecules/buttonsWrapper/ButtonWrapper";
 import CommentText from "@molecules/commentText/CommentText";
 import UserInfo from "@molecules/userInfo/UserInfo";
-import AddCommentElement from "@organisms/addCommentElement/AddCommentElement";
 import { Comment } from "@types";
 
 type Props = {

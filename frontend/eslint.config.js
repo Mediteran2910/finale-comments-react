@@ -65,47 +65,49 @@ export default [
         },
       ],
 
-      // Enforce restrictions on imports within specific folders
       "import/no-restricted-paths": [
         "error",
         {
           zones: [
             {
-              // `atoms` should not import `atoms`, `molecules`, or `organisms`
-              target: "./src/components/atoms/**/*.tsx", // Deny imports from `atoms`
-              from: "./src/components/atoms/**/*.tsx", // Restrict imports within the `atoms` folder
-              message: "Do not import from atoms within the atoms folder.",
-            },
-            {
-              target: "./src/components/atoms/**/*.tsx", // Deny imports from `molecules` in `atoms`
-              from: "./src/components/molecules/**/*.tsx",
-              message: "Do not import from molecules in the atoms folder.",
-            },
-            {
-              target: "./src/components/atoms/**/*.tsx", // Deny imports from `organisms` in `atoms`
-              from: "./src/components/organisms/**/*.tsx",
-              message: "Do not import from organisms in the atoms folder.",
+              target: "./src/components/atoms/**/*.tsx",
+              from: [
+                "./src/components/molecules/**/*.tsx",
+                "./src/components/organisms/**/*.tsx",
+                "./src/components/templates/**/*.tsx",
+              ],
+              message:
+                "Atoms should not import from Molecules, Organisms, or Templates.",
             },
 
             {
-              // `molecules` should not import `molecules` or `organisms`
-              target: "./src/components/molecules/**/*.tsx", // Deny imports from `molecules`
-              from: "./src/components/molecules/**/*.tsx",
+              target: "./src/components/molecules/**/*.tsx",
+              from: [
+                "./src/components/organisms/**/*.tsx",
+                "./src/components/templates/**/*.tsx",
+              ],
               message:
-                "Do not import from molecules within the molecules folder.",
-            },
-            {
-              target: "./src/components/molecules/**/*.tsx", // Deny imports from `organisms` in `molecules`
-              from: "./src/components/organisms/**/*.tsx",
-              message: "Do not import from organisms in the molecules folder.",
+                "Molecules should not import from Organisms, or Templates.",
             },
 
             {
-              // `organisms` should not import `organisms`
-              target: "./src/components/organisms/**/*.tsx", // Deny imports from `organisms`
-              from: "./src/components/organisms/**/*.tsx",
+              target: "./src/components/organisms/**/*.tsx",
+              from: [
+                "./src/components/templates/**/*.tsx",
+              ],
               message:
-                "Do not import from organisms within the organisms folder.",
+                "Organisms should not import from Templates.",
+            },
+
+            {
+              target: "./src/components/templates/**/*.tsx",
+              from: [
+                "./src/components/atoms/**/*.tsx",
+                "./src/components/molecules/**/*.tsx",
+                "./src/components/templates/**/*.tsx",
+              ],
+              message:
+                "Templates should only import from Organisms, not Atoms, Molecules, or other Templates.",
             },
           ],
         },
