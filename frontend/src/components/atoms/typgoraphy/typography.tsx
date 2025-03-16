@@ -1,6 +1,6 @@
 import React from "react";
 import "./typography.css";
-import classNames from "../../../utils/classNames";
+import classNames from "@utils/classNames";
 
 type Props = {
   bold?: boolean;

@@ -1,7 +1,7 @@
 import React from "react";
 import "./button.css";
 import { BeatLoader } from "react-spinners";
-import classNames from "../../../utils/classNames";
+import classNames from "@utils/classNames";
 
 const icons = {
   delete: {
