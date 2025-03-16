@@ -1,14 +1,14 @@
-import { useComments } from "../../../hooks/useComments";
+import { useComments } from "@hooks/useComments";
 import React from "react";
-import CommentCard from "../../organism/commentCard/CommentCard";
-import AddCommentElement from "../../organism/addCommentElement/AddCommentElement";
+import CommentCard from "@organizms/commentCard/CommentCard";
+import AddCommentElement from "@organizms/addCommentElement/AddCommentElement";
 import "./commentsThread.css";
-import { makeApiRequest } from "../../../utils/makeApiRequest";
+import { makeApiRequest } from "@utils/makeApiRequest";
 import {
   requestObjects,
   requestUrls,
   staticUrls,
-} from "../../../services/requestObjects";
+} from "@services/requestObjects";
 import { useCallback } from "react";
 import { Modal } from "../../../modal/Modal";
 import "../../../modal/loadingModal.css";

@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "../../atoms/image/Image";
+import Image from "@atoms/image/Image";
 import "./userInfo.css";
-import Typography from "../../atoms/typgoraphy/typography";
+import Typography from "@atoms/typgoraphy/typography";
 
 type Props = {
   image: string;

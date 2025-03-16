@@ -1,10 +1,8 @@
-import React from "react";
-
 import "./modal.css";
-import Button from "../components/atoms/button/Button";
+import Button from "@atoms/button/Button";
 import BeatLoader from "react-spinners/BeatLoader";
-import Typography from "../components/atoms/typgoraphy/typography";
-import classNames from "../utils/classNames";
+import Typography from "@atoms/typgoraphy/typography";
+import classNames from "@utils/classNames";
 
 type Props = {
   handleKeepComment?: () => void | Promise<void>;

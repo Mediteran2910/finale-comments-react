@@ -1,4 +1,4 @@
-import { Comment } from "../types";
+import { Comment } from "@types";
 
 export type UpdateCommentData = Partial<Omit<Comment, "id" | "replies">>;
 

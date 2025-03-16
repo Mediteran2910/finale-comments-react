@@ -1,4 +1,4 @@
-import { Comment, User } from "../types";
+import { Comment, User } from "@types";
 
 type CommentResponse = {
   currentUser: User;

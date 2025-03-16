@@ -1,10 +1,9 @@
-import React from "react";
-import LikesMolecula from "../likesMolecula/LikesMolecula";
+import LikesMolecula from "@molecules/likesMolecula/LikesMolecula";
 import "./buttonWrapper.css";
-import Button from "../../atoms/button/Button";
+import Button from "@atoms/button/Button";
 import { Modal } from "../../../modal/Modal";
 import { useState } from "react";
-import { Comment } from "../../../types";
+import { Comment } from "@types";
 
 type Props = {
   comment: Comment;
@@ -67,11 +66,7 @@ export default function ButtonsWrapper({
           <Button icon="delete" onClick={() => setIsModalVisible(true)} />
         </div>
       ) : (
-        <Button
-          loading={isLoading}
-          onClick={onTriggerReply}
-          prefixIcon="reply"
-        >
+        <Button loading={isLoading} onClick={onTriggerReply} prefixIcon="reply">
           Reply
         </Button>
       )}

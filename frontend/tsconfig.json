@@ -16,7 +16,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@types/*": ["src/types/*"],
+      "@types": ["src/types/index.ts"],
+      "@services/*": ["src/services/*"],
       "@hooks/*": ["src/hooks/*"],
       "@utils/*": ["src/utils/*"],
       "@atoms/*": ["src/components/atoms/*"],

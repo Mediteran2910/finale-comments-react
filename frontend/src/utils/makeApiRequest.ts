@@ -1,4 +1,4 @@
-import { requestObjects } from "../services/requestObjects";
+import { requestObjects } from "@services/requestObjects";
 
 export const makeApiRequest = async (
   url: string,
@@ -19,7 +19,7 @@ export const makeApiRequest = async (
     const data = await response.json();
 
     return data;
-  } catch (error) {
+  } catch {
     return null;
   }
 };

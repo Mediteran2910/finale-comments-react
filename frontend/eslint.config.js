@@ -5,12 +5,14 @@ import pluginReact from "eslint-plugin-react";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  { ignores: ["dist/**"] },
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
+    settings: { react: { version: "detect" } },
     rules: {
       "react/react-in-jsx-scope": "off",
       "no-restricted-imports": [
@@ -27,4 +29,3 @@ export default [
     },
   },
 ];
-

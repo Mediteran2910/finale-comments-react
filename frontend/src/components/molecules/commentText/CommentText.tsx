@@ -1,5 +1,4 @@
-import React from "react";
-import Typography from "../../atoms/typgoraphy/typography";
+import Typography from "@atoms/typgoraphy/typography";
 import "./commentText.css";
 
 type Props = {
