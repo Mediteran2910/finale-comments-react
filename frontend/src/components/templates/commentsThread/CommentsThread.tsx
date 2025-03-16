@@ -14,7 +14,7 @@ import { Modal } from "../../../modal/Modal";
 import "../../../modal/loadingModal.css";
 
 const CommentsThread = React.memo(function CommentsThread() {
-  const { dispatch, loading, state, currentUser } = useComments();
+  const { dispatch, loading, state } = useComments();
 
   const addComment = useCallback(
     async (commentText: string) => {
@@ -28,7 +28,7 @@ const CommentsThread = React.memo(function CommentsThread() {
       );
 
       if (response) {
-        dispatch({ type: "ADD_COMMENT", payload: response });
+        dispatch({ type: "ADD_COMMENT", parentId: null, payload: response });
       } else {
         console.error("Failed to add personal comment on the backend");
       }
@@ -36,7 +36,7 @@ const CommentsThread = React.memo(function CommentsThread() {
     [dispatch, makeApiRequest],
   );
 
-  const addReply = useCallback(
+  const handleCreateComment = useCallback(
     async (parentId: string, commentText: string, username: string) => {
       const url = requestUrls({ id: parentId }).addReplyUrl;
       const newReply = { content: commentText, replyingTo: username };
@@ -48,13 +48,13 @@ const CommentsThread = React.memo(function CommentsThread() {
       );
 
       if (response) {
-        dispatch({ type: "ADD_REPLY", parentId, payload: response });
+        dispatch({ type: "ADD_COMMENT", parentId, payload: response });
       }
     },
     [dispatch, makeApiRequest],
   );
 
-  const editComment = useCallback(
+  const handleUpdateComment = useCallback(
     async (user: { id: string; content: string }, editInitialText: string) => {
       const updatedCommentObj = { content: editInitialText };
       const url = requestUrls(user).editUrl;
@@ -68,9 +68,9 @@ const CommentsThread = React.memo(function CommentsThread() {
         );
         if (response) {
           dispatch({
-            type: "EDIT_COMMENT_OR_REPLY",
+            type: "UPDATE",
             commentId: user.id,
-            updatedContent: editInitialText,
+            payload: { content: editInitialText },
           });
         } else {
           console.error("Failed to update comment or reply on backend");
@@ -82,42 +82,25 @@ const CommentsThread = React.memo(function CommentsThread() {
     [dispatch, makeApiRequest],
   );
 
+  /** @todo merge with update comment **/
   const handleScoreChange = useCallback(
     async (
-      user: { id: string; score: number; isLiked: boolean | null },
+      comment: { id: string; score: number; isLiked: boolean | null },
       increment: boolean | null,
     ) => {
-      const url = requestUrls(user).likesUrl;
-      let newScore = {
-        score: user.score + (increment ? 1 : -1),
-        isLiked: increment,
-      };
+      const url = requestUrls(comment).likesUrl;
 
-      if (user.isLiked === true && !increment) {
-        newScore = {
-          score: user.score - 1,
-          isLiked: null,
-        };
-      }
+      if (comment.isLiked === increment) return;
 
-      if (user.isLiked === false && increment) {
-        newScore = {
-          score: user.score + 1,
-          isLiked: null,
-        };
-      }
+      const score = (comment.isLiked === null ? 1 : 2) * (increment ? 1 : -1);
+      const newScore = { score: comment.score + score, isLiked: increment };
 
       const response = await makeApiRequest(url, requestObjects.patchRequest, {
         newScore,
       });
 
       if (response) {
-        dispatch({
-          type: "UPDATE_SCORE",
-          userId: user.id,
-          newScore: newScore.score,
-          isLiked: newScore.isLiked,
-        });
+        dispatch({ type: "UPDATE", commentId: comment.id, payload: newScore });
         console.log("Response is ok, and likes are updated.");
       }
     },
@@ -148,42 +131,11 @@ const CommentsThread = React.memo(function CommentsThread() {
         <div className="comment-reply-wrapp" key={comment.id}>
           <CommentCard
             comment={comment}
-            handleScoreChange={(v: boolean) => handleScoreChange(comment, v)}
-            submitComment={addReply}
+            handleScoreChange={handleScoreChange}
+            handleCreateComment={handleCreateComment}
             handleDeleteComment={handleDeleteComment}
-            editComment={editComment}
+            handleUpdateComment={handleUpdateComment}
           />
-
-          {comment.replies.map((subComment) => {
-            return (
-              <div key={subComment.id} style={{ paddingLeft: "10rem" }}>
-                <CommentCard
-                  comment={subComment}
-                  submitComment={addReply}
-                  handleScoreChange={(v: boolean) =>
-                    handleScoreChange(subComment, v)
-                  }
-                  handleDeleteComment={handleDeleteComment}
-                  editComment={editComment}
-                />
-
-                <div style={{ paddingLeft: "10rem" }}>
-                  {subComment.replies.map((replyNest: any) => (
-                    <CommentCard
-                      submitComment={addReply}
-                      key={replyNest.id}
-                      comment={replyNest}
-                      handleScoreChange={(v: boolean) =>
-                        handleScoreChange(replyNest, v)
-                      }
-                      handleDeleteComment={handleDeleteComment}
-                      editComment={editComment}
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
         </div>
       ))}
 
@@ -194,6 +146,3 @@ const CommentsThread = React.memo(function CommentsThread() {
 
 export default CommentsThread;
 
-///LOKALNO STATE TI MOZE, U SLUCAJU DA NIJE GENERALNI STATE(DATA)
-///PAZI NA ISLOADING AKO NIJE INICJALNI RENDER, SCOUPAJ IS LOADING NA LOKALNOJ RAZINI, TJ DI SE POZIVA FUNKCIJA(AKO IMA SMISLA)
-///CUSTOM HOOK PRIHVACA SVE I SVASTA, ZATO SE I ZOVE CUSTOM

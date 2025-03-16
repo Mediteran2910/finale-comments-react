@@ -1,99 +1,63 @@
-import { Comment, Reply } from "../types";
+import { Comment } from "../types";
 
-const updateReplies = (
-  replies: Array<Reply>,
-  commentId: string,
-  updatedContent: string,
+export type UpdateCommentData = Partial<Omit<Comment, "id" | "replies">>;
+type Action<T, D> = { type: T } & D;
+
+type Actions =
+  | Action<"INIT_DATA", { payload: Array<Comment> }>
+  | Action<"ADD_COMMENT", { payload: Comment; parentId: string | null }>
+  | Action<"UPDATE", { commentId: string; payload: UpdateCommentData }>
+  | Action<"DELETE_COMMENT", { commentId: string }>;
+
+const recursiveUpdate = (
+  id: string,
+  data: UpdateCommentData,
+  comments: Array<Comment>,
 ) => {
-  return replies.map((reply) => {
-    if (reply.id === commentId) {
-      return { ...reply, content: updatedContent };
-    }
-    if (reply.replies?.length) {
-      return {
-        ...reply,
-        replies: updateReplies(reply.replies, commentId, updatedContent),
-      };
-    }
-    return reply;
+  return comments.map((c) => {
+    if (c.id === id) return { ...c, ...data };
+    if (!c.replies) return c;
+    return { ...c, replies: recursiveUpdate(id, data, c.replies) };
   });
 };
 
-export const commentsReducer = (state: Array<Comment>, action) => {
+const recursiveDelete = (id: string, comments: Array<Comment>) => {
+  return comments
+    .filter((c) => c.id !== id)
+    .map((c) => ({
+      ...c,
+      replies: c.replies && recursiveDelete(id, c.replies),
+    }));
+};
+
+const recursiveCreate = (
+  parentId: string,
+  data: Comment,
+  comments: Array<Comment>,
+) => {
+  return comments.map((c) => {
+    if (c.id === parentId)
+      return { ...c, replies: (c.replies ?? []).concat([data]) };
+    if (!c.replies) return c;
+    return { ...c, replies: recursiveCreate(parentId, data, c.replies) };
+  });
+};
+
+export const commentsReducer = (state: Array<Comment>, action: Actions) => {
   switch (action.type) {
-    case "SET_COMMENTS_DATA":
+    case "INIT_DATA":
       return action.payload;
 
     case "ADD_COMMENT":
-      return [...state, action.payload];
+      return action.parentId === null
+        ? [...state, action.payload]
+        : recursiveCreate(action.parentId, action.payload, state);
 
-    case "ADD_REPLY":
-      return state.map((comment) =>
-        comment.id === action.parentId
-          ? { ...comment, replies: [...comment.replies, action.payload] }
-          : {
-              ...comment,
-              replies: comment.replies.map((reply) =>
-                reply.id === action.parentId
-                  ? { ...reply, replies: [...reply.replies, action.payload] }
-                  : reply,
-              ),
-            },
-      );
-
-    case "UPDATE_SCORE":
-      return state.map((comment) => ({
-        ...comment,
-        score: comment.id === action.userId ? action.newScore : comment.score,
-        isLiked:
-          comment.id === action.userId ? action.isLiked : comment.isLiked,
-        replies: comment.replies.map((reply) =>
-          reply.id === action.userId
-            ? { ...reply, score: action.newScore, isLiked: action.isLiked }
-            : {
-                ...reply,
-                replies: reply.replies.map((nestedReply) =>
-                  nestedReply.id === action.userId
-                    ? {
-                        ...nestedReply,
-                        score: action.newScore,
-                        isLiked: action.isLiked,
-                      }
-                    : nestedReply,
-                ),
-              },
-        ),
-      }));
-
-    case "EDIT_COMMENT_OR_REPLY":
-      return state.map((comment) => {
-        if (comment.id === action.commentId) {
-          return { ...comment, content: action.updatedContent };
-        }
-        return {
-          ...comment,
-          replies: updateReplies(
-            comment.replies,
-            action.commentId,
-            action.updatedContent,
-          ),
-        };
-      });
+    case "UPDATE":
+      return recursiveUpdate(action.commentId, action.payload, state);
 
     case "DELETE_COMMENT":
-      return state
-        .filter((comment) => comment.id !== action.commentId)
-        .map((comment) => ({
-          ...comment,
-          replies: comment.replies
-            .filter((reply) => reply.id !== action.commentId)
-            .map((reply) => ({
-              ...reply,
-              replies: reply.replies.filter(
-                (nestedReply) => nestedReply.id !== action.commentId,
-              ),
-            })),
-        }));
+      return recursiveDelete(action.commentId, state);
 
     default:
       return state;

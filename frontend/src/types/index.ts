@@ -11,19 +11,9 @@ export type Comment = {
   createdAt: string;
   score: number;
   isLiked: boolean | null;
+  replyingTo: string;
   user: User;
   isYou: boolean;
-  replies: Reply[];
+  replies?: Comment[];
 };
 
-export type Reply = {
-  id: string;
-  content: string;
-  createdAt: string;
-  score: number;
-  isLiked: boolean;
-  user: User;
-  replyingTo: string;
-  isYou: boolean;
-  replies: Reply[];
-};

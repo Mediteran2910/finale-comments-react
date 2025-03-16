@@ -9,13 +9,13 @@ import { Comment } from "../../../types";
 
 type Props = {
   comment: Comment;
-  editComment: (
-    user: { id: string; content: string },
+  handleUpdateComment: (
+    comment: { id: string; content: string },
     editInitialText: string,
   ) => Promise<void>;
   handleScoreChange: (c: Comment, v: boolean | null) => Promise<void>;
   handleDeleteComment: (id: string) => Promise<void>;
-  submitComment: (
+  handleCreateComment: (
     parentId: string,
     commentText: string,
     username: string,
@@ -24,18 +24,18 @@ type Props = {
 
 const CommentCard = React.memo(function CommentCard({
   comment,
-  editComment,
+  handleUpdateComment,
   handleScoreChange,
   handleDeleteComment,
-  submitComment,
+  handleCreateComment,
 }: Props) {
-  const [replyingToComment, setReplyingToComment] = useState(false);
+  const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   return (
     <>
       {isEditing ? (
-        <AddCommentElement onSubmit={(text) => editComment(comment, text)} />
+        <AddCommentElement onSubmit={(text) => handleUpdateComment(comment, text)} />
       ) : (
         <div className="comment-card">
           <UserInfo
@@ -48,20 +48,34 @@ const CommentCard = React.memo(function CommentCard({
           <ButtonsWrapper
             comment={comment}
             onTriggerEdit={() => setIsEditing(true)}
-            handleScoreChange={handleScoreChange}
+            handleScoreChange={(v) => handleScoreChange(comment, v)}
             handleDeleteComment={handleDeleteComment}
-            onTriggerReply={() => setReplyingToComment(true)}
+            onTriggerReply={() => setIsReplying(true)}
           />
         </div>
       )}
 
-      {replyingToComment && (
+      {isReplying && (
         <AddCommentElement
           onSubmit={(text) =>
-            submitComment(comment.id, comment.user.username, text)
+            handleCreateComment(comment.id, comment.user.username, text)
           }
         />
       )}
+
+      {comment.replies?.map((subComment) => {
+        return (
+          <div key={subComment.id} style={{ paddingLeft: "5rem" }}>
+            <CommentCard
+              comment={subComment}
+              handleCreateComment={handleCreateComment}
+              handleScoreChange={handleScoreChange}
+              handleDeleteComment={handleDeleteComment}
+              handleUpdateComment={handleUpdateComment}
+            />
+          </div>
+        );
+      })}
     </>
   );
 });

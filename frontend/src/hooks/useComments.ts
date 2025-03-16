@@ -15,7 +15,7 @@ export function useComments() {
         setLoading(true);
         const data = await fetchComments();
         setCurrentUser(data?.currentUser);
-        dispatch({ type: "SET_COMMENTS_DATA", payload: data?.otherUsers });
+        dispatch({ type: "INIT_DATA", payload: data?.otherUsers ?? [] });
       } catch {
         setError(true);
       } finally {

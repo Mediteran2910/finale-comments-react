@@ -9,7 +9,7 @@ import { Comment } from "../../../types";
 type Props = {
   comment: Comment;
   handleDeleteComment: (id: string) => Promise<void>;
-  handleScoreChange: (c: Comment, i: boolean | null) => Promise<void>;
+  handleScoreChange: (i: boolean | null) => Promise<void>;
   onTriggerEdit: () => void;
   onTriggerReply: () => void;
 };
@@ -27,7 +27,7 @@ export default function ButtonsWrapper({
 
   const handleLiked = async (value: boolean) => {
     setIsLoading(true);
-    await handleScoreChange(comment, value);
+    await handleScoreChange(value);
     setIsLoading(false);
   };
 
