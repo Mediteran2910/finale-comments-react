@@ -15,15 +15,16 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "baseUrl": "src",
     "paths": {
-      "@types": ["src/types/index.ts"],
-      "@services/*": ["src/services/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@utils/*": ["src/utils/*"],
-      "@atoms/*": ["src/components/atoms/*"],
-      "@molecules/*": ["src/components/molecules/*"],
-      "@organizms/*": ["src/components/organizms/*"],
-      "@templates/*": ["src/components/templates/*"]
+      "@types": ["types/index.ts"],
+      "@services/*": ["services/*"],
+      "@hooks/*": ["hooks/*"],
+      "@utils/*": ["utils/*"],
+      "@atoms/*": ["components/atoms/*"],
+      "@molecules/*": ["components/molecules/*"],
+      "@organizms/*": ["components/organizms/*"],
+      "@templates/*": ["components/templates/*"]
     }
   },
   "include": ["src"],

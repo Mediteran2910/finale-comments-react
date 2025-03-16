@@ -10,8 +10,7 @@ import {
   staticUrls,
 } from "@services/requestObjects";
 import { useCallback } from "react";
-import { Modal } from "../../../modal/Modal";
-import "../../../modal/loadingModal.css";
+import { Modal } from "@molecules/modal/Modal";
 
 const CommentsThread = React.memo(function CommentsThread() {
   const { dispatch, loading, state, currentUser } = useComments();
