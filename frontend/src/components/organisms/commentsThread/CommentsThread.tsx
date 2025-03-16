@@ -4,8 +4,8 @@ import { useCallback } from "react";
 
 import { useComments } from "@hooks/useComments";
 import AddCommentElement from "@molecules/addCommentElement/AddCommentElement";
-import { Modal } from "@molecules/modal/Modal";
 import CommentCard from "@organisms/commentCard/CommentCard";
+import { Modal } from "@organisms/modal/Modal";
 import {
   requestObjects,
   requestUrls,
