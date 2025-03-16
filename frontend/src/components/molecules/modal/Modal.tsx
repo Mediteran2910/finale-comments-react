@@ -1,69 +1,48 @@
 import "./modal.css";
-import BeatLoader from "react-spinners/BeatLoader";
+
+import { JSX, useState } from "react";
 
 import Button from "@atoms/button/Button";
-import Typography from "@atoms/typgoraphy/typography";
 import classNames from "@utils/classNames";
 
 type Props = {
-  handleKeepComment?: () => void | Promise<void>;
-  handleDeleteComment?: () => void;
-  loadingModal?: boolean;
-  deleteModal?: boolean;
-  loading?: boolean;
+  confirmText?: string;
+  cancelText?: string;
+  onCancel?: () => void | Promise<void>;
+  onConfirm: () => void | Promise<void>;
+  children: JSX.Element;
 };
 
 export const Modal = ({
-  handleKeepComment,
-  handleDeleteComment,
-  loadingModal,
-  deleteModal,
-  loading,
+  onCancel,
+  onConfirm,
+  children,
+  confirmText = "Confirm",
+  cancelText = "Cancel",
 }: Props) => {
-  const className = classNames("modal", {
-    loading: loadingModal,
-    delete: deleteModal,
-  });
+  const [loading, setLoading] = useState(false);
 
-  const handleLoadingAndDelete = () => {
-    handleDeleteComment?.();
+  const className = classNames("modal", {});
+
+  const handleConfirm = async () => {
+    setLoading(true);
+    await onConfirm?.();
+    setLoading(false);
   };
 
-  if (deleteModal) {
-    return (
-      <dialog className="modal-element">
-        <div className={className}>
-          <Typography variant="body">
-            Are you sure you want to delete your comment, once you do that,
-            there is no going back!
-          </Typography>
-          <div className="delet-modal-btns-wrapper">
-            <Button color="blue" onClick={handleKeepComment}>
-              Keep
-            </Button>
-            <Button
-              color="red"
-              onClick={handleLoadingAndDelete}
-              loading={loading}
-            >
-              Delete
-            </Button>
-          </div>
+  return (
+    <dialog className="modal-element">
+      <div className={className}>
+        {children}
+        <div className="delet-modal-btns-wrapper">
+          <Button color="blue" onClick={onCancel} disabled={loading}>
+            {cancelText}
+          </Button>
+          <Button color="red" onClick={handleConfirm} loading={loading}>
+            {confirmText}
+          </Button>
         </div>
-      </dialog>
-    );
-  }
-
-  if (loadingModal) {
-    return (
-      <dialog className="modal-element">
-        <div className={className}>
-          <Typography variant="body">Loading data, please wait...</Typography>
-          <BeatLoader />
-        </div>
-      </dialog>
-    );
-  }
-
-  return null;
+      </div>
+    </dialog>
+  );
 };

@@ -1,10 +1,11 @@
 import "./commentsThread.css";
 
 import { useMemo } from "react";
+import { BeatLoader } from "react-spinners";
 
+import Typography from "@atoms/typgoraphy/typography";
 import { useComments } from "@hooks/useComments";
 import AddCommentElement from "@molecules/addCommentElement/AddCommentElement";
-import { Modal } from "@molecules/modal/Modal";
 import CommentCard from "@organisms/commentCard/CommentCard";
 import { User } from "@types";
 
@@ -19,7 +20,14 @@ export default function CommentsThread() {
   );
 
   if (comments.loading === true) {
-    return <Modal loadingModal={true} />;
+    return (
+      <dialog className="modal-element">
+        <div className={"modal-loading"}>
+          <Typography variant="body">Loading data, please wait...</Typography>
+          <BeatLoader />
+        </div>
+      </dialog>
+    );
   }
 
   return (

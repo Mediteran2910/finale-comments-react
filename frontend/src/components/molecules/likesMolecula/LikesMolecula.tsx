@@ -1,4 +1,5 @@
 import "./likesMolecula.css";
+import { useState } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 
 import Button from "@atoms/button/Button";
@@ -7,16 +8,18 @@ import Typography from "@atoms/typgoraphy/typography";
 type Props = {
   liked: boolean | null;
   likes: number;
-  loading?: boolean;
   onChange(value: boolean): Promise<void>;
 };
 
-export default function LikesMolecula({
-  liked,
-  likes,
-  loading,
-  onChange,
-}: Props) {
+export default function LikesMolecula({ liked, likes, onChange }: Props) {
+  const [loading, setLoading] = useState(false);
+
+  const handleOnChange = (v: boolean) => {
+    setLoading(true);
+    onChange(v);
+    setLoading(false);
+  };
+
   /** @todo wrap around it all **/
   if (loading) {
     return (
@@ -29,14 +32,14 @@ export default function LikesMolecula({
   return (
     <div className="likes-wrapper">
       <div style={{ visibility: loading ? "hidden" : undefined }}>
-        <Button onClick={() => onChange(false)} disabled={!liked} outline>
+        <Button onClick={() => handleOnChange(false)} disabled={!liked} outline>
           -
         </Button>
 
         <Typography variant="body" color="blue">
           {likes?.toString()}
         </Typography>
-        <Button onClick={() => onChange(true)} disabled={!!liked} outline>
+        <Button onClick={() => handleOnChange(true)} disabled={!!liked} outline>
           +
         </Button>
       </div>

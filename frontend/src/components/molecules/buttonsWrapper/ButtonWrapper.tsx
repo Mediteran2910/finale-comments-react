@@ -3,6 +3,7 @@ import "./buttonWrapper.css";
 import { useState } from "react";
 
 import Button from "@atoms/button/Button";
+import Typography from "@atoms/typgoraphy/typography";
 import LikesMolecula from "@molecules/likesMolecula/LikesMolecula";
 import { Modal } from "@molecules/modal/Modal";
 import { Comment } from "@types";
@@ -23,34 +24,24 @@ export default function ButtonsWrapper({
   onTriggerReply,
 }: Props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDeleteLoading, setDeleteIsLoading] = useState(false);
 
-  const handleLiked = async (value: boolean) => {
-    setIsLoading(true);
-    await handleScoreChange(value);
-    setIsLoading(false);
-  };
-
-  const onDeleteComment = async () => {
-    setDeleteIsLoading(true);
-    await handleDeleteComment(comment.id);
-    setDeleteIsLoading(false);
-  };
-
-  const handleKeepComment = () => {
-    setIsModalVisible(false);
-  };
+  const onDeleteComment = () => handleDeleteComment(comment.id);
+  const onKeepComment = () => setIsModalVisible(false);
 
   /** @todo move to the context or portal **/
   if (isModalVisible) {
     return (
       <Modal
-        handleDeleteComment={onDeleteComment}
-        handleKeepComment={handleKeepComment}
-        deleteModal={true}
-        loading={isDeleteLoading}
-      />
+        confirmText="Delete"
+        cancelText="Keep"
+        onConfirm={onDeleteComment}
+        onCancel={onKeepComment}
+      >
+        <Typography variant="body">
+          Are you sure you want to delete your comment, once you do that, there
+          is no going back!
+        </Typography>
+      </Modal>
     );
   }
 
@@ -59,8 +50,7 @@ export default function ButtonsWrapper({
       <LikesMolecula
         liked={comment.isLiked}
         likes={comment.score}
-        loading={isLoading}
-        onChange={handleLiked}
+        onChange={handleScoreChange}
       />
       {comment.isYou ? (
         <div className="edit-delete-btns-wrap">
@@ -68,7 +58,7 @@ export default function ButtonsWrapper({
           <Button icon="delete" onClick={() => setIsModalVisible(true)} />
         </div>
       ) : (
-        <Button loading={isLoading} onClick={onTriggerReply} prefixIcon="reply">
+        <Button onClick={onTriggerReply} prefixIcon="reply">
           Reply
         </Button>
       )}
