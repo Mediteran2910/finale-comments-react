@@ -2,15 +2,15 @@ import { requestObjects } from "../services/requestObjects";
 
 export const makeApiRequest = async (
   url: string,
-  requestType: (typeof requestObjects)[string],
-  bodyObject?: object,
+  type: (typeof requestObjects)[keyof typeof requestObjects],
+  body?: object,
 ) => {
   try {
-    const requestOptions: RequestInit = { ...requestType };
+    const request: RequestInit = { ...type };
 
-    if (bodyObject) requestOptions.body = JSON.stringify(bodyObject);
+    if (body) request.body = JSON.stringify(body);
 
-    const response = await fetch(url, requestOptions);
+    const response = await fetch(url, request);
 
     if (!response.ok) {
       throw new Error("Failed to update data");

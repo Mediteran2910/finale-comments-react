@@ -1,10 +1,11 @@
 import { Comment } from "../types";
 
 export type UpdateCommentData = Partial<Omit<Comment, "id" | "replies">>;
-type Action<T, D> = { type: T } & D;
 
+type StateData = Array<Comment>;
+type Action<T, D> = { type: T } & D;
 type Actions =
-  | Action<"INIT_DATA", { payload: Array<Comment> }>
+  | Action<"INIT_DATA", { payload: StateData }>
   | Action<"ADD_COMMENT", { payload: Comment; parentId: string | null }>
   | Action<"UPDATE", { commentId: string; payload: UpdateCommentData }>
   | Action<"DELETE_COMMENT", { commentId: string }>;
@@ -12,8 +13,8 @@ type Actions =
 const recursiveUpdate = (
   id: string,
   data: UpdateCommentData,
-  comments: Array<Comment>,
-) => {
+  comments: StateData,
+): StateData => {
   return comments.map((c) => {
     if (c.id === id) return { ...c, ...data };
     if (!c.replies) return c;
@@ -21,7 +22,7 @@ const recursiveUpdate = (
   });
 };
 
-const recursiveDelete = (id: string, comments: Array<Comment>) => {
+const recursiveDelete = (id: string, comments: StateData): StateData => {
   return comments
     .filter((c) => c.id !== id)
     .map((c) => ({
@@ -33,8 +34,8 @@ const recursiveDelete = (id: string, comments: Array<Comment>) => {
 const recursiveCreate = (
   parentId: string,
   data: Comment,
-  comments: Array<Comment>,
-) => {
+  comments: StateData,
+): StateData => {
   return comments.map((c) => {
     if (c.id === parentId)
       return { ...c, replies: (c.replies ?? []).concat([data]) };
@@ -43,7 +44,7 @@ const recursiveCreate = (
   });
 };
 
-export const commentsReducer = (state: Array<Comment>, action: Actions) => {
+export const commentsReducer = (state: StateData, action: Actions) => {
   switch (action.type) {
     case "INIT_DATA":
       return action.payload;

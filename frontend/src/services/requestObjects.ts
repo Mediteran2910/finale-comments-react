@@ -1,17 +1,17 @@
-export const requestObjects: Record<string, RequestInit> = {
-  postRequest: {
+export const requestObjects = {
+  post: {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   },
-  deleteRequest: {
+  delete: {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
   },
-  putRequest: {
+  put: {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
   },
-  patchRequest: {
+  patch: {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
   },

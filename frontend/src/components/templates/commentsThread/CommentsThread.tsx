@@ -23,7 +23,7 @@ const CommentsThread = React.memo(function CommentsThread() {
 
       const response = await makeApiRequest(
         url,
-        requestObjects.postRequest,
+        requestObjects.post,
         newPersonalComment,
       );
 
@@ -43,7 +43,7 @@ const CommentsThread = React.memo(function CommentsThread() {
 
       const response = await makeApiRequest(
         url,
-        requestObjects.postRequest,
+        requestObjects.post,
         newReply,
       );
 
@@ -63,7 +63,7 @@ const CommentsThread = React.memo(function CommentsThread() {
       try {
         const response = await makeApiRequest(
           url,
-          requestObjects.patchRequest,
+          requestObjects.patch,
           updatedCommentObj,
         );
         if (response) {
@@ -95,7 +95,7 @@ const CommentsThread = React.memo(function CommentsThread() {
       const score = (comment.isLiked === null ? 1 : 2) * (increment ? 1 : -1);
       const newScore = { score: comment.score + score, isLiked: increment };
 
-      const response = await makeApiRequest(url, requestObjects.patchRequest, {
+      const response = await makeApiRequest(url, requestObjects.patch, {
         newScore,
       });
 
@@ -111,7 +111,7 @@ const CommentsThread = React.memo(function CommentsThread() {
     async (id: string) => {
       const url = requestUrls({ id }).deleteUrl;
 
-      const response = await makeApiRequest(url, requestObjects.deleteRequest);
+      const response = await makeApiRequest(url, requestObjects.delete);
       if (response) {
         dispatch({ type: "DELETE_COMMENT", commentId: id });
       } else {
