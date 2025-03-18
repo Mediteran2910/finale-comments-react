@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "prebuild": "npm run lint && tsc",
+    "build": "vite build",
     "lint": "ESLINT_USE_FLAT_CONFIG=true eslint .",
-    "lint:file": "ESLINT_USE_FLAT_CONFIG=true eslint ",
     "preview": "vite preview"
   },
   "dependencies": {
